@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using System.Text.Json.Nodes;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true)]
 public class SwaggerParameterExampleAttribute : SwaggerParameterExampleBaseAttribute
@@ -24,35 +24,37 @@ public class SwaggerParameterExampleAttribute : SwaggerParameterExampleBaseAttri
     public string Value { get; }
 }
 
-public abstract class SwaggerParameterExampleBaseAttribute : Attribute
-{
-}
+public abstract class SwaggerParameterExampleBaseAttribute : Attribute { }
 
 public class ExampleSchemaFilter : ISchemaFilter
 {
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
-        if (!context.Type.IsClass) return;
+        if (!context.Type.IsClass)
+            return;
 
         foreach (var pi in context.Type.GetProperties())
         {
             var attribs = pi.GetCustomAttributes<SwaggerParameterExampleBaseAttribute>().ToArray();
 
-            if (attribs.Length <= 0) continue;
+            if (attribs.Length <= 0)
+                continue;
 
-            var prop = schema.Properties.FirstOrDefault(x => x.Key.Equals(pi.Name, StringComparison.OrdinalIgnoreCase));
+            var prop = schema.Properties?.FirstOrDefault(x =>
+                x.Key.Equals(pi.Name, StringComparison.OrdinalIgnoreCase)
+            );
 
-            if (prop.Equals(default(KeyValuePair<string, OpenApiSchema>))) continue;
+            if (prop?.Value is not OpenApiSchema propertySchema)
+                continue;
 
             var list = new List<string>();
 
             list.AddRange(attribs.OfType<SwaggerParameterExampleAttribute>().Select(x => x.Value));
-            prop.Value.Example = new OpenApiString(list.First());
+            propertySchema.Example = JsonValue.Create(list.First());
 
             if (list.Count > 1)
-                prop.Value.Description += $"\r\n\r\n" +
-                                          $"Mogelijke waarden:\r\n" +
-                                          $"- {string.Join(separator: "\r\n- ", list)}";
+                propertySchema.Description +=
+                    $"\r\n\r\n" + $"Mogelijke waarden:\r\n" + $"- {string.Join(separator: "\r\n- ", list)}";
         }
     }
 }

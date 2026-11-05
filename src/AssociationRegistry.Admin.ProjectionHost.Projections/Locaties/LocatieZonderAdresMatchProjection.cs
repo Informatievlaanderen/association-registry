@@ -9,7 +9,7 @@ using Marten.Events.Aggregation;
 using Microsoft.Extensions.Logging;
 using Schema.Locaties;
 
-public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
+public partial class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.locatiezonderadresmatch");
 

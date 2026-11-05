@@ -8,7 +8,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Detail;
 
-public class PubliekVerenigingDetailProjection : EventProjection
+public partial class PubliekVerenigingDetailProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("publiek.postgres.detail");
 

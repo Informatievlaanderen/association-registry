@@ -19,7 +19,7 @@ public class With_An_Adres : ValidatorTest
         request.Locatie.Adres = new Adres();
 
         var result = validator.TestValidate(request);
-        result.ShouldHaveAnyValidationError();
+        Assert.False(result.IsValid);
     }
 
     [Fact]

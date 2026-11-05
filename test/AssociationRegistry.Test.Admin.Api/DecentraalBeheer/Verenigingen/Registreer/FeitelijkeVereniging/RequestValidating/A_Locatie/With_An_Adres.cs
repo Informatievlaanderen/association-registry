@@ -19,7 +19,7 @@ public class With_An_Adres : ValidatorTest
         request.Locaties[0].Adres = new Adres();
 
         var result = validator.TestValidate(request);
-        result.ShouldHaveAnyValidationError();
+        Assert.False(result.IsValid);
     }
 
     [Fact]
@@ -44,8 +44,9 @@ public class With_An_Adres : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
-              .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
+        result
+            .ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
+            .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
     }
 
     [Fact]
@@ -58,8 +59,9 @@ public class With_An_Adres : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
-              .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
+        result
+            .ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
+            .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
     }
 
     [Fact]

@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 public class AppendInitiatorToHeaders : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        operation.Parameters ??= new List<OpenApiParameter>();
+        operation.Parameters ??= new List<IOpenApiParameter>();
 
         operation.Parameters.Add(
             new OpenApiParameter
@@ -16,11 +16,8 @@ public class AppendInitiatorToHeaders : IOperationFilter
                 In = ParameterLocation.Header,
                 Description = "Initiator header met als waarde de instantie die de wijziging uitvoert.",
                 Required = true,
-                Schema = new OpenApiSchema
-                {
-                    Type = "string",
-                    Nullable = false,
-                },
-            });
+                Schema = new OpenApiSchema { Type = JsonSchemaType.String },
+            }
+        );
     }
 }

@@ -21,7 +21,7 @@ public class With_An_AdresId : ValidatorTest
         request.Locatie.AdresId = new AdresId();
 
         var result = validator.TestValidate(request);
-        result.ShouldHaveAnyValidationError();
+        Assert.False(result.IsValid);
     }
 
     [Fact]

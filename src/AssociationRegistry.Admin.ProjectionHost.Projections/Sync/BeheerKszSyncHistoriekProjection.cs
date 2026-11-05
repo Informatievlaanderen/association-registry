@@ -8,7 +8,7 @@ using JasperFx.Events.Projections;
 using Marten;
 using Marten.Events.Projections;
 
-public class BeheerKszSyncHistoriekProjection : EventProjection
+public partial class BeheerKszSyncHistoriekProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.ksz.synchistoriek");
 

@@ -8,7 +8,8 @@ using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
 using Schema.PowerBiExport;
 
-public class PowerBiExportDubbelDetectieProjection : SingleStreamProjection<PowerBiExportDubbelDetectieDocument, string>
+public partial class PowerBiExportDubbelDetectieProjection
+    : SingleStreamProjection<PowerBiExportDubbelDetectieDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.powerbi.dubbeldetectie");
 
