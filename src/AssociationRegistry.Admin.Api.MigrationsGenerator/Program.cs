@@ -33,7 +33,10 @@ var builder = Host.CreateDefaultBuilder(args)
                 {
                     var opts = new StoreOptions();
 
-                    opts.UsePostgreSqlOptions(postgreSqlOptions).AddVCodeSequence().ConfigureSerialization();
+                    opts.UsePostgreSqlOptions(postgreSqlOptions)
+                        .AddVCodeSequence()
+                        .KeepV8Defaults()
+                        .ConfigureSerialization();
 
                     opts.Logger(
                         new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())

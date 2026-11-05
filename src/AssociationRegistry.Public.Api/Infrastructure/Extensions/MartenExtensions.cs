@@ -61,6 +61,8 @@ public static class MartenExtensions
                 opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
 
+                opts.KeepV8Defaults();
+
                 opts.UseNewtonsoftForSerialization(configure: settings =>
                 {
                     settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));

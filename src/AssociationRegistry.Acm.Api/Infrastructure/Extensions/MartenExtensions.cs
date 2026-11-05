@@ -96,6 +96,8 @@ public static class MartenExtensions
         }
 
         opts.Events.StreamIdentity = StreamIdentity.AsString;
+        opts.KeepV8Defaults();
+
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
             settings.ConfigureForVerenigingsregister();

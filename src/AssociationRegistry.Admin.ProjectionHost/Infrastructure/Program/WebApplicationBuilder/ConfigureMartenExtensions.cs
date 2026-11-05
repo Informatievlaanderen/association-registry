@@ -221,6 +221,8 @@ public static class ConfigureMartenExtensions
 
         var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
+        opts.KeepV8Defaults();
+
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
             settings.DateParseHandling = DateParseHandling.None;

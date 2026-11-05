@@ -28,6 +28,8 @@ var store = DocumentStore.For(options =>
     options.Events.AppendMode = EventAppendMode.Quick;
     options.RegisterAllEventTypes();
     options.RegisterDocumentType<BewaartermijnDocument>();
+    options.KeepV8Defaults();
+
     options.UseNewtonsoftForSerialization(configure: settings =>
     {
         settings.DateParseHandling = DateParseHandling.None;

@@ -98,6 +98,8 @@ public static class ServiceCollectionExtensions
                 var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
 
+                opts.KeepV8Defaults();
+
                 opts.UseNewtonsoftForSerialization(configure: settings =>
                 {
                     settings.DateParseHandling = DateParseHandling.None;

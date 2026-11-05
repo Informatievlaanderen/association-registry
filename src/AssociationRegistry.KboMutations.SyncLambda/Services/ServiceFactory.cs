@@ -6,6 +6,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
+using AssociationRegistry.MartenDb.Setup;
 using CommandHandling.MagdaSync.SyncKbo;
 using CommandHandling.MagdaSync.SyncKsz;
 using CommandHandling.MagdaSync.SyncKsz.Queries;
@@ -324,6 +325,8 @@ public class ServiceFactory : IDisposable
         // When providing a NpgsqlDataSource to marthin then we need to handle data source disposal.
         opts.Connection(dataSource);
         opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+        opts.KeepV8Defaults();
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
