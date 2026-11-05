@@ -92,6 +92,7 @@
     <PackageReference Include="Polly"/>
     <PackageReference Include="Marten.AspNetCore"/>
     <PackageReference Include="WolverineFx"/>
+    <PackageReference Include="WolverineFx.RuntimeCompilation" />
     <PackageReference Remove="Marten" />
   </ItemGroup>
 
