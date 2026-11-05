@@ -22,18 +22,22 @@ public class MarkeerAlsDubbelVanCollection : ICollectionFixture<MarkeerAlsDubbel
     // ICollectionFixture<> interfaces.
 }
 
-public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistreerdScenario, MarkeerAlsDubbelVanRequest>
+public class MarkeerAlsDubbelVanContext : TestContextBase<DubbelMergeVolledigScenario, MarkeerAlsDubbelVanRequest>
 {
     public IEvent? VerenigingAanvaarddeDubbeleVereniging { get; private set; }
     public IEvent? DubbeleVerenigingWerdSamengevoegd { get; private set; }
     public IEvent? VerenigingWerdErkend { get; private set; }
 
-    /// <summary>De dubbele vereniging heeft alle basisgegevens, de authentieke enkel een korte naam.</summary>
+    /// <summary>
+    ///     De dubbele vereniging heeft alle basisgegevens. De authentieke heeft een andere korte naam (niet overgenomen)
+    ///     en dezelfde doelgroep (gededupliceerd); korte beschrijving en startdatum zijn leeg (verrijkt).
+    /// </summary>
     public static readonly TestBasisgegevens BasisgegevensDubbeleVereniging = TestBasisgegevens.Fellowship;
 
     public static readonly TestBasisgegevens BasisgegevensAuthentiekeVereniging = TestBasisgegevens.Empty with
     {
         KorteNaam = TestBasisgegevens.Rivendell.KorteNaam,
+        Doelgroep = TestBasisgegevens.Fellowship.Doelgroep,
     };
 
     public static readonly Registratiedata.Vertegenwoordiger FrodoBijDeDubbeleVereniging =
@@ -58,7 +62,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     };
 
     /// <summary>
-    ///     Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport had ze al.
+    ///     Jeugdwerk en Vlaams-Brabant zijn nieuw voor de authentieke vereniging, Sport en Antwerpen had ze al.
     ///     Van de contactgegevens wordt de e-mail niet-primair (de authentieke heeft al een primaire e-mail), blijft de
     ///     website primair, wordt de social media link toegevoegd, is het telefoonnummer hetzelfde en is het ongeldige
     ///     telefoonnummer niet overgenomen.
@@ -76,7 +80,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     public static readonly TestVerenigingsgegevens GegevensDubbeleVereniging = new(
         BasisgegevensDubbeleVereniging,
         [TestHoofdactiviteiten.Sport, TestHoofdactiviteiten.Jeugdwerk],
-        [TestWerkingsgebieden.VlaamsBrabant],
+        [TestWerkingsgebieden.VlaamsBrabant, TestWerkingsgebieden.Antwerpen],
         [
             TestContactgegevens.EmailFellowship,
             TestContactgegevens.WebsiteFellowship,
@@ -103,7 +107,7 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     public static readonly TestVerenigingsgegevens GegevensAuthentiekeVereniging = new(
         BasisgegevensAuthentiekeVereniging,
         [TestHoofdactiviteiten.Sport],
-        [],
+        [TestWerkingsgebieden.Antwerpen],
         [TestContactgegevens.EmailRivendell, TestContactgegevens.TelefoonRivendell],
         [TestLocaties.LokaalRivendell, TestLocaties.PostadresRivendell],
         [TestVertegenwoordigers.Frodo],
@@ -111,13 +115,14 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
         [TestErkenningen.LembasBakkenRivendell]
     );
 
-    protected override MultipleWerdGeregistreerdScenario InitializeScenario() =>
+    /// <summary>De lidmaatschappen en de verenigingen waarnaar ze verwijzen, zitten in het scenario.</summary>
+    protected override DubbelMergeVolledigScenario InitializeScenario() =>
         new(GegevensDubbeleVereniging, GegevensAuthentiekeVereniging);
 
     public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
         : base(apiSetup) { }
 
-    protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
+    protected override async ValueTask ExecuteScenario(DubbelMergeVolledigScenario scenario)
     {
         CommandResult = await new MarkeerAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
 

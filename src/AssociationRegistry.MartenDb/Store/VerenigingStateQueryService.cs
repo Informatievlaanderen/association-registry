@@ -34,6 +34,15 @@ public class VerenigingStateQueryService : IVerenigingStateQueryService
         return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
     }
 
+    public async Task<bool> IsGestopt(VCode vCode)
+    {
+        var verenigingState =
+            await _session.Events.AggregateStreamAsync<VerenigingState>(vCode)
+            ?? throw new AggregateNotFoundException(vCode, typeof(VerenigingState));
+
+        return verenigingState.VerenigingStatus is VerenigingStatus.StatusGestopt;
+    }
+
     public async Task<bool> Exists(VCode vCode)
     {
         var streamState = await _session.Events.FetchStreamStateAsync(vCode);

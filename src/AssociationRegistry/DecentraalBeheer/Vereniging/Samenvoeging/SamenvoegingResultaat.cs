@@ -42,6 +42,9 @@ internal class SamenvoegingResultaat<T, TNietOvergenomen>
             )
         );
 
+    public void Samengevoegd(string beschrijving, T origineleWaarde, T nieuweWaarde) =>
+        _overgenomen.Add(Gegevens.Samengevoegd(beschrijving, origineleWaarde, nieuweWaarde));
+
     public void Gededupliceerd(string omschrijving, TNietOvergenomen waarde) =>
         _nietOvergenomen.Add(Gegevens.Gededupliceerd(omschrijving, waarde));
 

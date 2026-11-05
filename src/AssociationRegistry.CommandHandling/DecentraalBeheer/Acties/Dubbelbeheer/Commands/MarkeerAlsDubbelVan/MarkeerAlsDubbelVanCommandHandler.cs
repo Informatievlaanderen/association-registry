@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Exceptions;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Geotags;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging;
 using Framework;
 using MartenDb.Store;
 
@@ -62,7 +63,10 @@ public class MarkeerAlsDubbelVanCommandHandler
 
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
         authentiekeVereniging.AanvaardDubbeleVereniging(message.Command.VCode);
-        authentiekeVereniging.VoegDubbeleVerenigingSamen(vereniging);
+        authentiekeVereniging.VoegDubbeleVerenigingSamen(
+            vereniging,
+            await StatusVanVerenigingenVanLidmaatschappen(vereniging)
+        );
 
         // De samenvoeging kan locaties en werkingsgebieden toevoegen.
         await authentiekeVereniging.HerberekenGeotags(_geotagsService);
@@ -74,6 +78,35 @@ public class MarkeerAlsDubbelVanCommandHandler
         );
 
         return CommandResult.Create(vCode: message.Command.VCode, streamActionResult: results[0]);
+    }
+
+    /// <summary>
+    ///     Een lidmaatschap bij een verwijderde, dubbele of gestopte vereniging wordt niet overgenomen.
+    /// </summary>
+    private async Task<IReadOnlyDictionary<VCode, AndereVerenigingStatus>> StatusVanVerenigingenVanLidmaatschappen(
+        Vereniging dubbeleVereniging
+    )
+    {
+        var statussen = new Dictionary<VCode, AndereVerenigingStatus>();
+
+        foreach (var andereVereniging in dubbeleVereniging.VerenigingenVanLidmaatschappen)
+            statussen[andereVereniging] = await StatusVan(andereVereniging);
+
+        return statussen;
+    }
+
+    private async Task<AndereVerenigingStatus> StatusVan(VCode vCode)
+    {
+        if (await _queryService.IsVerwijderd(vCode))
+            return AndereVerenigingStatus.Verwijderd;
+
+        if (await _queryService.IsDubbel(vCode))
+            return AndereVerenigingStatus.Dubbel;
+
+        if (await _queryService.IsGestopt(vCode))
+            return AndereVerenigingStatus.Gestopt;
+
+        return AndereVerenigingStatus.Actief;
     }
 
     private async Task ThrowIfInvalidAuthentiekeVereniging(CommandEnvelope<MarkeerAlsDubbelVanCommand> message)

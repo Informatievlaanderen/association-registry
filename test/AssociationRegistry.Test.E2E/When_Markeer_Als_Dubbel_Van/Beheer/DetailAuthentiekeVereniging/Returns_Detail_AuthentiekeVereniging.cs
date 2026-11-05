@@ -89,11 +89,11 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
             .BeEquivalentTo([TestHoofdactiviteiten.Sport.Code, TestHoofdactiviteiten.Jeugdwerk.Code]);
 
     [Fact]
-    public void With_The_Werkingsgebieden_Of_The_Dubbele_Vereniging() =>
+    public void With_The_Own_And_The_New_Werkingsgebieden() =>
         Response
             .Vereniging.Werkingsgebieden.Select(x => x.Code)
             .Should()
-            .BeEquivalentTo([TestWerkingsgebieden.VlaamsBrabant.Code]);
+            .BeEquivalentTo([TestWerkingsgebieden.Antwerpen.Code, TestWerkingsgebieden.VlaamsBrabant.Code]);
 
     [Fact]
     public void With_The_Own_And_The_Overgenomen_Contactgegevens() =>
@@ -297,6 +297,34 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
         Response.Vereniging.Doelgroep.Minimumleeftijd.Should().Be(doelgroep.Minimumleeftijd);
         Response.Vereniging.Doelgroep.Maximumleeftijd.Should().Be(doelgroep.Maximumleeftijd);
     }
+
+    /// <summary>Zie <see cref="Scenarios.Givens.FeitelijkeVereniging.DubbelMergeVolledigScenario" />.</summary>
+    [Fact]
+    public void With_The_Samengevoegde_Lidmaatschappen() =>
+        Response
+            .Vereniging.Lidmaatschappen.Select(x => new
+            {
+                x.LidmaatschapId,
+                x.AndereVereniging,
+                x.Naam,
+                x.Identificatie,
+                x.Beschrijving,
+                x.Van,
+                x.Tot,
+            })
+            .Should()
+            .BeEquivalentTo(
+                _testContext.Scenario.LidmaatschappenNaSamenvoeging.Select(x => new
+                {
+                    x.LidmaatschapId,
+                    x.AndereVereniging,
+                    Naam = x.AndereVerenigingNaam,
+                    x.Identificatie,
+                    x.Beschrijving,
+                    Van = x.DatumVan.FormatAsBelgianDate(),
+                    Tot = x.DatumTot.FormatAsBelgianDate(),
+                })
+            );
 
     [Fact]
     public void With_Status_Is_Actief()

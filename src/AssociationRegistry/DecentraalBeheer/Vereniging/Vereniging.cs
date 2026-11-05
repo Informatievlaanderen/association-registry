@@ -22,6 +22,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
     public bool IsGestopt => State.IsGestopt;
     public Datum? Einddatum => State.Einddatum;
+    public VCode[] VerenigingenVanLidmaatschappen => State.VerenigingenVanLidmaatschappen;
 
     public static async Task<Vereniging> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         RegistratieDataVerenigingZonderEigenRechtspersoonlijkheid registratieData,

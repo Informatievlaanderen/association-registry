@@ -73,6 +73,12 @@ public static class SamenvoegingDubbeleVereniging
         /// <summary>Een item werd toegevoegd met aangepaste metadata, bv. isPrimair=true.</summary>
         public const string ToegevoegdMetAanpassing = "ToegevoegdMetAanpassing";
 
+        /// <summary>
+        ///     Het item bestond al op de authentieke vereniging en werd samengevoegd met dat van de dubbele, bv. een
+        ///     lidmaatschap waarvan de geldigheidsperiode verruimd werd.
+        /// </summary>
+        public const string Samengevoegd = "Samengevoegd";
+
         /// <summary>Het item bestond al op de authentieke vereniging en werd niet dubbel toegevoegd.</summary>
         public const string Gededupliceerd = "Gededupliceerd";
 
@@ -113,6 +119,13 @@ public static class SamenvoegingDubbeleVereniging
         T nieuweWaarde
     ) => new(Acties.ToegevoegdMetAanpassing, beschrijving, origineleWaarde, nieuweWaarde);
 
+    /// <summary>
+    ///     Het gegeven bestond al op de authentieke vereniging en werd samengevoegd met dat van de dubbele.
+    ///     <see cref="OvergenomenGegeven{T}.NieuweWaarde" /> is het bestaande gegeven na de samenvoeging.
+    /// </summary>
+    public static OvergenomenGegeven<T> Samengevoegd<T>(string beschrijving, T origineleWaarde, T nieuweWaarde) =>
+        new(Acties.Samengevoegd, beschrijving, origineleWaarde, nieuweWaarde);
+
     /// <summary>Het gegeven kon niet toegevoegd worden omwille van een regel, zie de reden.</summary>
     public static NietOvergenomenGegeven<T> NietOvergenomen<T>(string omschrijving, T waarde, string reden) =>
         new(Acties.NietOvergenomen, reden, $"{omschrijving} werd niet overgenomen van de dubbele vereniging.", waarde);
@@ -129,9 +142,10 @@ public static class SamenvoegingDubbeleVereniging
     /// <summary>
     ///     Een gegeven dat op de authentieke vereniging terechtkwam.
     ///     <see cref="OrigineleWaarde" /> is de waarde op de dubbele vereniging, <see cref="NieuweWaarde" /> de waarde
-    ///     op de authentieke vereniging. Ze verschillen enkel bij <see cref="Acties.ToegevoegdMetAanpassing" />.
+    ///     op de authentieke vereniging. Ze verschillen bij <see cref="Acties.ToegevoegdMetAanpassing" /> en
+    ///     <see cref="Acties.Samengevoegd" />.
     /// </summary>
-    /// <param name="Actie">Toegevoegd, Verrijkt of ToegevoegdMetAanpassing.</param>
+    /// <param name="Actie">Toegevoegd, Verrijkt, ToegevoegdMetAanpassing of Samengevoegd.</param>
     /// <param name="Beschrijving">Leesbare beschrijving voor de historiek.</param>
     public record OvergenomenGegeven<T>(string Actie, string Beschrijving, T OrigineleWaarde, T NieuweWaarde);
 

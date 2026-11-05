@@ -17,50 +17,59 @@ public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         _inszToCompare = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
-        _request = new VerenigingenPerInszRequest()
-        {
-            Insz = _inszToCompare,
-            KboNummers = [],
-        };
+        _request = new VerenigingenPerInszRequest() { Insz = _inszToCompare, KboNummers = [] };
     }
 
-    public override async Task<VerenigingenPerInszResponse> GetResponse(FullBlownApiSetup setup)
-        => await setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.VerenigingAanvaarddeDubbeleVereniging.Sequence);
+    public override async Task<VerenigingenPerInszResponse> GetResponse(FullBlownApiSetup setup) =>
+        await setup.AcmApiHost.GetVerenigingenPerInsz(
+            _request,
+            _testContext.VerenigingAanvaarddeDubbeleVereniging.Sequence
+        );
+
     [Fact]
     public void With_Verenigingen()
     {
-        Response.ShouldCompare(new VerenigingenPerInszResponse()
-        {
-            Insz = _inszToCompare,
-            Verenigingen =
-            [
-                // Dubbele vereniging wordt niet getoond
+        Response.ShouldCompare(
+            new VerenigingenPerInszResponse()
+            {
+                Insz = _inszToCompare,
+                Verenigingen =
+                [
+                    // Dubbele vereniging wordt niet getoond
 
-                // Authentieke vereniging wordt getoond met corresponderende verenigingen
-                new VerenigingenPerInszResponse.Vereniging()
-                {
-                    VCode = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                    CorresponderendeVCodes = [_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode],
-                    VertegenwoordigerId = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
-                    Status = VerenigingStatus.Actief,
-                    KboNummer = string.Empty,
-                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
-                        Verenigingstype.VZER.Code,
-                        Verenigingstype.VZER.Naam),
-                    Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
+                    // Authentieke vereniging wordt getoond met corresponderende verenigingen
+                    new VerenigingenPerInszResponse.Vereniging()
                     {
-                        Code = VerenigingssubtypeCode.Default.Code,
-                        Naam = VerenigingssubtypeCode.Default.Naam,
+                        VCode = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                        CorresponderendeVCodes = [_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode],
+                        VertegenwoordigerId = _testContext
+                            .Scenario
+                            .AndereFeitelijkeVerenigingWerdGeregistreerd
+                            .Vertegenwoordigers[0]
+                            .VertegenwoordigerId,
+                        Naam = _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+                        Status = VerenigingStatus.Actief,
+                        KboNummer = string.Empty,
+                        Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
+                            Verenigingstype.VZER.Code,
+                            Verenigingstype.VZER.Naam
+                        ),
+                        // De authentieke vereniging is subvereniging van Fangorn, zie DubbelMergeVolledigScenario.
+                        Verenigingssubtype = new VerenigingenPerInszResponse.Verenigingssubtype()
+                        {
+                            Code = VerenigingssubtypeCode.Subvereniging.Code,
+                            Naam = VerenigingssubtypeCode.Subvereniging.Naam,
+                        },
+                        IsHoofdvertegenwoordigerVan = true,
                     },
-                    IsHoofdvertegenwoordigerVan = true,
-                },
-            ],
-            KboNummers = [],
-        });
+                ],
+                KboNummers = [],
+            }
+        );
     }
 }

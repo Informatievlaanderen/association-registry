@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.Zoeke
 
 using AssociationRegistry.Test.Common.DubbelMerge;
 using FluentAssertions;
+using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
@@ -51,11 +52,35 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
             .BeEquivalentTo([TestHoofdactiviteiten.Sport.Code, TestHoofdactiviteiten.Jeugdwerk.Code]);
 
     [Fact]
-    public void With_The_Werkingsgebieden_Of_The_Dubbele_Vereniging() =>
+    public void With_The_Own_And_The_New_Werkingsgebieden() =>
         AuthentiekeVereniging
             .Werkingsgebieden.Select(x => x.Code)
             .Should()
-            .BeEquivalentTo([TestWerkingsgebieden.VlaamsBrabant.Code]);
+            .BeEquivalentTo([TestWerkingsgebieden.Antwerpen.Code, TestWerkingsgebieden.VlaamsBrabant.Code]);
+
+    /// <summary>Zie <see cref="Scenarios.Givens.FeitelijkeVereniging.DubbelMergeVolledigScenario" />.</summary>
+    [Fact]
+    public void With_The_Samengevoegde_Lidmaatschappen() =>
+        AuthentiekeVereniging
+            .Lidmaatschappen.Select(x => new
+            {
+                x.AndereVereniging,
+                x.Identificatie,
+                x.Beschrijving,
+                x.Van,
+                x.Tot,
+            })
+            .Should()
+            .BeEquivalentTo(
+                _testContext.Scenario.LidmaatschappenNaSamenvoeging.Select(x => new
+                {
+                    x.AndereVereniging,
+                    x.Identificatie,
+                    x.Beschrijving,
+                    Van = x.DatumVan.FormatAsBelgianDate(),
+                    Tot = x.DatumTot.FormatAsBelgianDate(),
+                })
+            );
 
     [Fact]
     public void With_The_Own_And_The_Overgenomen_Locaties() =>

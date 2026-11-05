@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
 
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
+using AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging;
 using AssociationRegistry.Test.Common.DubbelMerge;
 using Events;
 using FluentAssertions;
@@ -79,13 +80,16 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
     }
 
     /// <summary>
-    ///     De authentieke vereniging had enkel een korte naam: die blijft behouden, de rest wordt overgenomen.
-    ///     Jeugdwerk en Vlaams-Brabant worden toegevoegd, Sport had de authentieke vereniging al.
+    ///     De authentieke vereniging heeft een andere korte naam (blijft behouden) en dezelfde doelgroep (gededupliceerd);
+    ///     korte beschrijving en startdatum worden overgenomen.
+    ///     Jeugdwerk en Vlaams-Brabant worden toegevoegd, Sport en Antwerpen had de authentieke vereniging al.
+    ///     De lidmaatschappen staan beschreven in <see cref="Scenarios.Givens.FeitelijkeVereniging.DubbelMergeVolledigScenario" />.
     /// </summary>
     [Fact]
     public void With_The_Samenvoeging_Gebeurtenis()
     {
         var dubbele = MarkeerAlsDubbelVanContext.BasisgegevensDubbeleVereniging;
+        var scenario = _testContext.Scenario;
 
         var gebeurtenis = Response.Gebeurtenissen.Single(x =>
             x.Gebeurtenis == nameof(DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging)
@@ -105,10 +109,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     SamenvoegingDubbeleVereniging.Velden.Startdatum,
                     dubbele.Startdatum!.Value
                 ),
-                Doelgroep: SamenvoegingDubbeleVereniging.Verrijkt(
-                    SamenvoegingDubbeleVereniging.Velden.Doelgroep,
-                    dubbele.Doelgroep
-                )
+                Doelgroep: null
             )
         ) with
         {
@@ -222,6 +223,35 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     }
                 ),
             ],
+            Lidmaatschappen =
+            [
+                SamenvoegingDubbeleVereniging.Samengevoegd(
+                    $"Lidmaatschap bij 'Rohan' ({scenario.Rohan.VCode}) werd samengevoegd met lidmaatschap met id 1; de geldigheidsperiode werd verruimd.",
+                    scenario.DubbelBijRohan,
+                    scenario.AuthentiekBijRohan with
+                    {
+                        DatumVan = new DateOnly(2019, 6, 1),
+                    }
+                ),
+                SamenvoegingDubbeleVereniging.Samengevoegd(
+                    $"Lidmaatschap bij 'Gondor' ({scenario.Gondor.VCode}) werd samengevoegd met lidmaatschap met id 2; de geldigheidsperiode werd verruimd.",
+                    scenario.DubbelBijGondor,
+                    scenario.AuthentiekBijGondor with
+                    {
+                        DatumVan = null,
+                        DatumTot = null,
+                    }
+                ),
+                new SamenvoegingDubbeleVereniging.OvergenomenGegeven<Registratiedata.Lidmaatschap>(
+                    SamenvoegingDubbeleVereniging.Acties.Toegevoegd,
+                    $"Lidmaatschap bij 'Rohan' ({scenario.Rohan.VCode}) werd toegevoegd vanuit de dubbele vereniging.",
+                    scenario.DubbelLaterBijRohan,
+                    scenario.DubbelLaterBijRohan with
+                    {
+                        LidmaatschapId = 6,
+                    }
+                ),
+            ],
         };
 
         var nietOvergenomen = SamenvoegingDubbeleVereniging.NietOvergenomenGegevensPerGroep.WithOnly(
@@ -231,12 +261,23 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     SamenvoegingDubbeleVereniging.Velden.KorteNaam,
                     dubbele.KorteNaam
                 ),
+                Doelgroep = SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    SamenvoegingDubbeleVereniging.Velden.Doelgroep,
+                    dubbele.Doelgroep
+                ),
             }
         ) with
         {
             Hoofdactiviteiten =
             [
                 SamenvoegingDubbeleVereniging.Gededupliceerd("Hoofdactiviteit 'Sport'", TestHoofdactiviteiten.Sport),
+            ],
+            Werkingsgebieden =
+            [
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    "Werkingsgebied 'Provincie Antwerpen'",
+                    TestWerkingsgebieden.Antwerpen
+                ),
             ],
             Contactgegevens =
             [
@@ -305,6 +346,43 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
                     "Erkenning 'Lembas bakken'",
                     TestErkenningen.OverlappendLembasBakkenRivendell.ToSamenvoeging(),
                     AssociationRegistry.DecentraalBeheer.Vereniging.Samenvoeging.ErkenningenSamenvoeging.RedenOverlap
+                ),
+            ],
+            Lidmaatschappen =
+            [
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij 'Erebor' ({scenario.Erebor.VCode})",
+                    scenario.DubbelBijErebor,
+                    LidmaatschappenSamenvoeging.RedenOverlapMetMeerdere
+                ),
+                SamenvoegingDubbeleVereniging.Gededupliceerd(
+                    $"Lidmaatschap bij 'Lothlórien' ({scenario.Lothlorien.VCode})",
+                    scenario.DubbelBijLothlorien
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij 'Isengard' ({scenario.Isengard.VCode})",
+                    scenario.DubbelBijIsengard,
+                    LidmaatschappenSamenvoeging.RedenVerwijderdeVereniging
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij 'Moria' ({scenario.Moria.VCode})",
+                    scenario.DubbelBijMoria,
+                    LidmaatschappenSamenvoeging.RedenDubbeleVereniging
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij 'Dale' ({scenario.Dale.VCode})",
+                    scenario.DubbelBijDale,
+                    LidmaatschappenSamenvoeging.RedenGestopteVereniging
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij '{scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam}' ({scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode})",
+                    scenario.DubbelBijDeAuthentiekeVereniging,
+                    LidmaatschappenSamenvoeging.RedenEigenVereniging
+                ),
+                SamenvoegingDubbeleVereniging.NietOvergenomen(
+                    $"Lidmaatschap bij 'Fangorn' ({scenario.Fangorn.VCode})",
+                    scenario.DubbelBijFangorn,
+                    LidmaatschappenSamenvoeging.RedenSubvereniging
                 ),
             ],
         };

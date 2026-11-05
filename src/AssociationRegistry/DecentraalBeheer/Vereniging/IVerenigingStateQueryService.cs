@@ -18,6 +18,11 @@ public interface IVerenigingStateQueryService
     Task<bool> IsDubbel(VCode vCode);
 
     /// <summary>
+    /// Checks if a vereniging has been stopped (gestopt).
+    /// </summary>
+    Task<bool> IsGestopt(VCode vCode);
+
+    /// <summary>
     /// Checks if a vereniging exists in the event stream.
     /// </summary>
     Task<bool> Exists(VCode vCode);
