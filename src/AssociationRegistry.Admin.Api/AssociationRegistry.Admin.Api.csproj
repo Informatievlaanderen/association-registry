@@ -103,6 +103,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="WolverineFx" />
+    <PackageReference Include="WolverineFx.RuntimeCompilation" />
     <PackageReference Include="WolverineFx.AmazonSqs" />
     <PackageReference Include="WolverineFx.Http" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />

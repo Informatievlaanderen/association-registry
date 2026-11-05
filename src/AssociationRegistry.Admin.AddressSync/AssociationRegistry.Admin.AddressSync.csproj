@@ -76,6 +76,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Marten" />
     <PackageReference Include="WolverineFx"/>
+    <PackageReference Include="WolverineFx.RuntimeCompilation" />
     <PackageReference Include="WolverineFx.AmazonSqs"/>
   </ItemGroup>
 </Project>

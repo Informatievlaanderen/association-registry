@@ -80,6 +80,7 @@
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Marten" />
     <PackageReference Include="WolverineFx"/>
+    <PackageReference Include="WolverineFx.RuntimeCompilation" />
     <PackageReference Include="Quartz"/>
     <PackageReference Include="Quartz.Extensions.Hosting"/>
     <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
