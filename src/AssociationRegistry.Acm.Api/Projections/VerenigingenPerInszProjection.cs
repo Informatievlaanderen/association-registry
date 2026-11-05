@@ -10,7 +10,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
 
-public class VerenigingenPerInszProjection : EventProjection
+public partial class VerenigingenPerInszProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("acm.postgres.verenigingenperinsz");
 

@@ -1,18 +1,19 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 public class ProblemJsonResponseFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        foreach (var (_, value) in operation.Responses.Where(
-                     entry =>
-                         (entry.Key.StartsWith("4") && entry.Key != "400") ||
-                         entry.Key.StartsWith("5")))
+        foreach (
+            var (_, value) in operation.Responses.Where(entry =>
+                (entry.Key.StartsWith("4") && entry.Key != "400") || entry.Key.StartsWith("5")
+            )
+        )
         {
             if (!value.Content.Any())
                 return;
@@ -22,7 +23,8 @@ public class ProblemJsonResponseFilter : IOperationFilter
             value.Content.Clear();
 
             value.Content.Add(
-                new KeyValuePair<string, OpenApiMediaType>(key: "application/problem+json", openApiMediaType));
+                new KeyValuePair<string, OpenApiMediaType>(key: "application/problem+json", openApiMediaType)
+            );
         }
     }
 }

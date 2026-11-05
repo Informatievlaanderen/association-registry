@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 
 public class SequenceResponseHeaderAttribute : SwaggerResponseHeaderAttribute
@@ -8,7 +9,7 @@ public class SequenceResponseHeaderAttribute : SwaggerResponseHeaderAttribute
         : base(
             statusCode,
             WellknownHeaderNames.Sequence,
-            type: "string",
+            type: JsonSchemaType.String,
             description: "Het sequence nummer van deze request."
         ) { }
 }

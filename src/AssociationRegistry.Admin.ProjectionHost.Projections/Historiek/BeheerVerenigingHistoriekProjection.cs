@@ -7,7 +7,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Historiek;
 
-public class BeheerVerenigingHistoriekProjection : EventProjection
+public partial class BeheerVerenigingHistoriekProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.historiek");
 

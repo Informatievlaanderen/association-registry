@@ -7,7 +7,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Detail;
 
-public class BeheerVerenigingDetailProjection : EventProjection
+public partial class BeheerVerenigingDetailProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.detail");
 

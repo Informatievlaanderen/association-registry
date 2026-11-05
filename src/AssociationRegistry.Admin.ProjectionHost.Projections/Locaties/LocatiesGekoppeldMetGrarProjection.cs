@@ -12,7 +12,7 @@ using Schema.Detail;
 using Schema.Locaties;
 using IEvent = JasperFx.Events.IEvent;
 
-public class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
+public partial class LocatiesGekoppeldMetGrarProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
     public static readonly ShardName ShardName = new("beheer.postgres.locatiesgekoppeldmetgrar");
 
