@@ -228,7 +228,7 @@ services:
     networks:
       - vr-net
 
-  # Step 2: Seed test data using C# and Marten
+  # Step 3: Seed test data using C# and Marten, after grate owns the final schema
   admin-api-seed-testdata:
     build:
       context: .
@@ -237,12 +237,16 @@ services:
     environment:
       - ConnectionString=Host=db;Port=5432;Database=golden_master_template;Username=root;Password=root
     depends_on:
-      admin-api-migrations-golden-master-local:
+      acm-api-migrations-golden-master:
+        condition: service_completed_successfully
+      admin-projections-migrations-golden-master:
+        condition: service_completed_successfully
+      public-projections-migrations-golden-master:
         condition: service_completed_successfully
     networks:
       - vr-net
 
-  # Step 3: Run Grate with production scripts (including persoonsgegevens split)
+  # Step 2: Run Grate with production scripts (including persoonsgegevens split)
   admin-api-migrations-golden-master-production:
     build:
       context: migrations/production/admin.api/
@@ -259,7 +263,7 @@ services:
       - APP_CONNSTRING_PASSWORD=root
       - DATABASE_TYPE=postgresql
     depends_on:
-      admin-api-seed-testdata:
+      admin-api-migrations-golden-master-local:
         condition: service_completed_successfully
     networks:
       - vr-net
@@ -362,6 +366,8 @@ services:
         echo 'Successfully created verenigingsregister database from template'
       "
     depends_on:
+      admin-api-seed-testdata:
+        condition: service_completed_successfully
       acm-api-migrations-golden-master:
         condition: service_completed_successfully
       admin-api-migrations-golden-master-production:
