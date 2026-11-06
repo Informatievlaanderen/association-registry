@@ -106,9 +106,9 @@ END;
 $function$;
 
 
-alter table public.mt_streams drop column if exists snapshot;
-alter table public.mt_streams drop column if exists snapshot_version;
-alter table public.mt_events add column if not exists bdata bytea NULL;
+alter table public.mt_streams drop column snapshot;
+alter table public.mt_streams drop column snapshot_version;
+alter table public.mt_events add column bdata bytea NULL;
 DROP FUNCTION IF EXISTS public.mt_quick_append_events(stream character varying, stream_type character varying, tenantid character varying, event_ids uuid[], event_types character varying[], dotnet_types character varying[], bodies jsonb[], causation_ids character varying[], correlation_ids character varying[], headers jsonb[]) cascade;
 
 CREATE OR REPLACE FUNCTION public.mt_quick_append_events(stream varchar, stream_type varchar, tenantid varchar, event_ids uuid[], event_types varchar[], dotnet_types varchar[], bodies jsonb[], bdatas bytea[], causation_ids varchar[], correlation_ids varchar[], headers jsonb[], expected_version integer DEFAULT NULL::integer) RETURNS int[] AS $$
@@ -180,3 +180,4 @@ BEGIN
 	return return_value;
 END
 $$ LANGUAGE plpgsql;
+

@@ -6,6 +6,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
 using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
+using JasperFx;
 using JasperFx.Events;
 using Marten;
 using Marten.Newtonsoft;
@@ -29,6 +30,11 @@ var store = DocumentStore.For(options =>
     options.RegisterAllEventTypes();
     options.RegisterDocumentType<BewaartermijnDocument>();
     options.KeepV8Defaults();
+
+    // The golden master is migrated by grate, not by Marten. Auto-creating here would
+    // apply the Marten 9 schema before the migration scripts run, so the scripts would
+    // find their changes already applied.
+    options.AutoCreateSchemaObjects = AutoCreate.None;
 
     options.UseNewtonsoftForSerialization(configure: settings =>
     {
