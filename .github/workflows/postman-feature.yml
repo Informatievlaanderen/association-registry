@@ -39,6 +39,11 @@ jobs:
     name: Regressie ${{ inputs.feature }}
     runs-on: ubuntu-latest
     steps:
+      # Node in the tool cache, so a global npm install needs no root (the runner's /usr/local is root-owned)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Install Postman CLI
         run: npm install --global postman-cli@1.87.0
 
