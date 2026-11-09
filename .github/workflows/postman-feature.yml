@@ -1,0 +1,77 @@
+name: "[POSTMAN] Regressie feature"
+
+# Runs one regression collection from the Postman workspace (the source of truth) against Test.
+# Trigger: gh workflow run postman-feature.yml -f feature=bankrekeningnummers
+# See .opencode/skills/postman-regressie/SKILL.md.
+#
+# Required repository configuration:
+#   vars.POSTMAN_TEST_ENVIRONMENT_UID (the Test environment in the Postman workspace)
+#   vars.POSTMAN_TEST_BEHEER_URL, vars.POSTMAN_TEST_PUBLIEK_URL
+#   secrets.POSTMAN_API_KEY (its owner must have access to the workspace), secrets.POSTMAN_TEST_TOKEN_URL,
+#   secrets.POSTMAN_TEST_CLIENT_ID, secrets.POSTMAN_TEST_CLIENT_SECRET, secrets.POSTMAN_TEST_VR_API_KEY
+
+on:
+  workflow_dispatch:
+    inputs:
+      feature:
+        description: "Feature to run"
+        required: true
+        type: choice
+        # one option per entry in COLLECTIONS below
+        options:
+          - bankrekeningnummers
+  workflow_call:
+    inputs:
+      feature:
+        description: "Feature key in COLLECTIONS (e.g. bankrekeningnummers)"
+        required: true
+        type: string
+
+env:
+  # feature -> collection UID in the Postman workspace (Postman: collection > Info > Collection ID)
+  COLLECTIONS: |
+    {
+      "bankrekeningnummers": "34061079-2aa90cd3-b3e0-4232-9086-d11423050cdb"
+    }
+
+jobs:
+  regressie:
+    name: Regressie ${{ inputs.feature }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
+      - name: Login to Postman CLI
+        run: postman login --with-api-key "${{ secrets.POSTMAN_API_KEY }}"
+
+      - name: Run collection
+        env:
+          ENVIRONMENT_UID: ${{ vars.POSTMAN_TEST_ENVIRONMENT_UID }}
+          BEHEER_URL: ${{ vars.POSTMAN_TEST_BEHEER_URL }}
+          PUBLIEK_URL: ${{ vars.POSTMAN_TEST_PUBLIEK_URL }}
+          TOKEN_URL: ${{ secrets.POSTMAN_TEST_TOKEN_URL }}
+          CLIENT_ID: ${{ secrets.POSTMAN_TEST_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.POSTMAN_TEST_CLIENT_SECRET }}
+          VR_API_KEY: ${{ secrets.POSTMAN_TEST_VR_API_KEY }}
+          FEATURE: ${{ inputs.feature }}
+        run: |
+          postman collection run "$(jq -r --arg f "$FEATURE" '.[$f]' <<< "$COLLECTIONS")" \
+            -e "${ENVIRONMENT_UID}" \
+            --env-var "beheer_url=${BEHEER_URL}" \
+            --env-var "publiek_url=${PUBLIEK_URL}" \
+            --env-var "token_url=${TOKEN_URL}" \
+            --env-var "clientId=${CLIENT_ID}" \
+            --env-var "clientSecret=${CLIENT_SECRET}" \
+            --env-var "vr-api-key=${VR_API_KEY}" \
+            -r cli,junit,html \
+            --reporter-junit-export "postman-reports/${FEATURE}.xml" \
+            --reporter-html-export "postman-reports/${FEATURE}.html"
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-regressie-${{ inputs.feature }}
+          path: postman-reports/
+          retention-days: 30
