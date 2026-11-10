@@ -1,3 +1,29 @@
+# [8.346.0](https://github.com/informatievlaanderen/association-registry/compare/v8.345.0...v8.346.0) (2026-11-10)
+
+
+### Bug Fixes
+
+* or-3790 compare titularissen of bankrekening in a different way ([21b723a](https://github.com/informatievlaanderen/association-registry/commit/21b723abd26208f6ce73eeb59f216b5ba5f2e2c0))
+* or-3790 set client id for local dev testing ([6282fb0](https://github.com/informatievlaanderen/association-registry/commit/6282fb036e8fe7fb36fcd017ef3336b6adfe2033))
+
+
+### Features
+
+* or-3317 dont use persoonsgegevens for gedupliceerd or nietovergenomen for merge ([8ec22ca](https://github.com/informatievlaanderen/association-registry/commit/8ec22ca5dc8708c84abbdd6cad56033d152fc57f))
+* or-3550 merge basisgegevens ([4b4f953](https://github.com/informatievlaanderen/association-registry/commit/4b4f9531b12c61b9a9e1d10ab2ba57d72b877f54))
+* or-3551 merge werkingsgebieden and hoofdactiviteiten ([8ef539d](https://github.com/informatievlaanderen/association-registry/commit/8ef539d3d299a244c0a54be05a4d7c0409c7fdcc))
+* or-3552 merge contactgegevens ([e89d5eb](https://github.com/informatievlaanderen/association-registry/commit/e89d5eba00e7abdea5da9a4e202a79e7ece46656))
+* or-3553 merge locaties ([2fd53ed](https://github.com/informatievlaanderen/association-registry/commit/2fd53ed3c3b9bce60aecdae1f7d1c8b2f250edfd))
+* or-3554 merge vertegenwoordigers ([5c1f8f6](https://github.com/informatievlaanderen/association-registry/commit/5c1f8f6cf6cdb05b5a92b17cf5c3f109fddfc7be))
+* or-3555 merge bankrekeningnummers ([74e57c4](https://github.com/informatievlaanderen/association-registry/commit/74e57c41f5e1aec1cbf2f8da056a0560023d2fc3))
+* or-3556 add DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging to ErkenningProjection ([a2224dc](https://github.com/informatievlaanderen/association-registry/commit/a2224dcf74a73e4b58c6a1c09c8c6f3638db679d))
+* or-3556 merge erkenningen ([4e3bcfd](https://github.com/informatievlaanderen/association-registry/commit/4e3bcfd290825042e217d4bba1e8196e474f3deb))
+* or-3685 add DubbeleVerenigingWerdSamengevoegdMetAuthentiekeVereniging event ([a968318](https://github.com/informatievlaanderen/association-registry/commit/a9683180261c9cc48637512974ca06836d6f920d))
+* or-3685 change event and apply in beheer detail ([c16e57e](https://github.com/informatievlaanderen/association-registry/commit/c16e57ecb3d4af47af5241f8b4f7cb241f16ccb2))
+* or-3685 dont merge beheerd door kbo properties ([3aa3592](https://github.com/informatievlaanderen/association-registry/commit/3aa3592198829f3be4ceb25a457a4f282273a83f))
+* or-3778 merge lidmaatschappen ([3fa7096](https://github.com/informatievlaanderen/association-registry/commit/3fa7096d842efad6d9a3ac713b3a0186d9b85182))
+* or-3790 add postman regression generator and skill for features ([ab45b21](https://github.com/informatievlaanderen/association-registry/commit/ab45b216a1eb35f8bb60ae25935f6a95af08b34e))
+
 # [8.345.0](https://github.com/informatievlaanderen/association-registry/compare/v8.344.0...v8.345.0) (2026-10-29)
 
 
