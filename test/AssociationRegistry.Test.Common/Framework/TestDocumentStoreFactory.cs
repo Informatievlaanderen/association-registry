@@ -6,7 +6,9 @@ using JasperFx;
 using JasperFx.Events;
 using Marten;
 using Marten.Events;
+using Marten.Newtonsoft;
 using Marten.Services;
+using MartenDb.Setup;
 using Newtonsoft.Json;
 using Weasel.Core;
 
@@ -27,6 +29,8 @@ public static class TestDocumentStoreFactory
             options.AutoCreateSchemaObjects = AutoCreate.All;
             options.Events.MetadataConfig.EnableAll();
             options.Serializer(CreateCustomMartenSerializer());
+            options.KeepV8Defaults();
+
             options.UseNewtonsoftForSerialization(configure: settings =>
             {
                 settings.DateParseHandling = DateParseHandling.None;

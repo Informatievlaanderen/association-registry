@@ -1,17 +1,19 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 public class CapitalizeParameterFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null) return;
+        if (operation.Parameters == null)
+            return;
 
-        foreach (var parameter in operation.Parameters)
+        foreach (var parameter in operation.Parameters.OfType<OpenApiParameter>())
         {
-            if (parameter.In != ParameterLocation.Header) continue;
+            if (parameter.In != ParameterLocation.Header)
+                continue;
 
             parameter.Name = char.ToUpper(parameter.Name[0]) + parameter.Name.Substring(1);
         }

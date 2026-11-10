@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 public class AppendCorrelationIdToHeaders : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        operation.Parameters ??= new List<OpenApiParameter>();
+        operation.Parameters ??= new List<IOpenApiParameter>();
 
         operation.Parameters.Add(
             new OpenApiParameter
@@ -16,12 +16,8 @@ public class AppendCorrelationIdToHeaders : IOperationFilter
                 In = ParameterLocation.Header,
                 Description = "Deze id identificeert de request.",
                 Required = true,
-                Schema = new OpenApiSchema
-                {
-                    Type = "string",
-                    Format = "uuid",
-                    Nullable = false,
-                },
-            });
+                Schema = new OpenApiSchema { Type = JsonSchemaType.String, Format = "uuid" },
+            }
+        );
     }
 }

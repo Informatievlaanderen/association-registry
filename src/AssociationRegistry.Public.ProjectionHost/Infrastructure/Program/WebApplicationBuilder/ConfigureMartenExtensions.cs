@@ -12,6 +12,7 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.Logging;
 using MartenDb.PubliekZoeken;
 using MartenDb.Setup;
@@ -137,6 +138,8 @@ public static class ConfigureMartenExtensions
             ProjectionLifecycle.Async,
             PubliekZoekProjectionHandler.ShardName.Name
         );
+
+        opts.KeepV8Defaults();
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {

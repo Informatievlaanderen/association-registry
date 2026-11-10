@@ -7,7 +7,7 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Historiek;
 
-public class BeheerVerenigingHistoriekProjection : EventProjection
+public partial class BeheerVerenigingHistoriekProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.historiek");
 
@@ -19,6 +19,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         // the newly persisted document from xxxWerdGeregistreerd is not in the
         // Query yet when we. handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
+        Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingHistoriekDocument>();
     }

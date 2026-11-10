@@ -5,9 +5,10 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
+using Marten;
 using Marten.Events.Projections;
 
-public class BeheerKboSyncHistoriekProjection : EventProjection
+public partial class BeheerKboSyncHistoriekProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.kbo.synchistoriek");
 
@@ -17,43 +18,36 @@ public class BeheerKboSyncHistoriekProjection : EventProjection
         Options.TeardownDataOnRebuild = true;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerKboSyncHistoriekGebeurtenisDocument>();
+    }
 
-        Project<IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>>(
-            (geregistreerd, operations) =>
-            {
-                operations.Insert(
-                    new BeheerKboSyncHistoriekGebeurtenisDocument(
-                        geregistreerd.Sequence.ToString(),
-                        geregistreerd.Data.KboNummer,
-                        geregistreerd.StreamKey!,
-                        Beschrijving: "Registreer inschrijving geslaagd",
-                        geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-                    )
-                );
-            }
+    public void Project(
+        IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> geregistreerd,
+        IDocumentOperations operations
+    ) =>
+        operations.Insert(
+            new BeheerKboSyncHistoriekGebeurtenisDocument(
+                geregistreerd.Sequence.ToString(),
+                geregistreerd.Data.KboNummer,
+                geregistreerd.StreamKey!,
+                Beschrijving: "Registreer inschrijving geslaagd",
+                geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
         );
 
-        Project<IEvent<SynchronisatieMetKboWasSuccesvol>>(
-            (geregistreerd, operations) =>
-            {
-                operations.Insert(
-                    new BeheerKboSyncHistoriekGebeurtenisDocument(
-                        geregistreerd.Sequence.ToString(),
-                        geregistreerd.Data.KboNummer,
-                        geregistreerd.StreamKey!,
-                        Beschrijving: "Vereniging succesvol up to date gebracht met data uit de KBO",
-                        geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-                    )
-                );
-            }
+    public void Project(IEvent<SynchronisatieMetKboWasSuccesvol> geregistreerd, IDocumentOperations operations) =>
+        operations.Insert(
+            new BeheerKboSyncHistoriekGebeurtenisDocument(
+                geregistreerd.Sequence.ToString(),
+                geregistreerd.Data.KboNummer,
+                geregistreerd.StreamKey!,
+                Beschrijving: "Vereniging succesvol up to date gebracht met data uit de KBO",
+                geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
         );
 
-        Project<IEvent<Archived>>(
-            (@event, operations) =>
-            {
-                var vCode = @event.StreamKey!;
-                operations.DeleteWhere<BeheerKboSyncHistoriekGebeurtenisDocument>(x => x.VCode == vCode);
-            }
-        );
+    public void Project(IEvent<Archived> @event, IDocumentOperations operations)
+    {
+        var vCode = @event.StreamKey!;
+        operations.DeleteWhere<BeheerKboSyncHistoriekGebeurtenisDocument>(x => x.VCode == vCode);
     }
 }

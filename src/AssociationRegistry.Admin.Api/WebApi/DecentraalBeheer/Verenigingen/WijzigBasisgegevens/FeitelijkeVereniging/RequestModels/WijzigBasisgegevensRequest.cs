@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 
+using System.Runtime.Serialization;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;
 using CommandHandling.DecentraalBeheer.Acties.Basisgegevens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Common;
 using DecentraalBeheer.Vereniging;
-using System.Runtime.Serialization;
 
 [DataContract]
 public class WijzigBasisgegevensRequest
@@ -50,8 +50,11 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
-    public WijzigBasisgegevensCommand ToCommand(string vCode, IWerkingsgebiedenService werkingsgebiedenService)
-        => new(
+    public async Task<WijzigBasisgegevensCommand> ToCommand(
+        string vCode,
+        IWerkingsgebiedenService werkingsgebiedenService
+    ) =>
+        new(
             VCode.Create(vCode),
             Naam is null ? null : VerenigingsNaam.Create(Naam),
             KorteNaam,
@@ -59,7 +62,7 @@ public class WijzigBasisgegevensRequest
             Startdatum is { IsNull: false } ? Startdatum.Map(Datum.Create) : NullOrEmpty<Datum>.Null,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray(),
+            Werkingsgebieden is null ? null : await werkingsgebiedenService.CreateMany(Werkingsgebieden),
             IsUitgeschrevenUitPubliekeDatastroom
         );
 }

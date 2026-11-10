@@ -10,8 +10,10 @@ using JasperFx.CodeGeneration;
 using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
+using JasperFx.OpenTelemetry;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using Marten.Services;
 using MartenDb;
 using MartenDb.BeheerZoeken;
@@ -218,6 +220,8 @@ public static class ConfigureMartenExtensions
             ?? throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
         var connectionString = GetPostgresConnectionString(postgreSqlOptions);
+
+        opts.KeepV8Defaults();
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {

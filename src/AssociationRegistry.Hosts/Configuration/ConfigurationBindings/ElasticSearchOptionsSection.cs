@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
 using DecentraalBeheer.Vereniging.DubbelDetectie;
+using JasperFx;
 using Marten;
 using Marten.Schema;
 using Microsoft.Extensions.Caching.Memory;
@@ -22,29 +23,29 @@ public class ElasticSearchOptionsService : IMinimumScoreDuplicateDetectionConfig
         _cache = cache;
     }
 
-    public double MinimumScoreDuplicateDetection
+    public async Task<MinimumScore> GetMinimumScoreDuplicateDetection(CancellationToken cancellationToken = default)
     {
-        get
-        {
-            if (
-                _cache.TryGetValue(
-                    SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection,
-                    out double cachedValue
-                )
+        if (
+            _cache.TryGetValue(
+                SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection,
+                out double cachedValue
             )
-            {
-                return cachedValue;
-            }
-
-            var settingOverride = _session
-                .Query<SettingOverride>()
-                .FirstOrDefault(x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection);
-
-            if (!double.TryParse(settingOverride?.Value, out double minScoreOverride))
-                return _elasticSearchOptionsSection.MinimumScoreDuplicateDetection;
-
-            return minScoreOverride;
+        )
+        {
+            return new MinimumScore(cachedValue);
         }
+
+        var settingOverride = await _session
+            .Query<SettingOverride>()
+            .FirstOrDefaultAsync(
+                x => x.Key == SettingOverrideNames.ElasticSearch.MinimumScoreDuplicateDetection,
+                cancellationToken
+            );
+
+        if (!double.TryParse(settingOverride?.Value, out double minScoreOverride))
+            return await _elasticSearchOptionsSection.GetMinimumScoreDuplicateDetection(cancellationToken);
+
+        return new MinimumScore(minScoreOverride);
     }
 }
 
@@ -79,9 +80,12 @@ public class ElasticSearchOptionsSection : IMinimumScoreDuplicateDetectionConfig
         public string? Verenigingen { get; set; }
         public string? DuplicateDetection { get; set; }
     }
+
+    public Task<MinimumScore> GetMinimumScoreDuplicateDetection(CancellationToken cancellationToken = default) =>
+        Task.FromResult(new MinimumScore(MinimumScoreDuplicateDetection));
 }
 
 public interface IMinimumScoreDuplicateDetectionConfig
 {
-    double MinimumScoreDuplicateDetection { get; }
+    Task<MinimumScore> GetMinimumScoreDuplicateDetection(CancellationToken cancellationToken = default);
 }

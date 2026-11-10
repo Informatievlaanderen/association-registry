@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
+using JasperFx;
 using Marten.Schema;
 
 public record PowerBiExportDocument : IVCode

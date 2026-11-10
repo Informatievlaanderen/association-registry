@@ -1,5 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens
-    .RequestMapping;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.DecentraalBeheer.Vereniging;
@@ -14,7 +13,7 @@ using Xunit;
 public class To_A_WijzigBasisgegevensCommand
 {
     [Fact]
-    public void Then_We_Get_A_WijzigBasisgegevensCommand()
+    public async Task Then_We_Get_A_WijzigBasisgegevensCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -22,7 +21,7 @@ public class To_A_WijzigBasisgegevensCommand
         var werkingsgebiedenService = new WerkingsgebiedenServiceMock();
 
         var actualVCode = fixture.Create<VCode>();
-        var actual = request.ToCommand(actualVCode, werkingsgebiedenService);
+        var actual = await request.ToCommand(actualVCode, werkingsgebiedenService);
 
         actual.Deconstruct(
             out var vCode,
@@ -33,7 +32,8 @@ public class To_A_WijzigBasisgegevensCommand
             out var doelgroep,
             out var hoofdactiviteitenVerenigingsloket,
             out var werkingsgebieden,
-            out var isUitgeschrevenUitPubliekeDatastroom);
+            out var isUitgeschrevenUitPubliekeDatastroom
+        );
 
         vCode.Should().Be(actualVCode);
         naam!.ToString().Should().Be(request.Naam);
@@ -44,19 +44,17 @@ public class To_A_WijzigBasisgegevensCommand
 
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
 
-        hoofdactiviteitenVerenigingsloket.Should()
-                                         .BeEquivalentTo(
-                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+        hoofdactiviteitenVerenigingsloket
+            .Should()
+            .BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
 
-        werkingsgebieden.Should()
-                        .BeEquivalentTo(
-                             request.Werkingsgebieden!.Select(werkingsgebiedenService.Create));
+        werkingsgebieden.Should().BeEquivalentTo(request.Werkingsgebieden!.Select(WerkingsgebiedenServiceMock.Get));
 
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 
     [Fact]
-    public void Without_Doelgroep_Then_We_Get_A_WijzigBasisgegevensCommand_With_Doelgroep_Null()
+    public async Task Without_Doelgroep_Then_We_Get_A_WijzigBasisgegevensCommand_With_Doelgroep_Null()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var werkingsgebiedenService = new WerkingsgebiedenServiceMock();
@@ -65,7 +63,7 @@ public class To_A_WijzigBasisgegevensCommand
         request.Doelgroep = null;
 
         var actualVCode = fixture.Create<VCode>();
-        var actual = request.ToCommand(actualVCode, werkingsgebiedenService);
+        var actual = await request.ToCommand(actualVCode, werkingsgebiedenService);
 
         actual.Deconstruct(
             out var vCode,
@@ -76,7 +74,8 @@ public class To_A_WijzigBasisgegevensCommand
             out var doelgroep,
             out var hoofdactiviteitenVerenigingsloket,
             out var werkingsgebieden,
-            out var isUitgeschrevenUitPubliekeDatastroom);
+            out var isUitgeschrevenUitPubliekeDatastroom
+        );
 
         vCode.Should().Be(actualVCode);
         naam!.ToString().Should().Be(request.Naam);
@@ -87,13 +86,11 @@ public class To_A_WijzigBasisgegevensCommand
 
         doelgroep.Should().BeNull();
 
-        hoofdactiviteitenVerenigingsloket.Should()
-                                         .BeEquivalentTo(
-                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+        hoofdactiviteitenVerenigingsloket
+            .Should()
+            .BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
 
-        werkingsgebieden.Should()
-                        .BeEquivalentTo(
-                             request.Werkingsgebieden!.Select(werkingsgebiedenService.Create));
+        werkingsgebieden.Should().BeEquivalentTo(request.Werkingsgebieden!.Select(WerkingsgebiedenServiceMock.Get));
 
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }

@@ -6,8 +6,10 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
 using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
+using JasperFx;
 using JasperFx.Events;
 using Marten;
+using Marten.Newtonsoft;
 using Newtonsoft.Json;
 using NodaTime;
 
@@ -27,6 +29,13 @@ var store = DocumentStore.For(options =>
     options.Events.AppendMode = EventAppendMode.Quick;
     options.RegisterAllEventTypes();
     options.RegisterDocumentType<BewaartermijnDocument>();
+    options.KeepV8Defaults();
+
+    // The golden master is migrated by grate, not by Marten. Auto-creating here would
+    // apply the Marten 9 schema before the migration scripts run, so the scripts would
+    // find their changes already applied.
+    options.AutoCreateSchemaObjects = AutoCreate.None;
+
     options.UseNewtonsoftForSerialization(configure: settings =>
     {
         settings.DateParseHandling = DateParseHandling.None;
@@ -195,7 +204,17 @@ session.Events.Append(
 );
 
 // TODO verwijderen
-session.Events.Append(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),new BewaartermijnWerdGestartV2(BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers,1),"V9000002", PersoonsgegevensType.Vertegenwoordigers.Value, 1, Instant.MinValue, BewaartermijnReden.VertegenwoordigerWerdVerwijderd));
+session.Events.Append(
+    BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+    new BewaartermijnWerdGestartV2(
+        BewaartermijnId.CreateId(VCode.Create("V9000002"), PersoonsgegevensType.Vertegenwoordigers, 1),
+        "V9000002",
+        PersoonsgegevensType.Vertegenwoordigers.Value,
+        1,
+        Instant.MinValue,
+        BewaartermijnReden.VertegenwoordigerWerdVerwijderd
+    )
+);
 
 // Scenario 3: VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers
 Console.WriteLine("📝 Creating VerenigingMetRechtspersoonlijkheid with KBO vertegenwoordigers...");

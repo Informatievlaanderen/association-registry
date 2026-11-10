@@ -2,23 +2,23 @@ namespace AssociationRegistry.MartenDb.Setup;
 
 using Converters;
 using DecentraalBeheer.Vereniging;
-using Marten;
-using Upcasters;
 using Events;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx.OpenTelemetry;
+using Marten;
+using Marten.Newtonsoft;
 using Marten.Services;
 using Newtonsoft.Json;
 using Serialization;
+using Upcasters;
 using VCodeGeneration;
 
 public static class SetupExtensions
 {
     public static StoreOptions UpcastLegacyTombstoneEvents(this StoreOptions source)
     {
-        source.Events.Upcast(
-            new TombstoneUpcaster()
-        );
+        source.Events.Upcast(new TombstoneUpcaster());
 
         return source;
     }
@@ -27,14 +27,14 @@ public static class SetupExtensions
     {
         var eventInterface = typeof(Events.IEvent);
 
-        var eventTypes = eventInterface.Assembly
-                                       .GetTypes()
-                                       .Where(t =>
-                                                  eventInterface.IsAssignableFrom(t) &&
-                                                  t.IsClass &&
-                                                  !t.IsAbstract &&
-                                                  t != typeof(AfdelingWerdGeregistreerd) // skip obsolete one if needed
-                                        );
+        var eventTypes = eventInterface
+            .Assembly.GetTypes()
+            .Where(t =>
+                eventInterface.IsAssignableFrom(t)
+                && t.IsClass
+                && !t.IsAbstract
+                && t != typeof(AfdelingWerdGeregistreerd) // skip obsolete one if needed
+            );
 
         foreach (var eventType in eventTypes)
         {
@@ -46,10 +46,10 @@ public static class SetupExtensions
 
     public static void ConfigureForVerenigingsregister(this JsonSerializerSettings settings)
     {
-            settings.DateParseHandling = DateParseHandling.None;
-            settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            settings.Converters.Add(new VCodeJsonConverter());
+        settings.DateParseHandling = DateParseHandling.None;
+        settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        settings.Converters.Add(new VCodeJsonConverter());
     }
 
     public static StoreOptions SetUpOpenTelemetry(this StoreOptions opts, bool isDevelopment = false)
@@ -77,6 +77,18 @@ public static class SetupExtensions
     public static StoreOptions AddVCodeSequence(this StoreOptions opts)
     {
         opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+
+        return opts;
+    }
+
+    /// <summary>
+    ///     Marten 9 flipped a number of StoreOptions defaults (append mode, advanced async tracking,
+    ///     identity map for aggregates, bigint events, Npgsql logging). We keep the Marten 8 behaviour
+    ///     for now and adopt the new defaults one at a time, each with its own schema migration.
+    /// </summary>
+    public static StoreOptions KeepV8Defaults(this StoreOptions opts)
+    {
+        opts.RestoreV8Defaults();
 
         return opts;
     }

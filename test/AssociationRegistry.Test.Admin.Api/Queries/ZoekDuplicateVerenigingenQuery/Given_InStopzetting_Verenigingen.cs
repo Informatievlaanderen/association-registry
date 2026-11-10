@@ -34,7 +34,10 @@ public class Given_InStopzetting_Verenigingen : IClassFixture<Given_InStopzettin
         _query = new ZoekDuplicateVerenigingenQuery(
             fixture.ElasticClient,
             fixture.ElasticSearchOptions,
-            new MinimumScore(0),
+            new AssociationRegistry.Hosts.Configuration.ConfigurationBindings.ElasticSearchOptionsSection
+            {
+                MinimumScoreDuplicateDetection = 0,
+            },
             new FakePostcodesInSameGemeenteService(),
             NullLogger<ZoekDuplicateVerenigingenQuery>.Instance
         );

@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Schema.Detail;
 
 using DecentraalBeheer.Vereniging;
+using JasperFx;
+using JasperFx.Metadata;
 using Marten.Metadata;
 using Marten.Schema;
 using Vereniging;

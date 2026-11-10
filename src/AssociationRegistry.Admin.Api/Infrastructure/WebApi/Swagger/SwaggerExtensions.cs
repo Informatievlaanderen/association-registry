@@ -8,8 +8,7 @@ using AssociationRegistry.Primitives;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
-using Microsoft.OpenApi.Interfaces;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -31,13 +30,15 @@ public static class SwaggerExtensions
                 options.MapType<DateOnly>(() =>
                     new OpenApiSchema
                     {
-                        Type = "string",
+                        Type = JsonSchemaType.String,
                         Format = "date",
                         Pattern = "yyyy-MM-dd",
                     }
                 );
 
-                options.MapType<NullOrEmpty<DateOnly>>(() => new OpenApiSchema { Type = "string", Nullable = true });
+                options.MapType<NullOrEmpty<DateOnly>>(() =>
+                    new OpenApiSchema { Type = JsonSchemaType.String | JsonSchemaType.Null }
+                );
 
                 options.CustomSchemaIds(type => type.FullName);
 
@@ -50,9 +51,7 @@ public static class SwaggerExtensions
                         {
                             {
                                 WellknownOpenApiExtensions.XAssemblyversion,
-                                new Microsoft.OpenApi.Any.OpenApiString(
-                                    Assembly.GetAssembly(typeof(Program)).GetVersionText()
-                                )
+                                new JsonNodeExtension(Assembly.GetAssembly(typeof(Program)).GetVersionText())
                             },
                         },
                         Title = appSettings.ApiDocs.Title,

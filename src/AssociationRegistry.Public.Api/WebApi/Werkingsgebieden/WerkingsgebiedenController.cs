@@ -30,16 +30,11 @@ public class WerkingsgebiedenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(WerkingsgebiedenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
-    public IActionResult GetWerkingsgebieden([FromServices] WerkingsgebiedenService werkingsgebiedenService)
+    public async Task<IActionResult> GetWerkingsgebieden([FromServices] WerkingsgebiedenService werkingsgebiedenService)
     {
-        var werkingsgebieden = werkingsgebiedenService
-                              .AllWithNVT()
-                              .Select(wg => new Werkingsgebied
-                               {
-                                   Code = wg.Code,
-                                   Naam = wg.Naam,
-                               })
-                              .ToArray();
+        var werkingsgebieden = (await werkingsgebiedenService.AllWithNVT())
+            .Select(wg => new Werkingsgebied { Code = wg.Code, Naam = wg.Naam })
+            .ToArray();
 
         return Ok(new WerkingsgebiedenResponse { Werkingsgebieden = werkingsgebieden });
     }

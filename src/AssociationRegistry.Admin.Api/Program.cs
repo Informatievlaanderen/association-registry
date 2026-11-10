@@ -486,14 +486,8 @@ public class Program
             .AddSingleton(grarOptions.GrarClient)
             .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
             .AddSingleton(elasticSearchOptionsSection)
-            .AddScoped(sp => new ElasticSearchOptionsService(
-                sp.GetRequiredService<ElasticSearchOptionsSection>(),
-                sp.GetRequiredService<IDocumentSession>(),
-                sp.GetRequiredService<IMemoryCache>()
-            ))
-            .AddScoped(sp => new MinimumScore(
-                sp.GetRequiredService<ElasticSearchOptionsService>().MinimumScoreDuplicateDetection
-            ))
+            .AddScoped<ElasticSearchOptionsService>()
+            .AddScoped<IMinimumScoreDuplicateDetectionConfig, ElasticSearchOptionsService>()
             .AddScoped<InitiatorProvider>()
             .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
             .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()

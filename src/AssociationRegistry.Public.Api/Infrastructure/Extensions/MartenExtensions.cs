@@ -9,6 +9,7 @@ using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Json;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.Logging;
 using MartenDb.Setup;
 using Microsoft.Extensions.Configuration;
@@ -24,46 +25,53 @@ public static class MartenExtensions
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         PostgreSqlOptionsSection postgreSqlOptions,
-        IConfiguration configuration)
+        IConfiguration configuration
+    )
     {
-        var martenConfiguration = services.AddMarten(serviceProvider =>
-                 {
-                     var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
+        var martenConfiguration = services
+            .AddMarten(serviceProvider =>
+            {
+                var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
 
-                     var opts = new StoreOptions();
+                var opts = new StoreOptions();
 
-                     opts.Connection(connectionString1);
+                opts.Connection(connectionString1);
 
-                     if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
-                     {
-                         opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
-                         opts.DatabaseSchemaName = postgreSqlOptions.Schema;
-                     }
+                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+                {
+                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+                }
 
-                     opts.SetUpOpenTelemetry();
+                opts.SetUpOpenTelemetry();
 
-                     if (!postgreSqlOptions.IncludeErrorDetail)
-                         opts.Logger(new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>()));
+                if (!postgreSqlOptions.IncludeErrorDetail)
+                    opts.Logger(
+                        new SecureMartenLogger(serviceProvider.GetRequiredService<ILogger<SecureMartenLogger>>())
+                    );
 
-                     opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                     opts.Events.MetadataConfig.EnableAll();
+                opts.Events.MetadataConfig.EnableAll();
 
-                     opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
-                     opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
-                     opts.RegisterDocumentType<PostalNutsLauInfo>();
+                opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
+                opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+                opts.RegisterDocumentType<PostalNutsLauInfo>();
 
-                     opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
-                     opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
 
-                     opts.UseNewtonsoftForSerialization(configure: settings =>
-                     {
-                         settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                         settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                     });
+                opts.KeepV8Defaults();
 
-                     return opts;
-                 }).UseLightweightSessions();
+                opts.UseNewtonsoftForSerialization(configure: settings =>
+                {
+                    settings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                    settings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                });
+
+                return opts;
+            })
+            .UseLightweightSessions();
 
         martenConfiguration.AssertDatabaseMatchesConfigurationOnStartup();
 
@@ -80,9 +88,9 @@ public static class MartenExtensions
         return services;
     }
 
-    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host};" +
-           $"database={postgreSqlOptions.Database};" +
-           $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username}";
+    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions) =>
+        $"host={postgreSqlOptions.Host};"
+        + $"database={postgreSqlOptions.Database};"
+        + $"password={postgreSqlOptions.Password};"
+        + $"username={postgreSqlOptions.Username}";
 }

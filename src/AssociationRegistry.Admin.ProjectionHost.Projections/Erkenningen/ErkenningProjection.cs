@@ -8,13 +8,14 @@ using Marten;
 using Marten.Events.Projections;
 using Schema.Erkenningen;
 
-public class ErkenningProjection : EventProjection
+public partial class ErkenningProjection : EventProjection
 {
     public static readonly ShardName ShardName = new("beheer.postgres.erkenning");
 
     public ErkenningProjection()
     {
         Name = ShardName.Name;
+        Options.BatchSize = 1;
         Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<ErkenningDocument>();
     }

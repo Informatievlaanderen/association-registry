@@ -31,6 +31,7 @@ public static class MartenExtensions
 
                 opts.UsePostgreSqlOptions(postgreSqlOptions)
                     .AddVCodeSequence()
+                    .KeepV8Defaults()
                     .ConfigureSerialization()
                     .SetUpOpenTelemetry()
                     .RegisterAllEventTypes()

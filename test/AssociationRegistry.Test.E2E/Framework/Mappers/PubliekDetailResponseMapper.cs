@@ -15,9 +15,7 @@ using Werkingsgebied = Public.Api.WebApi.Verenigingen.Detail.ResponseModels.Werk
 
 public class PubliekDetailResponseMapper
 {
-    public static Sleutel[] MapSleutels(
-        string vCode)
-        =>
+    public static Sleutel[] MapSleutels(string vCode) =>
         [
             new()
             {
@@ -35,8 +33,7 @@ public class PubliekDetailResponseMapper
             },
         ];
 
-    public static Sleutel[] MapSleutels(string vCode, string kboNummer)
-        =>
+    public static Sleutel[] MapSleutels(string vCode, string kboNummer) =>
         [
             new()
             {
@@ -68,94 +65,120 @@ public class PubliekDetailResponseMapper
             },
         ];
 
-
-    public static Contactgegeven[] MapContactgegevens(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    public static Contactgegeven[] MapContactgegevens(
+        ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens,
+        string vCode
+    )
     {
-        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
-        {
-            id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Contactgegeven.Type,
-            Contactgegeventype = x.Contactgegeventype,
-            Waarde = x.Waarde,
-            Beschrijving = x.Beschrijving!,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return toeTeVoegenContactgegevens
+            .Select(
+                (x, i) =>
+                    new Contactgegeven
+                    {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Contactgegeven.Type,
+                        Contactgegeventype = x.Contactgegeventype,
+                        Waarde = x.Waarde,
+                        Beschrijving = x.Beschrijving!,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static Contactgegeven[] MapContactgegevens(Registratiedata.Contactgegeven[] contactgegevens, string vCode)
     {
-        return contactgegevens.Select((x, i) => new Contactgegeven
-        {
-            id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                vCode, contactgegevens[i].ContactgegevenId.ToString()),
-            type = JsonLdType.Contactgegeven.Type,
-            Contactgegeventype = x.Contactgegeventype,
-            Waarde = x.Waarde,
-            Beschrijving = x.Beschrijving!,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return contactgegevens
+            .Select(
+                (x, i) =>
+                    new Contactgegeven
+                    {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                            vCode,
+                            contactgegevens[i].ContactgegevenId.ToString()
+                        ),
+                        type = JsonLdType.Contactgegeven.Type,
+                        Contactgegeventype = x.Contactgegeventype,
+                        Waarde = x.Waarde,
+                        Beschrijving = x.Beschrijving!,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
     {
-        return toeTeVoegenLocaties.Select((x, i) => new Locatie
-        {
-            id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Locatie.Type,
-            Locatietype = x.Locatietype,
-            Naam = x.Naam,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return toeTeVoegenLocaties
+            .Select(
+                (x, i) =>
+                    new Locatie
+                    {
+                        id = JsonLdType.Locatie.CreateWithIdValues(vCode, $"{i + 1}"),
+                        type = JsonLdType.Locatie.Type,
+                        Locatietype = x.Locatietype,
+                        Naam = x.Naam,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static Locatie[] MapLocaties(Registratiedata.Locatie[] locaties, string vCode)
     {
-        return locaties.Select((x, i) => new Locatie
-        {
-            id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, locaties[i].LocatieId.ToString()),
-            type = JsonLdType.Locatie.Type,
-            Locatietype = x.Locatietype,
-            Naam = x.Naam,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
+        return locaties
+            .Select(
+                (x, i) =>
+                    new Locatie
+                    {
+                        id = JsonLdType.Locatie.CreateWithIdValues(vCode, locaties[i].LocatieId.ToString()),
+                        type = JsonLdType.Locatie.Type,
+                        Locatietype = x.Locatietype,
+                        Naam = x.Naam,
+                        IsPrimair = x.IsPrimair,
+                    }
+            )
+            .ToArray();
     }
 
     public static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
-        string[] hoofdactiviteitenVerenigingsloket)
+        string[] hoofdactiviteitenVerenigingsloket
+    )
     {
-        return hoofdactiviteitenVerenigingsloket.Select(x =>
-        {
-            var hoofdactiviteitVerenigingsloket = DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
-
-            return new HoofdactiviteitVerenigingsloket
+        return hoofdactiviteitenVerenigingsloket
+            .Select(x =>
             {
-                Code = hoofdactiviteitVerenigingsloket.Code,
-                Naam = hoofdactiviteitVerenigingsloket.Naam,
-                id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
-                type = JsonLdType.Hoofdactiviteit.Type,
-            };
-        }).ToArray();
+                var hoofdactiviteitVerenigingsloket =
+                    DecentraalBeheer.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
+
+                return new HoofdactiviteitVerenigingsloket
+                {
+                    Code = hoofdactiviteitVerenigingsloket.Code,
+                    Naam = hoofdactiviteitVerenigingsloket.Naam,
+                    id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
+                    type = JsonLdType.Hoofdactiviteit.Type,
+                };
+            })
+            .ToArray();
     }
 
-    public static Werkingsgebied[] MapWerkingsgebieden(
-        string[] werkingsgebieden)
+    public static Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebieden)
     {
         var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
 
-        return werkingsgebieden.Select(x =>
-        {
-            var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
-
-            return new Werkingsgebied
+        return werkingsgebieden
+            .Select(x =>
             {
-                Code = werkingsgebied.Code,
-                Naam = werkingsgebied.Naam,
-                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
-                type = JsonLdType.Werkingsgebied.Type,
-            };
-        }).ToArray();
+                var werkingsgebied = WerkingsgebiedenServiceMock.Get(x);
+
+                return new Werkingsgebied
+                {
+                    Code = werkingsgebied.Code,
+                    Naam = werkingsgebied.Naam,
+                    id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                    type = JsonLdType.Werkingsgebied.Type,
+                };
+            })
+            .ToArray();
     }
 }

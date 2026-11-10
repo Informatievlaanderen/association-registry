@@ -6,6 +6,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Integrations.Magda;
 using AssociationRegistry.KboMutations.Configuration;
 using AssociationRegistry.KboMutations.Notifications;
+using AssociationRegistry.MartenDb.Setup;
 using CommandHandling.MagdaSync.SyncKbo;
 using CommandHandling.MagdaSync.SyncKsz;
 using CommandHandling.MagdaSync.SyncKsz.Queries;
@@ -22,6 +23,7 @@ using JasperFx.Events;
 using JsonSerialization;
 using Logging;
 using Marten;
+using Marten.Newtonsoft;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
 using MartenDb.Store;
 using MartenDb.Transformers;
@@ -44,7 +46,9 @@ public class ServiceFactory : IDisposable
 
     private NpgsqlDataSource? _npgsqlDataSource = null;
     private DocumentStore? _store = null;
+
     private IQuerySession GetQuerySession() => _store!.QuerySession();
+
     private AmazonSimpleSystemsManagementClient _sqsClient;
 
     public ServiceFactory(
@@ -231,10 +235,12 @@ public class ServiceFactory : IDisposable
             return magdaOptions;
         }
 
-        magdaOptions.ClientCertificate
-            = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificate).ConfigureAwait(false);
-        magdaOptions.ClientCertificatePassword
-            = await ssmClient.GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword).ConfigureAwait(false);
+        magdaOptions.ClientCertificate = await ssmClient
+            .GetParameterAsync(paramNamesConfiguration.MagdaCertificate)
+            .ConfigureAwait(false);
+        magdaOptions.ClientCertificatePassword = await ssmClient
+            .GetParameterAsync(paramNamesConfiguration.MagdaCertificatePassword)
+            .ConfigureAwait(false);
 
         return magdaOptions;
     }
@@ -319,6 +325,8 @@ public class ServiceFactory : IDisposable
         // When providing a NpgsqlDataSource to marthin then we need to handle data source disposal.
         opts.Connection(dataSource);
         opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+        opts.KeepV8Defaults();
 
         opts.UseNewtonsoftForSerialization(configure: settings =>
         {
