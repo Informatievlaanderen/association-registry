@@ -1,0 +1,165 @@
+name: "[POSTMAN] Regressie alle features"
+
+# Runs every feature collection against Test: one postman-feature.yml run per feature, at most max_parallel (default 3)
+# at the same time. Features that check the whole system (projecties: every projection processed the last write) run
+# alone after the others, when no other feature is writing. A final job publishes the junit results and sends one Slack
+# message with the result per feature.
+# Trigger: gh workflow run regressie-all.yml [-f max_parallel=5]; scheduled on Monday and Wednesday at 02:00 UTC.
+# The features are the keys of COLLECTIONS in postman-feature.yml: a feature added there also runs here.
+# See .opencode/skills/postman-regressie/SKILL.md.
+#
+# Required repository configuration: the configuration of postman-feature.yml, and secrets.SLACK_WEBHOOK_URL.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_parallel:
+        description: "Features at the same time"
+        type: number
+        default: 3
+  schedule:
+    - cron: '0 2 * * 1'
+    - cron: '0 2 * * 3'
+
+# one full run at a time on Test: a second one waits until the first has finished
+concurrency:
+  group: postman-regressie-all
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  features:
+    name: Features
+    runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.lists.outputs.all }}
+      parallel: ${{ steps.lists.outputs.parallel }}
+      last: ${{ steps.lists.outputs.last }}
+      max_parallel: ${{ steps.lists.outputs.max_parallel }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/workflows/postman-feature.yml
+          sparse-checkout-cone-mode: false
+
+      - name: Read the features from postman-feature.yml
+        id: lists
+        env:
+          # features that check the whole system (every projection caught up with the last write): they run alone,
+          # after all other features, because parallel writes keep the projections busy
+          LAST: '["projecties"]'
+          # empty on a scheduled run
+          MAX_PARALLEL: ${{ inputs.max_parallel }}
+        run: |
+          all="$(yq -r '.env.COLLECTIONS' .github/workflows/postman-feature.yml | jq -c 'keys')"
+          parallel="$(jq -c --argjson last "$LAST" '. - $last' <<< "$all")"
+          last="$(jq -c --argjson last "$LAST" '[.[] | select(IN($last[]))]' <<< "$all")"
+          max="${MAX_PARALLEL:-3}"
+          if ! [[ "$max" =~ ^[1-9][0-9]*$ ]]; then
+            echo "max_parallel must be a positive whole number, got '${max}'"
+            exit 1
+          fi
+          echo "In parallel (at most ${max} at a time): ${parallel}"
+          echo "After the others: ${last}"
+          {
+            echo "all=${all}"
+            echo "parallel=${parallel}"
+            echo "last=${last}"
+            echo "max_parallel=${max}"
+          } >> "$GITHUB_OUTPUT"
+
+  regression:
+    name: Regressie
+    needs: features
+    if: needs.features.outputs.parallel != '[]'
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.features.outputs.max_parallel) }}
+      matrix:
+        feature: ${{ fromJSON(needs.features.outputs.parallel) }}
+    uses: ./.github/workflows/postman-feature.yml
+    with:
+      feature: ${{ matrix.feature }}
+    secrets: inherit
+
+  after-others:
+    name: Na de rest
+    needs: [features, regression]
+    # also when a feature failed: the projection status is checked once all writes are done
+    if: ${{ !cancelled() && needs.features.result == 'success' && needs.features.outputs.last != '[]' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        feature: ${{ fromJSON(needs.features.outputs.last) }}
+    uses: ./.github/workflows/postman-feature.yml
+    with:
+      feature: ${{ matrix.feature }}
+    secrets: inherit
+
+  report:
+    name: Rapport
+    needs: [features, regression, after-others]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # every feature run uploads postman-regressie-<feature> with postman-reports/<feature>.xml
+      - name: Download the reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: postman-regressie-*
+          path: postman-reports
+          merge-multiple: true
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        with:
+          name: Postman regressie
+          path: postman-reports/*.xml
+          reporter: java-junit
+          fail-on-error: false
+          fail-on-empty: false
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          FEATURES: ${{ needs.features.outputs.all }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - > slack.json <<'EOF'
+          import json, os
+          import xml.etree.ElementTree as ET
+
+          features = json.loads(os.environ.get('FEATURES') or '[]')
+          lines, ok = [], bool(features)
+          if not features:
+              lines.append('⚠️ The list of features could not be read from postman-feature.yml')
+          for feature in features:
+              path = f'postman-reports/{feature}.xml'
+              if not os.path.exists(path):
+                  ok = False
+                  lines.append(f'⚠️ {feature}: no report (the run did not finish)')
+                  continue
+              suites = list(ET.parse(path).getroot().iter('testsuite'))
+              tests = sum(int(s.get('tests') or 0) for s in suites)
+              failed = sum(int(s.get('failures') or 0) + int(s.get('errors') or 0) for s in suites)
+              if failed:
+                  ok = False
+                  lines.append(f'❌ {feature}: {failed} of {tests} tests failed')
+              else:
+                  lines.append(f'✅ {feature}: {tests} tests')
+
+          title = '✅ *Postman regression succeeded*' if ok else '❌ *Postman regression failed*'
+          text = f'{title} on Test ({len(features)} features)\n' + '\n'.join(lines) + f"\n<{os.environ['RUN_URL']}|View the run>"
+          print(json.dumps({'text': text}))
+          EOF
+          curl --fail --silent --show-error -X POST -H 'Content-type: application/json' --data @slack.json "$SLACK_WEBHOOK_URL"
