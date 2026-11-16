@@ -8,6 +8,7 @@ public class TeWijzigenVertegenwoordigerValidator : AbstractValidator<TeWijzigen
     public TeWijzigenVertegenwoordigerValidator()
     {
         RuleFor(vertegenwoordiger => vertegenwoordiger.Email).MustNotContainHtml();
+        RuleFor(vertegenwoordiger => vertegenwoordiger.Telefoon).MustNotContainHtml();
         RuleFor(vertegenwoordiger => vertegenwoordiger.Mobiel).MustNotContainHtml();
         RuleFor(vertegenwoordiger => vertegenwoordiger.SocialMedia).MustNotContainHtml();
         RuleFor(vertegenwoordiger => vertegenwoordiger.Roepnaam).MustNotContainHtml();
