@@ -16,4 +16,9 @@
     <PackageReference Include="Marten" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- NUTS/LAU per postcode: the same data the e2e and Admin API tests seed (one source) -->
+    <Compile Include="..\..\test\AssociationRegistry.Test.Common\Framework\NutsLauInfoMock.cs" Link="NutsLauInfoMock.cs" />
+  </ItemGroup>
+
 </Project>

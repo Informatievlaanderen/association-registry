@@ -18,6 +18,8 @@ RUN dotnet restore tools/SeedTestData/SeedTestData.csproj
 # Copy everything else
 COPY tools/SeedTestData/ tools/SeedTestData/
 COPY src/ src/
+# linked into SeedTestData.csproj: the NUTS/LAU data of the e2e tests
+COPY test/AssociationRegistry.Test.Common/Framework/NutsLauInfoMock.cs test/AssociationRegistry.Test.Common/Framework/
 
 # Build
 RUN dotnet publish tools/SeedTestData/SeedTestData.csproj -c Release -o /app/publish

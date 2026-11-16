@@ -4,9 +4,10 @@ using AssociationRegistry.DecentraalBeheer.Vereniging;
 using AssociationRegistry.DecentraalBeheer.Vereniging.Bewaartermijnen;
 using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
+using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
-using JasperFx;
+using AssociationRegistry.Test.Common.Framework;
 using JasperFx.Events;
 using Marten;
 using Marten.Newtonsoft;
@@ -29,6 +30,7 @@ var store = DocumentStore.For(options =>
     options.Events.AppendMode = EventAppendMode.Quick;
     options.RegisterAllEventTypes();
     options.RegisterDocumentType<BewaartermijnDocument>();
+    options.RegisterDocumentType<PostalNutsLauInfo>();
     options.KeepV8Defaults();
 
     // The golden master is migrated by grate, not by Marten. Auto-creating here would
@@ -512,9 +514,16 @@ session.Events.Append(
     )
 );
 
+// NUTS/LAU per postcode (Vlaanderen en Brussel), dezelfde gegevens als de e2e-tests. Nodig voor werkingsgebieden op
+// gemeenteniveau en voor de geotags van gemeenten en provincies. Op Test vult de AddressSync deze tabel; lokaal bleef
+// ze anders leeg tot iemand POST v1/admin/syncnutslauinfo aanriep.
+Console.WriteLine("📍 Seeding NUTS/LAU info per postcode...");
+session.Store(NutsLauInfoMock.All);
+
 await session.SaveChangesAsync();
 
 Console.WriteLine("\n✅ Test data seeded successfully!");
+Console.WriteLine($"   - PostalNutsLauInfo: {NutsLauInfoMock.All.Length} postcodes (werkingsgebieden en geotags)");
 Console.WriteLine($"   - V9000001: The Shire Preservation Society (Frodo: toegevoegd → gewijzigd → verwijderd)");
 Console.WriteLine($"   - V9000002: The Fellowship of the Ring (Gandalf & Sam in registration array)");
 Console.WriteLine(

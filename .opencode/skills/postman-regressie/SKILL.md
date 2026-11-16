@@ -257,10 +257,11 @@ assertions on that locatie flaky. The locatie lookup (`/v1/projections/admin/loc
 deleting a vereniging need a superAdmin token (`vereist: { superAdmin: true }`).
 
 **NUTS/LAU table (local).** Werkingsgebieden on gemeente level and the gemeente/provincie geotags come from the
-`PostalNutsLauInfo` table. Test fills it via the AddressSync; locally it is empty until you fill it once (superAdmin
-token, takes a few minutes, reads all postcodes from the GRAR): `POST {{beheer_url}}/v1/admin/syncnutslauinfo`.
-Without it, a gemeente as werkingsgebied gives "Het opgegeven werkingsgebied is niet gekend" and a geotag search on a
-gemeente or provincie finds nothing (only the postcode of a locatie is a geotag).
+`PostalNutsLauInfo` table. Test fills it via the AddressSync; locally `docker compose up` seeds it (`tools/SeedTestData`,
+the same `NutsLauInfoMock` data as the e2e tests; after a change to the seed: `docker compose up -d --build`). An older
+local database without it: rebuild it that way, or fill it from the GRAR with `POST {{beheer_url}}/v1/admin/syncnutslauinfo`
+(superAdmin, a few minutes). Without the table, a gemeente as werkingsgebied gives "Het opgegeven werkingsgebied is niet
+gekend" and a geotag search on a gemeente or provincie finds nothing (only the postcode of a locatie is a geotag).
 
 Run a new feature:
 1. `node postman/generate.js <feature>`
