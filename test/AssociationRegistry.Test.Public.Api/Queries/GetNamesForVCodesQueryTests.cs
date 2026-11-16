@@ -17,7 +17,9 @@ public class GetNamesForVCodesQueryFixture : IAsyncLifetime
 
     public async ValueTask InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.CreateAsync(nameof(GetNamesForVCodesQueryTests));
+        // Own schema: Test.Admin.Api has a GetNamesForVCodesQueryTests too, and ResetAllData empties every document
+        // table in the schema, so a shared schema lets the two test projects wipe each other's data when run in parallel.
+        Store = await TestDocumentStoreFactory.CreateAsync($"Publiek{nameof(GetNamesForVCodesQueryTests)}");
     }
 
     public async ValueTask DisposeAsync()
@@ -67,8 +69,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
-                                  .ToList();
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>().ToList();
 
         _session.StoreObjects(verenigingen);
         await _session.SaveChangesAsync();
@@ -88,16 +89,13 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
-                                  .ToList();
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>().ToList();
 
         _session.StoreObjects(verenigingen);
         await _session.SaveChangesAsync();
 
         var vCodesAndNaam = verenigingen.ToDictionary(x => x.VCode, x => x.Naam);
-        var vCodes = vCodesAndNaam.Keys
-                                  .Append(fixture.Create<VCode>())
-                                  .ToArray();
+        var vCodes = vCodesAndNaam.Keys.Append(fixture.Create<VCode>()).ToArray();
 
         var query = new GetNamesForVCodesQuery(_session);
 
@@ -111,8 +109,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
-                                  .ToList();
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>().ToList();
 
         _session.StoreObjects(verenigingen);
         await _session.SaveChangesAsync();
@@ -124,10 +121,9 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
 
         var actual = await query.ExecuteAsync(new GetNamesForVCodesFilter(singleVCode), CancellationToken.None);
 
-        actual.Should().BeEquivalentTo(new Dictionary<string, string>()
-        {
-            { singleVCode, vCodesAndNaam[singleVCode] },
-        });
+        actual
+            .Should()
+            .BeEquivalentTo(new Dictionary<string, string>() { { singleVCode, vCodesAndNaam[singleVCode] } });
     }
 
     public void Dispose()
