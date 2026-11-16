@@ -9,19 +9,22 @@ public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegen
 {
     public WijzigVertegenwoordigerValidator()
     {
-        RuleFor(request => request.Vertegenwoordiger).NotNull()
-                                                     .WithVeldIsVerplichtMessage(nameof(WijzigVertegenwoordigerRequest.Vertegenwoordiger));
+        RuleFor(request => request.Vertegenwoordiger)
+            .NotNull()
+            .WithVeldIsVerplichtMessage(nameof(WijzigVertegenwoordigerRequest.Vertegenwoordiger));
         When(
             predicate: request => request.Vertegenwoordiger is not null,
-            action: () => RuleFor(request => request.Vertegenwoordiger)
-                         .Must(HaveAtLeastOneValue)
-                         .WithMessage("'Vertegenwoordiger' moet ingevuld zijn.")
+            action: () =>
+            {
+                RuleFor(request => request.Vertegenwoordiger)
+                    .Must(HaveAtLeastOneValue)
+                    .WithMessage("'Vertegenwoordiger' moet ingevuld zijn.");
+
+                RuleFor(request => request.Vertegenwoordiger).SetValidator(new TeWijzigenVertegenwoordigerValidator());
+            }
         );
     }
 
-    private bool HaveAtLeastOneValue(TeWijzigenVertegenwoordiger vertegenwoordiger)
-        => vertegenwoordiger
-          .GetType()
-          .GetProperties()
-          .Any(property => property.GetValue(vertegenwoordiger) is not null);
+    private bool HaveAtLeastOneValue(TeWijzigenVertegenwoordiger vertegenwoordiger) =>
+        vertegenwoordiger.GetType().GetProperties().Any(property => property.GetValue(vertegenwoordiger) is not null);
 }
