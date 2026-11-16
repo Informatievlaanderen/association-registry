@@ -61,7 +61,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\deploy.manual.prd.yml = .github\workflows\deploy.manual.prd.yml
 		.github\workflows\deploy.manual.stg.yml = .github\workflows\deploy.manual.stg.yml
 		.github\workflows\deploy.manual.tst.yml = .github\workflows\deploy.manual.tst.yml
-		.github\workflows\postman.full.yml = .github\workflows\postman.full.yml
 		.github\workflows\postman.minimal.yml = .github\workflows\postman.minimal.yml
 		.github\workflows\shared.build-image.yml = .github\workflows\shared.build-image.yml
 		.github\workflows\shared.run-tests.yml = .github\workflows\shared.run-tests.yml

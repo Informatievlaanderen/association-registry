@@ -20,6 +20,22 @@ on:
         # one option per entry in COLLECTIONS below
         options:
           - bankrekeningnummers
+          - basisgegevens
+          - contactgegevens
+          - dubbeldetectie
+          - dubbelmerge
+          - erkenningen
+          - geotags
+          - hoofdactiviteiten
+          - lidmaatschappen
+          - locaties
+          - projecties
+          - stopzetting
+          - subverenigingen
+          - vertegenwoordigers
+          - verwijderen
+          - werkingsgebieden
+          - zoeken
   workflow_call:
     inputs:
       feature:
@@ -29,9 +45,26 @@ on:
 
 env:
   # feature -> collection UID in the Postman workspace (Postman: collection > Info > Collection ID)
+  # regressie-all.yml runs every key of this map.
   COLLECTIONS: |
     {
-      "bankrekeningnummers": "34061079-2aa90cd3-b3e0-4232-9086-d11423050cdb"
+      "bankrekeningnummers": "34061079-2aa90cd3-b3e0-4232-9086-d11423050cdb",
+      "basisgegevens": "34061079-584c69d2-e921-4b7d-b542-68291d71dcc0",
+      "contactgegevens": "34061079-d5c93097-0f9c-4b6c-b4cb-78c5a178f374",
+      "dubbeldetectie": "34061079-2ec0eca1-6607-439a-bace-0544cd8bf166",
+      "dubbelmerge": "34061079-9a61fb30-0b04-4ad4-a07e-650ec02d6202",
+      "erkenningen": "34061079-7ac3a664-dbbe-4fab-9393-cc06515fbad3",
+      "geotags": "34061079-221de0ea-ca99-4aef-b70d-8932a6c95565",
+      "hoofdactiviteiten": "34061079-0dd4fdc9-894c-46a0-9b3d-1cbd02e90c45",
+      "lidmaatschappen": "34061079-e318b352-cec4-4923-800f-729cf163781a",
+      "locaties": "34061079-f99b3ffa-82b9-48e8-9acf-6ce52ff135bb",
+      "projecties": "34061079-9556a47f-8db0-4f0a-9fb4-11e1e3fa4269",
+      "stopzetting": "34061079-7f41f923-2d68-4aaa-b1a2-efb191b4528b",
+      "subverenigingen": "34061079-4def55ed-5fe3-4dc3-8e33-2b1d2a741717",
+      "vertegenwoordigers": "34061079-f6d51e0b-1e87-455d-b16f-7e3c67dff904",
+      "verwijderen": "34061079-f0e5195f-31b1-48b5-8158-841acbe976da",
+      "werkingsgebieden": "34061079-44d01f82-27b4-4c9d-878c-74c4079c9c81",
+      "zoeken": "34061079-6792356c-0594-46a0-96ee-cea7a8b3f7e7"
     }
 
 jobs:
