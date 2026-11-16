@@ -72,7 +72,7 @@ jobs:
           compression-level: 0
 
       - name: Publish test results
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@3eeb9fc888e82e8be2fb356bbeec2750231672bc # v1
         with:
           name: Postman tests
           path: postman-test-results.xml
