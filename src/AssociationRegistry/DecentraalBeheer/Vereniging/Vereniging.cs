@@ -34,6 +34,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(registratieData.Startdatum?.IsInFutureOf(clock.Today) ?? false);
 
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(
+            registratieData.Locaties.Any(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo)
+        );
+
         var vCode = await vCodeService.GetNext();
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(registratieData.Locaties);
