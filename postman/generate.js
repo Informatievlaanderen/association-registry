@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { maakCollectie } = require('./shared/builders');
+const { maakCollectie, omgevingsOverzicht } = require('./shared/builders');
 
 const featuresDir = path.join(__dirname, 'features');
 const outDir = path.join(__dirname, 'collections');
@@ -18,9 +18,11 @@ fs.mkdirSync(outDir, { recursive: true });
 for (const feature of features) {
   const bestand = path.join(featuresDir, feature, 'scenarios.js');
   if (!fs.existsSync(bestand)) throw new Error(`Onbekende feature: ${feature} (${bestand} bestaat niet)`);
-  const collectie = maakCollectie(require(bestand));
+  const definitie = require(bestand);
+  const collectie = maakCollectie(definitie);
   const out = path.join(outDir, `${feature}.postman_collection.json`);
   fs.writeFileSync(out, JSON.stringify(collectie, null, 2) + '\n');
   const aantal = collectie.item.reduce((n, groep) => n + groep.item.length, 0);
   console.log(`${feature}: ${aantal} scenario's -> ${path.relative(process.cwd(), out)}`);
+  omgevingsOverzicht(definitie).forEach((regel) => console.log(`  ${regel}`));
 }

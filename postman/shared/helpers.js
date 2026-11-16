@@ -15,9 +15,10 @@ function retryIf(condition) {
 }`;
 
 const HELPERS = `const isEmpty = (v) => v === null || v === undefined || v === '';
-// case-insensitive property access (iban vs IBAN)
+// case-insensitive property access (iban vs IBAN); '' is the value itself (a response that is a list)
 const getCI = (o, k) => {
     if (!o || typeof o !== 'object') return undefined;
+    if (k === '') return o;
     if (k in o) return o[k];
     const f = Object.keys(o).find(x => x.toLowerCase() === k.toLowerCase());
     return f === undefined ? undefined : o[f];
@@ -35,21 +36,26 @@ const matches = (actual, subset) => Object.keys(subset).every(k => {
     }
     if (e !== null && typeof e === 'object') return matches(a, e);
     if (e === null) return isEmpty(a);
+    // a {{variable}} always resolves to a string: '7' matches the number 7
+    if (typeof a === 'number' && typeof e === 'string') return String(a) === e;
     return norm(k, a) === norm(k, e);
 });
 // fills in {{variables}} set earlier in the scenario
 const resolve = (o) => JSON.parse(pm.variables.replaceIn(JSON.stringify(o)));
-// the vereniging satisfies the spec (used to wait for eventually consistent endpoints)
+// the vereniging satisfies the spec (used to wait for eventually consistent endpoints); lijst / bevat can be one
+// { veld, items } or an array of them
 const voldoet = (v, spec) => {
     if (spec.props && !matches(v, spec.props)) return false;
-    if (spec.lijst) {
-        const l = getCI(v, spec.lijst.veld) || [];
-        if (l.length !== spec.lijst.items.length || !spec.lijst.items.every(i => l.some(x => matches(x, i)))) return false;
-    }
-    if (spec.bevat) {
-        const l = getCI(v, spec.bevat.veld) || [];
-        if (!spec.bevat.items.every(i => l.some(x => matches(x, i)))) return false;
-    }
+    const lijsten = [].concat(spec.lijst || []);
+    if (!lijsten.every(s => { const l = getCI(v, s.veld) || []; return l.length === s.items.length && s.items.every(i => l.some(x => matches(x, i))); })) return false;
+    const bevat = [].concat(spec.bevat || []);
+    if (!bevat.every(s => { const l = getCI(v, s.veld) || []; return s.items.every(i => l.some(x => matches(x, i))); })) return false;
+    // zonder: also waited for (a removed item disappears from an eventually consistent endpoint)
+    const zonder = [].concat(spec.zonder || []);
+    if (!zonder.every(s => { const l = getCI(v, s.veld) || []; return !s.items.some(i => l.some(x => matches(x, i))); })) return false;
+    // minstens: every value of veld (an object or a list) is a number >= waarde (e.g. the progress of every projection)
+    const minstens = [].concat(spec.minstens || []);
+    if (!minstens.every(s => { const w = getCI(v, s.veld); const waarden = Array.isArray(w) ? w : Object.values(w || {}); return waarden.length > 0 && waarden.every(x => Number(x) >= Number(s.waarde)); })) return false;
     return true;
 };
 // the forms in which a value may appear in a response (an IBAN with and without spaces or dots)
