@@ -25,10 +25,16 @@ if (typeof regressieInit === 'undefined') {
             return String(start).padStart(8, '0') + String(97 - (start % 97)).padStart(2, '0');
         },
         // kboModus 'random' (local) or 'bestaand' (Test: one of testdata_kboNummers, an existing vereniging is reused)
-        kboNummer: () =>
+        // uitgezonderd: numbers already used in this scenario, so several KBO verenigingen of one scenario differ
+        kboNummer: (uitgezonderd = []) =>
             (pm.variables.get('kboModus') || 'random') === 'random'
                 ? funcs.randomKBO()
-                : funcs.pickOne(String(pm.variables.get('testdata_kboNummers') || '').split(',').map((x) => x.trim()).filter(Boolean)),
+                : funcs.pickOne(
+                      String(pm.variables.get('testdata_kboNummers') || '')
+                          .split(',')
+                          .map((x) => x.trim())
+                          .filter((x) => x && !uitgezonderd.includes(x))
+                  ),
     };
 
     // Token: the secrets are a plain value (Local, --env-var in GitHub) or a {{vault:...}} reference (Test in the app).
