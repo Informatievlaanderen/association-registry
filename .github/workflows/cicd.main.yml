@@ -31,7 +31,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_10 }}
 
       - name: .NET version
         shell: bash
@@ -649,7 +649,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_10 }}
 
       - name: .NET version
         shell: bash
@@ -757,7 +757,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_10 }}
 
       - name: Dotnet restore
         shell: bash
