@@ -8,6 +8,7 @@ using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.MartenDb.Serialization;
 using AssociationRegistry.MartenDb.Setup;
 using AssociationRegistry.Test.Common.Framework;
+using JasperFx;
 using JasperFx.Events;
 using Marten;
 using Marten.Newtonsoft;
