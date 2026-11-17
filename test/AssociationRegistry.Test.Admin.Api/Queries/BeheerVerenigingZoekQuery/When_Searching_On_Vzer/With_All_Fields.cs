@@ -5,10 +5,10 @@ using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
-using FluentAssertions;
-using Framework.Fixtures;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Mapping;
+using FluentAssertions;
+using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Public.Schema.Constants;
 using Xunit;
@@ -19,7 +19,8 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
 
     public Fixture Fixture { get; private set; }
 
-    public SearchingOnDocumentTestsFixture() : base(nameof(SearchingOnDocumentTestsFixture))
+    public SearchingOnDocumentTestsFixture()
+        : base(nameof(SearchingOnDocumentTestsFixture))
     {
         Fixture = new Fixture().CustomizeAdminApi();
     }
@@ -37,9 +38,10 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
         doc.VCode = "V0001001"; // can stay fixed if inserted once
         doc.Naam = "Feestcommittee Oudenaarde";
         doc.HoofdactiviteitenVerenigingsloket = [new() { Code = "BLA", Naam = "Buitengewoon Leuke Afkortingen" }];
-        doc.Werkingsgebieden = [
+        doc.Werkingsgebieden =
+        [
             new() { Code = "BE25", Naam = "Provincie West-Vlaanderen" },
-            new() { Code = "BE25535003", Naam = "Bredene" }
+            new() { Code = "BE25535003", Naam = "Bredene" },
         ];
         doc.IsDubbel = false;
         doc.IsVerwijderd = false;
@@ -58,6 +60,10 @@ public class SearchingOnDocumentTestsFixture : ElasticRepositoryFixture
             },
         };
         doc.Startdatum = "1976-01-10";
+        // Fixed on purpose: the query searches all fields, so a random leeftijd of 100
+        // would match the "00100" partial-vCode search as an integer.
+        doc.Doelgroep.Minimumleeftijd = 18;
+        doc.Doelgroep.Maximumleeftijd = 65;
 
         return doc;
     }
@@ -166,7 +172,9 @@ public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
     }
 
     [Theory]
-    [InlineData("locaties.gemeente:\"SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z\"")]
+    [InlineData(
+        "locaties.gemeente:\"SorteerGemeente Laboriosam quam quia ipsam recusandae eveniet architecto tempora nihil.2025-06-11T06:31:11.595Z\""
+    )]
     public async Task Then_vereniging_is_found_by_gemeente(string query)
     {
         var response = await ExecuteSearch(query);
@@ -186,9 +194,6 @@ public class With_All_Fields : IClassFixture<SearchingOnDocumentTestsFixture>
     private async Task<SearchResponse<VerenigingZoekDocument>> ExecuteSearch(string query)
     {
         var zoekQuery = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping, _elasticOptions);
-        return await zoekQuery.ExecuteAsync(
-            new (query, "vCode", new PaginationQueryParams()),
-            CancellationToken.None);
+        return await zoekQuery.ExecuteAsync(new(query, "vCode", new PaginationQueryParams()), CancellationToken.None);
     }
 }
-
