@@ -5,12 +5,10 @@ using Formats;
 using JasperFx;
 using JasperFx.Events;
 using Marten;
-using Marten.Events;
 using Marten.Newtonsoft;
 using Marten.Services;
 using MartenDb.Setup;
 using Newtonsoft.Json;
-using Weasel.Core;
 
 public static class TestDocumentStoreFactory
 {
@@ -19,7 +17,13 @@ public static class TestDocumentStoreFactory
         var documentStore = DocumentStore.For(options =>
         {
             options.Connection(
-                "host=127.0.0.1:5432;" + "database=verenigingsregister;" + "password=root;" + "username=root"
+                "host=127.0.0.1:5432;"
+                    + "database=verenigingsregister;"
+                    + "password=root;"
+                    + "username=root;"
+                    // Wait up to 60s (default 15s) to open a connection: test classes run unbounded in parallel,
+                    // and on busy CI runners Postgres sometimes needs longer than 15s to accept new connections.
+                    + "Timeout=60"
             );
 
             options.Events.StreamIdentity = StreamIdentity.AsString;
