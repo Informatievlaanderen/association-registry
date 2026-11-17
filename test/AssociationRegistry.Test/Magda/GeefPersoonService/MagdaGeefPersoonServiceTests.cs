@@ -39,12 +39,17 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpFirstPersoonAsOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
-                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
-                                              Mock.Of<IMagdaGeefPersoonValidator>(),
-                                              NullLogger<MagdaGeefPersoonService>.Instance);
-        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
-                                                    _commandMetadata, CancellationToken.None);
+        var sut = new MagdaGeefPersoonService(
+            _magdaClient.Object,
+            Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+            Mock.Of<IMagdaGeefPersoonValidator>(),
+            NullLogger<MagdaGeefPersoonService>.Instance
+        );
+        var personenUitKsz = await sut.GeefPersonen(
+            command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+            _commandMetadata,
+            CancellationToken.None
+        );
 
         personenUitKsz.HeeftOverledenPersonen.Should().BeTrue();
     }
@@ -57,12 +62,17 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpNietOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
-                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
-                                              Mock.Of<IMagdaGeefPersoonValidator>(),
-                                              NullLogger<MagdaGeefPersoonService>.Instance);
-        var personenUitKsz = await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
-                                                    _commandMetadata, CancellationToken.None);
+        var sut = new MagdaGeefPersoonService(
+            _magdaClient.Object,
+            Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+            Mock.Of<IMagdaGeefPersoonValidator>(),
+            NullLogger<MagdaGeefPersoonService>.Instance
+        );
+        var personenUitKsz = await sut.GeefPersonen(
+            command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+            _commandMetadata,
+            CancellationToken.None
+        );
 
         personenUitKsz.HeeftOverledenPersonen.Should().BeFalse();
     }
@@ -75,26 +85,109 @@ public class GeefPersoonServiceTests
         SetUpInschrijvingen(command);
         SetUpNietOverleden(command);
 
-        var sut = new MagdaGeefPersoonService(_magdaClient.Object,
-                                              Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
-                                              Mock.Of<IMagdaGeefPersoonValidator>(),
-                                              NullLogger<MagdaGeefPersoonService>.Instance);
+        var sut = new MagdaGeefPersoonService(
+            _magdaClient.Object,
+            Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+            Mock.Of<IMagdaGeefPersoonValidator>(),
+            NullLogger<MagdaGeefPersoonService>.Instance
+        );
 
-        await sut.GeefPersonen(command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
-                                                    _commandMetadata, CancellationToken.None);
+        await sut.GeefPersonen(
+            command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+            _commandMetadata,
+            CancellationToken.None
+        );
 
-        command.Vertegenwoordigers
-               .ToList()
-               .ForEach(v =>
-                            _magdaClient.Verify(x => x.RegistreerInschrijvingPersoon(v.Insz,
-                                                                                     AanroependeFunctie.RegistreerVzer,
-                                                                                     _commandMetadata,
-                                                                                     It.IsAny<CancellationToken>()),
-                                                Times.Once()));
+        command
+            .Vertegenwoordigers.ToList()
+            .ForEach(v =>
+                _magdaClient.Verify(
+                    x =>
+                        x.RegistreerInschrijvingPersoon(
+                            v.Insz,
+                            AanroependeFunctie.RegistreerVzer,
+                            _commandMetadata,
+                            It.IsAny<CancellationToken>()
+                        ),
+                    Times.Once()
+                )
+            );
+    }
+
+    [Fact]
+    public async ValueTask Calls_Magda_For_One_Vertegenwoordiger_At_A_Time()
+    {
+        var command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
+        command.Vertegenwoordigers.Length.Should().BeGreaterThan(1);
+
+        var inFlight = 0;
+        var maxInFlight = 0;
+
+        async Task<T> TrackConcurrency<T>(T response)
+        {
+            var current = Interlocked.Increment(ref inFlight);
+            InterlockedMax(ref maxInFlight, current);
+            await Task.Delay(20);
+            Interlocked.Decrement(ref inFlight);
+
+            return response;
+        }
+
+        _magdaClient
+            .Setup(x =>
+                x.RegistreerInschrijvingPersoon(
+                    It.IsAny<string>(),
+                    AanroependeFunctie.RegistreerVzer,
+                    _commandMetadata,
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .Returns(() => TrackConcurrency(MagdaTestResponseFactory.RegistreerInschrijvingPersoon.WelGeslaagd));
+
+        _magdaClient
+            .Setup(x =>
+                x.GeefPersoon(
+                    It.IsAny<string>(),
+                    AanroependeFunctie.RegistreerVzer,
+                    _commandMetadata,
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .Returns(() => TrackConcurrency(MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon));
+
+        var sut = new MagdaGeefPersoonService(
+            _magdaClient.Object,
+            Mock.Of<IMagdaRegistreerInschrijvingValidator>(),
+            Mock.Of<IMagdaGeefPersoonValidator>(),
+            NullLogger<MagdaGeefPersoonService>.Instance
+        );
+
+        var personenUitKsz = await sut.GeefPersonen(
+            command.Vertegenwoordigers.Select(GeefPersoonRequest.From).ToArray(),
+            _commandMetadata,
+            CancellationToken.None
+        );
+
+        maxInFlight.Should().Be(1, "every Magda call saves on the shared request-scoped Marten session");
+        personenUitKsz.HeeftOverledenPersonen.Should().BeFalse();
+    }
+
+    private static void InterlockedMax(ref int target, int value)
+    {
+        int initial;
+
+        do
+        {
+            initial = target;
+
+            if (value <= initial)
+                return;
+        } while (Interlocked.CompareExchange(ref target, value, initial) != initial);
     }
 
     private List<ResponseEnvelope<RegistreerInschrijvingResponseBody>> SetUpInschrijvingen(
-        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command
+    )
     {
         var responses = new List<ResponseEnvelope<RegistreerInschrijvingResponseBody>>();
 
@@ -103,12 +196,15 @@ public class GeefPersoonServiceTests
             var responseEnvelope = MagdaTestResponseFactory.RegistreerInschrijvingPersoon.WelGeslaagd;
 
             _magdaClient
-               .Setup(x => x.RegistreerInschrijvingPersoon(
-                          vertegenwoordiger.Insz,
-                          AanroependeFunctie.RegistreerVzer,
-                          _commandMetadata,
-                          It.IsAny<CancellationToken>()))
-               .ReturnsAsync(responseEnvelope);
+                .Setup(x =>
+                    x.RegistreerInschrijvingPersoon(
+                        vertegenwoordiger.Insz,
+                        AanroependeFunctie.RegistreerVzer,
+                        _commandMetadata,
+                        It.IsAny<CancellationToken>()
+                    )
+                )
+                .ReturnsAsync(responseEnvelope);
 
             responses.Add(responseEnvelope);
         }
@@ -116,9 +212,9 @@ public class GeefPersoonServiceTests
         return responses;
     }
 
-
     private List<ResponseEnvelope<GeefPersoonResponseBody>> SetUpNietOverleden(
-        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command)
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand command
+    )
     {
         var responses = new List<ResponseEnvelope<GeefPersoonResponseBody>>();
 
@@ -127,12 +223,15 @@ public class GeefPersoonServiceTests
             var nietOverledenPersoon = MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon;
 
             _magdaClient
-               .Setup(s => s.GeefPersoon(
-                          v.Insz,
-                          AanroependeFunctie.RegistreerVzer,
-                          _commandMetadata,
-                          It.IsAny<CancellationToken>()))
-               .ReturnsAsync(nietOverledenPersoon);
+                .Setup(s =>
+                    s.GeefPersoon(
+                        v.Insz,
+                        AanroependeFunctie.RegistreerVzer,
+                        _commandMetadata,
+                        It.IsAny<CancellationToken>()
+                    )
+                )
+                .ReturnsAsync(nietOverledenPersoon);
 
             responses.Add(nietOverledenPersoon);
         }
@@ -144,22 +243,32 @@ public class GeefPersoonServiceTests
     {
         // Setup first vertegenwoordiger as overleden
         var eersteVertegenwoordiger = command.Vertegenwoordigers.First();
-        _magdaClient.Setup(s => s.GeefPersoon(eersteVertegenwoordiger.Insz,
-                                              AanroependeFunctie.RegistreerVzer,
-                                              _commandMetadata,
-                                              It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.OverledenPersoon);
+        _magdaClient
+            .Setup(s =>
+                s.GeefPersoon(
+                    eersteVertegenwoordiger.Insz,
+                    AanroependeFunctie.RegistreerVzer,
+                    _commandMetadata,
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.OverledenPersoon);
 
         // Setup rest as niet overleden
-        command.Vertegenwoordigers
-               .Skip(1)
-               .ToList()
-               .ForEach(v =>
-                            _magdaClient.Setup(s => s.GeefPersoon(v.Insz,
-                                                                  AanroependeFunctie.RegistreerVzer,
-                                                                  _commandMetadata,
-                                                                  It.IsAny<CancellationToken>()))
-                                        .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon));
+        command
+            .Vertegenwoordigers.Skip(1)
+            .ToList()
+            .ForEach(v =>
+                _magdaClient
+                    .Setup(s =>
+                        s.GeefPersoon(
+                            v.Insz,
+                            AanroependeFunctie.RegistreerVzer,
+                            _commandMetadata,
+                            It.IsAny<CancellationToken>()
+                        )
+                    )
+                    .ReturnsAsync(MagdaTestResponseFactory.GeefPersoonResponses.NietOverledenPersoon)
+            );
     }
 }
-
