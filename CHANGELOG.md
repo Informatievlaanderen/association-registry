@@ -1,3 +1,32 @@
+# [8.347.0](https://github.com/informatievlaanderen/association-registry/compare/v8.346.0...v8.347.0) (2026-11-18)
+
+
+### Bug Fixes
+
+* or-3775 add wolverine runtime compilation package ([10d0e3a](https://github.com/informatievlaanderen/association-registry/commit/10d0e3a2200992d25e38cac49442b486d3a25254))
+* or-3775 align marten 9.14.0 with wolverine 6.17.0 ([4dd6593](https://github.com/informatievlaanderen/association-registry/commit/4dd65934464aa0d422f5d00eda7f4753b4634a39))
+* or-3775 archive stream in a separate commit from its archived event ([e5efab1](https://github.com/informatievlaanderen/association-registry/commit/e5efab181b6712ada1830e42e2d51379c73dabdf))
+* or-3775 generate marten 9 migration scripts from weasel ([5560669](https://github.com/informatievlaanderen/association-registry/commit/5560669f23be12be12900573255073c154eebf71))
+* or-3775 make admin api queries async for marten 9 ([f58a6c3](https://github.com/informatievlaanderen/association-registry/commit/f58a6c309e7e2df1c730b44f5c912f3020bd5cd4))
+* or-3775 set batch size to 1 on beheer event projections ([b4cdfbc](https://github.com/informatievlaanderen/association-registry/commit/b4cdfbcd7eb12d88464e1869a0d7f911ed1ce483))
+* or-3775 set batch size to 1 on publiek detail projection ([ac7c012](https://github.com/informatievlaanderen/association-registry/commit/ac7c0126585229f3c35d1563f062e6c27b5f8067))
+* or-3775 upgrade marten to 9.13.0 and wolverine to 6.0.0 to resolve cves ([7af038b](https://github.com/informatievlaanderen/association-registry/commit/7af038bbc8c3e1219581be6b377a12050f1312d2))
+* or-3775 upgrade scriban to 7.2.2 to resolve cves ([8c6c292](https://github.com/informatievlaanderen/association-registry/commit/8c6c2921c68da3151f776eed9f7d41bf00eeee94))
+* or-3775 use net10 base images in dockerfiles ([93c3f8f](https://github.com/informatievlaanderen/association-registry/commit/93c3f8fb10850e563339155edb2e8d73a1504da6))
+* or-3778 set dotnet tools to higher version ([ed95727](https://github.com/informatievlaanderen/association-registry/commit/ed95727f03d3b9ff545507c7f74ef8fd059f2113))
+* or-3790 dont allow html for vertegenwoordigers ([d109df0](https://github.com/informatievlaanderen/association-registry/commit/d109df09aea73e18207b1b2a16bc2cd5cf536c95))
+* or-3790 dont allow maatschappelijke zetels locations when registering vzers ([1e4e3ad](https://github.com/informatievlaanderen/association-registry/commit/1e4e3addf27775e04c3e0a31825970991dcc65c4))
+* or-3790 fix concurrency issue when querying persons ([33f9e52](https://github.com/informatievlaanderen/association-registry/commit/33f9e52248c23e68a90f09d847090523e52b3142))
+* or-3790 keep relatie and details of subvereniging when only one of them changes ([aa61c09](https://github.com/informatievlaanderen/association-registry/commit/aa61c09c68df80e010b28aa547cb56d5bf82c966))
+
+
+### Features
+
+* or-3775 migrate event store schema to marten 9 ([3819a5b](https://github.com/informatievlaanderen/association-registry/commit/3819a5bcf73764bb71ef249d7426f6ae74f0c241))
+* or-3775 widen document revisions to bigint for marten 9 ([372083c](https://github.com/informatievlaanderen/association-registry/commit/372083c75de03b0c30661d4eeeed6bbe186aebe2))
+* or-3790 add skill file to create postman tests ([9099bad](https://github.com/informatievlaanderen/association-registry/commit/9099bad42b07c429f6e6343c505bbfa290a703be))
+* or-3790 change scripts to generate postman tests ([52b6f8e](https://github.com/informatievlaanderen/association-registry/commit/52b6f8eb59d4add4dc66fdb19277741895d888f8))
+
 # [8.346.0](https://github.com/informatievlaanderen/association-registry/compare/v8.345.0...v8.346.0) (2026-11-10)
 
 
