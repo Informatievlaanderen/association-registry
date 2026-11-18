@@ -359,6 +359,17 @@ const klaar = ${q([].concat(v.status))}.includes(pm.response.code)
 if (!retryIf(!klaar)) {
 ${indent(checks, 4)}
 }`;
+  } else if (
+    stap.actie !== 'GET' &&
+    !Object.keys(stap.headers || {}).some((k) => k.toLowerCase() === 'if-match') &&
+    ![].concat((stap.verwacht || { status: 202 }).status).includes(412)
+  ) {
+    // A write without If-Match still appends at the version it loaded: a concurrent write on the same vereniging
+    // (a reused KBO vereniging on Test, shared with other features) gives 412 and nothing is written, so retry it.
+    checks = `${RETRY}
+if (!retryIf(pm.response.code === 412)) {
+${indent(checks, 4)}
+}`;
   }
   const event = [test(checks)];
   if (pre.length) event.unshift(script('prerequest', pre.join('\n')));
@@ -661,10 +672,17 @@ if (anders.length) {
 
 // Folder script of a scenario with a registration: the registration clears the stop flag (a new attempt), every other
 // request of the scenario is skipped once the registration or a lees step has set it.
+// The first skipped request records one passing test '<id> overgeslagen: <reden>', so the report says why the rest of
+// the scenario has no results (the cause itself fails at its own request).
 const stopScript = (id, registratieNaam) => `if (pm.info.requestName === ${q(registratieNaam)}) {
     pm.collectionVariables.unset('${stopVariabele(id)}');
+    pm.collectionVariables.unset('${stopVariabele(id)}_gemeld');
     pm.collectionVariables.unset('${kboGebruiktVariabele(id)}');
 } else if (pm.collectionVariables.get('${stopVariabele(id)}')) {
+    if (!pm.collectionVariables.get('${stopVariabele(id)}_gemeld')) {
+        pm.collectionVariables.set('${stopVariabele(id)}_gemeld', 'ja');
+        pm.test(${q(`${id} overgeslagen: `)} + pm.collectionVariables.get('${stopVariabele(id)}'), () => {});
+    }
     console.log('⏭️ ' + pm.info.requestName + ' overgeslagen: ' + pm.collectionVariables.get('${stopVariabele(id)}'));
     pm.execution.skipRequest();
 }`;

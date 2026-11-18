@@ -48,23 +48,23 @@ env:
   # regressie-all.yml runs every key of this map.
   COLLECTIONS: |
     {
-      "bankrekeningnummers": "34061079-2aa90cd3-b3e0-4232-9086-d11423050cdb",
-      "basisgegevens": "34061079-584c69d2-e921-4b7d-b542-68291d71dcc0",
-      "contactgegevens": "34061079-d5c93097-0f9c-4b6c-b4cb-78c5a178f374",
-      "dubbeldetectie": "34061079-2ec0eca1-6607-439a-bace-0544cd8bf166",
-      "dubbelmerge": "34061079-9a61fb30-0b04-4ad4-a07e-650ec02d6202",
-      "erkenningen": "34061079-7ac3a664-dbbe-4fab-9393-cc06515fbad3",
-      "geotags": "34061079-221de0ea-ca99-4aef-b70d-8932a6c95565",
-      "hoofdactiviteiten": "34061079-0dd4fdc9-894c-46a0-9b3d-1cbd02e90c45",
-      "lidmaatschappen": "34061079-e318b352-cec4-4923-800f-729cf163781a",
-      "locaties": "34061079-f99b3ffa-82b9-48e8-9acf-6ce52ff135bb",
-      "projecties": "34061079-9556a47f-8db0-4f0a-9fb4-11e1e3fa4269",
-      "stopzetting": "34061079-7f41f923-2d68-4aaa-b1a2-efb191b4528b",
-      "subverenigingen": "34061079-4def55ed-5fe3-4dc3-8e33-2b1d2a741717",
-      "vertegenwoordigers": "34061079-f6d51e0b-1e87-455d-b16f-7e3c67dff904",
-      "verwijderen": "34061079-f0e5195f-31b1-48b5-8158-841acbe976da",
-      "werkingsgebieden": "34061079-44d01f82-27b4-4c9d-878c-74c4079c9c81",
-      "zoeken": "34061079-6792356c-0594-46a0-96ee-cea7a8b3f7e7"
+      "bankrekeningnummers": "34061079-8fe993fc-bb98-4531-947b-c77c1c1eaaec",
+      "basisgegevens": "34061079-42918bc6-61a6-4bcb-aad8-ab1744c1b7ba",
+      "contactgegevens": "34061079-00b3a89b-7037-492e-8d75-40e460f5ff84",
+      "dubbeldetectie": "34061079-166c64ae-b7df-4168-a33c-ac552e024a7e",
+      "dubbelmerge": "34061079-b788cbfd-05d9-4cc6-b573-bb239977f7dd",
+      "erkenningen": "34061079-fdb169bf-368a-4597-ab3e-9c8d68dbdd97",
+      "geotags": "34061079-d8c4f540-98d4-446d-9c85-1081e5fa38e4",
+      "hoofdactiviteiten": "34061079-e497482a-9a5d-4be2-bd08-791aeb7d4eb9",
+      "lidmaatschappen": "34061079-72ce5be7-4025-48d1-bc20-8b5e6f238d2e",
+      "locaties": "34061079-8b12be31-8aaa-4f98-8aa2-63e4242150bb",
+      "projecties": "34061079-d278a0ff-b978-4ff7-8b7f-12a00d69fab8",
+      "stopzetting": "34061079-e555749a-b4f1-4634-af73-f7274c7febd9",
+      "subverenigingen": "34061079-947b38db-494b-4ee6-afda-c10517429879",
+      "vertegenwoordigers": "34061079-797ebc98-32bc-4bf4-b5b0-80b00c8a4590",
+      "verwijderen": "34061079-db1748ce-1035-46a0-9a89-c09af5cb3a8f",
+      "werkingsgebieden": "34061079-d4719dc6-c377-43e5-b279-4a4b31855a21",
+      "zoeken": "34061079-2d24c2d6-9500-45e0-a418-9d3bc88b53f5"
     }
 
 jobs:
