@@ -31,7 +31,7 @@
       "rollForward": false
     },
     "dotnet-script": {
-      "version": "1.6.0",
+      "version": "2.0.1",
       "commands": [
         "dotnet-script"
       ],
