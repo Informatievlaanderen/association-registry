@@ -15,6 +15,9 @@ public class A_Valid_Request : ValidatorTest
     [InlineData("GeenKoepel", false)]
     [InlineData("NietBepaald", false)]
     [InlineData("Koepel", null)]
+    [InlineData("koepel", true)]
+    [InlineData("GEENKOEPEL", null)]
+    [InlineData("nietBepaald", false)]
     [InlineData(null, true)]
     [InlineData(null, false)]
     public void Has_no_validation_errors(string? koepelstatus, bool? privacyVerklaringGeaccepteerd)
