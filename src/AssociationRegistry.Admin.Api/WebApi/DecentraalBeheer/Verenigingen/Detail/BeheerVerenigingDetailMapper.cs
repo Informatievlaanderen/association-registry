@@ -19,6 +19,7 @@ using GegevensInitiator = ResponseModels.GegevensInitiator;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using IpdcProduct = ResponseModels.IpdcProduct;
+using Koepelgegevens = ResponseModels.Koepelgegevens;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
@@ -119,6 +120,11 @@ public class BeheerVerenigingDetailMapper
             Bankrekeningnummers = vereniging.Bankrekeningnummers.Select(Map).ToArray(),
             Erkenningen = vereniging.Erkenningen.Select(Map).ToArray(),
             InStopzetting = vereniging.InStopzetting,
+            Koepelgegevens = new Koepelgegevens
+            {
+                Koepelstatus = vereniging.Koepelgegevens.Koepelstatus,
+                PrivacyVerklaringGeaccepteerd = vereniging.Koepelgegevens.PrivacyVerklaringGeaccepteerd,
+            },
         };
     }
 

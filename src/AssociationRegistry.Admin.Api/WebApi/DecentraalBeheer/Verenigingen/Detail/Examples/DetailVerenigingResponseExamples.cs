@@ -13,6 +13,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
+using DomainKoepelstatus = DecentraalBeheer.Vereniging.Koepels.Koepelstatus;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
@@ -94,6 +95,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
             Bankrekeningnummers = new[] { LidgeldBankrekening() },
             IsDubbelVan = "",
             Bron = Bron.Initiator.Waarde,
+            Koepelgegevens = new Koepelgegevens
+            {
+                Koepelstatus = DomainKoepelstatus.NietBepaald.Value,
+                PrivacyVerklaringGeaccepteerd = false,
+            },
         };
 
     private static VerenigingDetail VissenAchterHetNet() =>
@@ -125,6 +131,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
             Bankrekeningnummers = new[] { LidgeldBankrekening() },
             IsDubbelVan = "",
             Bron = Bron.KBO.Waarde,
+            Koepelgegevens = new Koepelgegevens
+            {
+                Koepelstatus = DomainKoepelstatus.Koepel.Value,
+                PrivacyVerklaringGeaccepteerd = true,
+            },
         };
 
     private static DoelgroepResponse DoelgroepMetId(int min, int max) =>

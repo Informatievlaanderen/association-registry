@@ -527,6 +527,31 @@ public partial class PubliekVerenigingSequenceProjection
     ) => UpdateVersion(e, doc);
 
     public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsKoepel> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
+        IEvent<KoepelPrivacyverklaringWerdIngetrokken> e,
+        PubliekVerenigingSequenceDocument doc
+    ) => UpdateVersion(e, doc);
+
+    public PubliekVerenigingSequenceDocument Apply(
         IEvent<VerenigingWerdUitInStopzettingGehaaldWegensVerenigingWerdGestopt> e,
         PubliekVerenigingSequenceDocument doc
     ) => UpdateVersion(e, doc);

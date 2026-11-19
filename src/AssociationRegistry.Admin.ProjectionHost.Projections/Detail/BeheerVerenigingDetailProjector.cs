@@ -17,6 +17,7 @@ using Erkenning = Schema.Detail.Erkenning;
 using GegevensInitiator = Schema.Detail.GegevensInitiator;
 using IEvent = JasperFx.Events.IEvent;
 using IpdcProduct = Schema.Detail.IpdcProduct;
+using Koepelstatus = DecentraalBeheer.Vereniging.Koepels.Koepelstatus;
 using SubverenigingVan = Schema.Detail.SubverenigingVan;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
@@ -1650,5 +1651,45 @@ public class BeheerVerenigingDetailProjector
     )
     {
         document.InStopzetting = false;
+    }
+
+    public static void Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsKoepel> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Koepelgegevens = document.Koepelgegevens with { Koepelstatus = Koepelstatus.Koepel.Value };
+    }
+
+    public static void Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Koepelgegevens = document.Koepelgegevens with { Koepelstatus = Koepelstatus.GeenKoepel.Value };
+    }
+
+    public static void Apply(
+        IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Koepelgegevens = document.Koepelgegevens with { Koepelstatus = Koepelstatus.NietBepaald.Value };
+    }
+
+    public static void Apply(
+        IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Koepelgegevens = document.Koepelgegevens with { PrivacyVerklaringGeaccepteerd = true };
+    }
+
+    public static void Apply(
+        IEvent<KoepelPrivacyverklaringWerdIngetrokken> @event,
+        BeheerVerenigingDetailDocument document
+    )
+    {
+        document.Koepelgegevens = document.Koepelgegevens with { PrivacyVerklaringGeaccepteerd = false };
     }
 }

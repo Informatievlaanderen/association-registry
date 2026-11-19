@@ -1415,4 +1415,24 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO000001",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse VerenigingWerdGeidentificeerdAlsKoepel(string vCode) =>
+        new()
+        {
+            Beschrijving = "Vereniging werd geïdentificeerd als koepel.",
+            Gebeurtenis = nameof(Events.VerenigingWerdGeidentificeerdAlsKoepel),
+            Data = new VerenigingWerdGeidentificeerdAlsKoepel(vCode),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse KoepelPrivacyverklaringWerdGeaccepteerd(string vCode) =>
+        new()
+        {
+            Beschrijving = "Privacyverklaring voor koepels werd geaccepteerd.",
+            Gebeurtenis = nameof(Events.KoepelPrivacyverklaringWerdGeaccepteerd),
+            Data = new KoepelPrivacyverklaringWerdGeaccepteerd(vCode),
+            Initiator = "OVO000001",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
