@@ -19,7 +19,8 @@ public class A_Invalid_Request : ValidatorTest
 
     [Theory]
     [InlineData("")]
-    [InlineData("koepel")]
+    [InlineData(" Koepel")]
+    [InlineData("Niet Bepaald")]
     [InlineData("Onbekend")]
     [InlineData("SUB")]
     public void Has_validation_error_when_koepelstatus_is_invalid(string koepelstatus)

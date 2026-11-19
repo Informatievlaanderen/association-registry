@@ -33,6 +33,21 @@ public class To_WijzigKoepelgegevensCommand
             );
     }
 
+    [Theory]
+    [InlineData("koepel", "Koepel")]
+    [InlineData("KOEPEL", "Koepel")]
+    [InlineData("geenkoepel", "GeenKoepel")]
+    [InlineData("NIETBEPAALD", "NietBepaald")]
+    public void With_Another_Casing_Then_The_Command_Contains_The_Canonical_Koepelstatus(
+        string koepelstatus,
+        string expectedKoepelstatus
+    )
+    {
+        var command = new WijzigKoepelgegevensRequest { Koepelstatus = koepelstatus }.ToCommand(VCodeValue);
+
+        command.Koepelstatus!.Value.Should().Be(expectedKoepelstatus);
+    }
+
     [Fact]
     public void Without_Fields_Then_The_Command_Contains_Nulls()
     {
