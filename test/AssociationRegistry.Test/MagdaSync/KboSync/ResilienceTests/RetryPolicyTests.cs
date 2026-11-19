@@ -5,6 +5,7 @@
     using Polly.Utilities;
     using Xunit;
 
+    [Collection(nameof(PollySystemClockCollection))]
     public class RetryPolicyTests
     {
         [Fact]
@@ -117,4 +118,11 @@
             }
         }
     }
+
+    /// <summary>
+    ///     Polly's SystemClock.SleepAsync is process-wide static state. These tests replace it, so they run alone:
+    ///     otherwise retries of policies in parallel tests (e.g. DubbelbeheerRetryPolicy) end up in the observed sleeps.
+    /// </summary>
+    [CollectionDefinition(nameof(PollySystemClockCollection), DisableParallelization = true)]
+    public class PollySystemClockCollection;
 }
