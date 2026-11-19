@@ -183,7 +183,7 @@ Stories 1 en 25 worden **samengenomen** in één `PATCH`-endpoint.
 **Al beslist**
 - Eén endpoint **`PATCH /v1/verenigingen/{vCode}/koepelgegevens`**.
 - Er kunnen enkel **twee velden** meegegeven worden, allebei optioneel (PATCH):
-  - `koepelstatus`: `Koepel` / `GeenKoepel` / `NietBepaald` (0.6);
+  - `koepelstatus`: `Koepel` / `GeenKoepel` / `NietBepaald` (0.6). Hoofdletterongevoelig, zoals `contactgegeventype`: `koepel` of `KOEPEL` wordt als `Koepel` bewaard;
   - `privacyVerklaringGeaccepteerd`.
 - Standaard: `NietBepaald` en `false`.
 - Enkel een **KBO-vereniging** kan `Koepel` worden (0.2).

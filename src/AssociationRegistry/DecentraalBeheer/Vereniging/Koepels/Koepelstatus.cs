@@ -18,9 +18,13 @@ public record Koepelstatus
     public bool IsKoepel => this == Koepel;
     public bool IsGeenKoepel => this == GeenKoepel;
 
-    public static Koepelstatus Parse(string value) => All.Single(status => status.Value == value);
+    // Case-insensitive like Contactgegeventype; Parse returns the canonical instance ('koepel' -> Koepel).
+    public static Koepelstatus Parse(string value) => All.Single(status => Matches(status, value));
 
-    public static bool IsValid(string? value) => All.Any(status => status.Value == value);
+    public static bool IsValid(string? value) => All.Any(status => Matches(status, value));
+
+    private static bool Matches(Koepelstatus status, string? value) =>
+        string.Equals(status.Value, value, StringComparison.InvariantCultureIgnoreCase);
 
     public override string ToString() => Value;
 }
