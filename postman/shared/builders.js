@@ -97,7 +97,8 @@ const stop = (id, reden) => `pm.collectionVariables.set('${stopVariabele(id)}', 
 
 // The bevestigingstoken is a hash of the request body, so a retry after 409 must send the same body:
 // the naam and the setup values (iban, insz, ...) are only generated on the first attempt.
-// url: path after /v1/verenigingen/ (default {{registreerVereniging}}, set by the root script), e.g. 'vzer'.
+// url: path after /v1/verenigingen/ (default {{registreerVereniging}} = 'vzer', set by the root script), e.g.
+// 'feitelijkeverenigingen' for the old endpoint.
 function registreer(id, rol, gegevens = {}, { setup = '', verwacht, url = '{{registreerVereniging}}' } = {}) {
   const tokenKey = `bevestigingsToken_${id}_${rol}`;
   const naamKey = `naam_${id}_${rol}`;
@@ -689,7 +690,8 @@ const stopScript = (id, registratieNaam) => `if (pm.info.requestName === ${q(reg
 
 // ---------------------------------------------------------------- folders and collection
 
-// registratieUrl: path of the registration of A after /v1/verenigingen/ (default {{registreerVereniging}}), e.g. 'vzer'.
+// registratieUrl: path of the registration of A after /v1/verenigingen/ (default {{registreerVereniging}} = 'vzer'),
+// e.g. 'feitelijkeverenigingen' for the old endpoint.
 // scenario = { id, name, kbo?, geenRegistratie?, vereist?, setup?, a?, registratie? (verwacht), registratieUrl?, verenigingen?, stappen?,
 //              historiek?, final?: { <endpoint>: spec }, zoeken?: [zoek], controles?: [controle] }
 // kbo: true (funcs.kboNummer) or the name of an environment variable with KBO numbers to pick from (see registreerKbo).
