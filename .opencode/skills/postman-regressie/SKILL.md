@@ -20,7 +20,7 @@ planned).
 ```
 postman/
   shared/
-    root-prerequest.js      token, VR-Initiator, VR-Api-Version, funcs (one source for every collection)
+    root-prerequest.js      token, VR-Initiator, VR-Api-Version, registreerVereniging (vzer), funcs (one source for every collection)
     helpers.js              test-script helpers: RETRY/retryIf, HELPERS (matches, getCI, resolve, norm)
     builders.js             request builders + endpoint checks (registreer, wachtOp, beheerDetail, historiek, ...)
   features/<feature>/
@@ -64,6 +64,9 @@ Rules:
    The generator enforces this: the registration first unsets `vCode<rol>`. When the registration (or a `lees` step)
    fails, it sets `stop_<id>` and the folder script skips the rest of the scenario. So a failure shows up once, at its
    cause, and never as follow-up errors against the vereniging of a previous scenario.
+   A vereniging zonder rechtspersoonlijkheid is registered via `POST /v1/verenigingen/vzer` (`{{registreerVereniging}}`,
+   set by the root script), not via the old `feitelijkeverenigingen`. Existing collections that still use
+   `feitelijkeverenigingen` stay as they are: with `VR-Api-Version: v2` the result is the same VZER.
 2. **Unique data.** Namen contain the scenario id and a `{{$randomUUID}}`. IBANs are generated (valid Belgian IBAN).
    INSZ/KBO only where the API requires known numbers: then from `testdata_*` or the root script lists.
 3. **Fictional persons:** Lord of the Rings names (Frodo Baggins, Samwise Gamgee, Aragorn Elessar, ...).
@@ -98,7 +101,7 @@ Never `setTimeout`/sleep in a test script; always retry via `pm.execution.setNex
 ## 5. Naming
 
 - Feature prefix of 2-3 capitals per feature: `BR` bankrekeningnummers, `LO` locaties, `VT` vertegenwoordigers,
-  `LM` lidmaatschappen, `ER` erkenningen, `CG` contactgegevens, `ST` stopzetting, `SU` subverenigingen, `VW` verwijderen, `ZO` zoeken, `PR` projecties, `DD` dubbeldetectie, `GT` geotags,
+  `LM` lidmaatschappen, `ER` erkenningen, `CG` contactgegevens, `ST` stopzetting, `SU` subverenigingen, `VW` verwijderen, `ZO` zoeken, `PR` projecties, `DD` dubbeldetectie, `GT` geotags, `KP` koepels,
   `X` weigeringen. A feature that spans several groups
   (dubbelmerge) uses the prefix of the group: `B` basisgegevens, `HA` hoofdactiviteiten, `WG` werkingsgebieden,
   `KBO` vereniging met rechtspersoonlijkheid, `ALL` all groups at once.
@@ -191,7 +194,8 @@ Building blocks (`shared/builders.js`):
   `verenigingen: { D: { korteNaam: '...' }, X: {}, K: { kbo: true } }` (extra verenigingen, registered after A in this
   order and before the `stappen`; vCode in `vCode<rol>`, naam in `naam<rol>`; a failed registration stops the scenario;
   several KBO verenigingen in one scenario always get different numbers, also with `kboModus: 'bestaand'`),
-  `registratieUrl: 'vzer'` (register A via that path after `/v1/verenigingen/` instead of `{{registreerVereniging}}`),
+  `registratieUrl: 'feitelijkeverenigingen'` (register A via that path after `/v1/verenigingen/` instead of
+  `{{registreerVereniging}}`, which is `vzer`; only for a scenario about the old endpoint),
   `controles: [{ naam, pad, spec, publiek? }]` (GET `{{beheer_url}}/<pad>` after the other checks, retried until the
   JSON root satisfies the spec, e.g. the locatie lookup: `{ pad: 'v1/projections/admin/locaties/gekoppeldmetgrar/vCode/{{vCodeA}}',
   spec: lijstOp('data', [{ locatieId: 1, adresId: '2208355' }]) }`). A controle can set request headers after the root
