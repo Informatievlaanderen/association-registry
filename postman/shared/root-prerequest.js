@@ -6,7 +6,8 @@ const uuid = require('uuid');
 pm.request.headers.upsert({ key: 'VR-Initiator', value: pm.variables.get('initiator') || 'Postman' });
 pm.request.headers.upsert({ key: 'VR-Api-Version', value: 'v2' });
 pm.request.headers.upsert({ key: 'X-Correlation-Id', value: uuid.v4() });
-pm.variables.set('registreerVereniging', 'feitelijkeverenigingen');
+// registration of a vereniging zonder eigen rechtspersoonlijkheid (VZER); not the old feitelijkeverenigingen
+pm.variables.set('registreerVereniging', 'vzer');
 
 // One-time initialisation per run
 if (typeof regressieInit === 'undefined') {
