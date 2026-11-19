@@ -596,6 +596,21 @@ public static class EventFactory
 
     public static VerenigingWerdUitStopzettingGehaald VerenigingWerdUitStopzettingGehaald() => new();
 
+    public static VerenigingWerdGeidentificeerdAlsKoepel VerenigingWerdGeidentificeerdAlsKoepel(VCode vCode) =>
+        new(vCode.Value);
+
+    public static VerenigingWerdGeidentificeerdAlsGeenKoepel VerenigingWerdGeidentificeerdAlsGeenKoepel(VCode vCode) =>
+        new(vCode.Value);
+
+    public static KoepelstatusWerdTerugGezetNaarNietBepaald KoepelstatusWerdTerugGezetNaarNietBepaald(VCode vCode) =>
+        new(vCode.Value);
+
+    public static KoepelPrivacyverklaringWerdGeaccepteerd KoepelPrivacyverklaringWerdGeaccepteerd(VCode vCode) =>
+        new(vCode.Value);
+
+    public static KoepelPrivacyverklaringWerdIngetrokken KoepelPrivacyverklaringWerdIngetrokken(VCode vCode) =>
+        new(vCode.Value);
+
     public static ErkenningWerdVerlopen ErkenningWerdVerlopen(int erkenningId) => new(erkenningId);
 
     public static VerenigingWerdErkend VerenigingWerdErkend() => new();

@@ -995,6 +995,46 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(@event, @event.Data, document, "Vereniging werd uit stopzetting gehaald.");
     }
 
+    public static void Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsKoepel> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Vereniging werd geïdentificeerd als koepel.");
+    }
+
+    public static void Apply(
+        IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Vereniging werd geïdentificeerd als niet-koepel.");
+    }
+
+    public static void Apply(
+        IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Koepelstatus werd teruggezet naar niet bepaald.");
+    }
+
+    public static void Apply(
+        IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Privacyverklaring voor koepels werd geaccepteerd.");
+    }
+
+    public static void Apply(
+        IEvent<KoepelPrivacyverklaringWerdIngetrokken> @event,
+        BeheerVerenigingHistoriekDocument document
+    )
+    {
+        AddHistoriekEntry(@event, @event.Data, document, "Privacyverklaring voor koepels werd ingetrokken.");
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode) =>
         new()
         {

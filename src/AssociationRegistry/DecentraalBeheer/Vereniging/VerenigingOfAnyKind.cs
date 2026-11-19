@@ -15,6 +15,8 @@ using Framework;
 using Geotags;
 using Grar.AdresMatch;
 using Grar.Models;
+using Koepels;
+using Koepels.Exceptions;
 using Samenvoeging;
 using SocialMedias;
 using TelefoonNummers;
@@ -914,5 +916,52 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             );
 
         return isOpvolger;
+    }
+
+    /// <summary>
+    /// Wijzigt de koepelstatus en/of de acceptatie van de privacyverklaring.
+    /// Een veld dat <c>null</c> is, blijft ongewijzigd.
+    /// Enkel een vereniging met rechtspersoonlijkheid kan koepel zijn, en enkel een koepel kan de privacyverklaring accepteren.
+    /// Wie geen koepel (meer) is, verliest automatisch de acceptatie van de privacyverklaring.
+    /// </summary>
+    public void WijzigKoepelgegevens(Koepelstatus? koepelstatus, bool? privacyVerklaringGeaccepteerd)
+    {
+        var huidigeKoepelgegevens = State.Koepelgegevens;
+        var nieuweKoepelstatus = koepelstatus ?? huidigeKoepelgegevens.Koepelstatus;
+
+        Throw<EnkelVerenigingMetRechtspersoonlijkheidKanKoepelZijn>.If(
+            nieuweKoepelstatus.IsKoepel && !Verenigingstype.IsKboVereniging(State.Verenigingstype.Code)
+        );
+
+        Throw<PrivacyverklaringKanEnkelDoorKoepelGeaccepteerdWorden>.If(
+            privacyVerklaringGeaccepteerd == true && !nieuweKoepelstatus.IsKoepel
+        );
+
+        var nieuwePrivacyVerklaringGeaccepteerd =
+            nieuweKoepelstatus.IsKoepel
+            && (privacyVerklaringGeaccepteerd ?? huidigeKoepelgegevens.PrivacyVerklaringGeaccepteerd);
+
+        if (nieuweKoepelstatus != huidigeKoepelgegevens.Koepelstatus)
+            AddEvent(KoepelstatusEvent(nieuweKoepelstatus));
+
+        if (nieuwePrivacyVerklaringGeaccepteerd == huidigeKoepelgegevens.PrivacyVerklaringGeaccepteerd)
+            return;
+
+        AddEvent(
+            nieuwePrivacyVerklaringGeaccepteerd
+                ? EventFactory.KoepelPrivacyverklaringWerdGeaccepteerd(VCode)
+                : EventFactory.KoepelPrivacyverklaringWerdIngetrokken(VCode)
+        );
+    }
+
+    private IEvent KoepelstatusEvent(Koepelstatus nieuweKoepelstatus)
+    {
+        if (nieuweKoepelstatus.IsKoepel)
+            return EventFactory.VerenigingWerdGeidentificeerdAlsKoepel(VCode);
+
+        if (nieuweKoepelstatus.IsGeenKoepel)
+            return EventFactory.VerenigingWerdGeidentificeerdAlsGeenKoepel(VCode);
+
+        return EventFactory.KoepelstatusWerdTerugGezetNaarNietBepaald(VCode);
     }
 }

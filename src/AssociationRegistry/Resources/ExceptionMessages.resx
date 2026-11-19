@@ -413,4 +413,10 @@
   <data name="ErkenningKanNietVerlopenWorden">
     <value>Erkenning met id: {0}, startdatum: {1}, einddatum: {2} en status: {3} kan niet verlopen worden.</value>
   </data>
+  <data name="EnkelVerenigingMetRechtspersoonlijkheidKanKoepelZijn">
+    <value>Enkel een vereniging met rechtspersoonlijkheid kan als koepel geïdentificeerd worden.</value>
+  </data>
+  <data name="PrivacyverklaringKanEnkelDoorKoepelGeaccepteerdWorden">
+    <value>De privacyverklaring kan enkel door een koepelvereniging geaccepteerd worden.</value>
+  </data>
 </root>

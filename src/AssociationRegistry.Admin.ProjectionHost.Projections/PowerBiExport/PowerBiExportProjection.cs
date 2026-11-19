@@ -1959,4 +1959,28 @@ public partial class PowerBiExportProjection : SingleStreamProjection<PowerBiExp
 
         UpdateHistoriek(document, @event);
     }
+
+    public void Apply(IEvent<VerenigingWerdGeidentificeerdAlsKoepel> @event, PowerBiExportDocument document) =>
+        UpdateDatumLaatsteAanpassingEnHistoriek(document, @event);
+
+    public void Apply(IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> @event, PowerBiExportDocument document) =>
+        UpdateDatumLaatsteAanpassingEnHistoriek(document, @event);
+
+    public void Apply(IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> @event, PowerBiExportDocument document) =>
+        UpdateDatumLaatsteAanpassingEnHistoriek(document, @event);
+
+    public void Apply(IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> @event, PowerBiExportDocument document) =>
+        UpdateDatumLaatsteAanpassingEnHistoriek(document, @event);
+
+    public void Apply(IEvent<KoepelPrivacyverklaringWerdIngetrokken> @event, PowerBiExportDocument document) =>
+        UpdateDatumLaatsteAanpassingEnHistoriek(document, @event);
+
+    private static void UpdateDatumLaatsteAanpassingEnHistoriek(PowerBiExportDocument document, IEvent @event)
+    {
+        document.DatumLaatsteAanpassing = @event
+            .GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+            .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
 }

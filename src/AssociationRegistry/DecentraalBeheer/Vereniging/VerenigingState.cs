@@ -10,6 +10,7 @@ using Exceptions;
 using Framework;
 using Geotags;
 using JasperFx;
+using Koepels;
 using Marten.Schema;
 using SocialMedias;
 using Subtypes.Default;
@@ -59,6 +60,7 @@ public record VerenigingState : IHasVersion
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsErkend { get; set; }
     public bool InStopzetting { get; set; }
+    public Koepelgegevens Koepelgegevens { get; init; } = Koepelgegevens.Default;
     public bool IsVerwijderd { get; set; }
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
@@ -1027,6 +1029,36 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingWerdInStopzettingGeplaatst _) => this with { InStopzetting = true };
 
     public VerenigingState Apply(VerenigingWerdUitStopzettingGehaald _) => this with { InStopzetting = false };
+
+    public VerenigingState Apply(VerenigingWerdGeidentificeerdAlsKoepel _) =>
+        this with
+        {
+            Koepelgegevens = Koepelgegevens with { Koepelstatus = Koepelstatus.Koepel },
+        };
+
+    public VerenigingState Apply(VerenigingWerdGeidentificeerdAlsGeenKoepel _) =>
+        this with
+        {
+            Koepelgegevens = Koepelgegevens with { Koepelstatus = Koepelstatus.GeenKoepel },
+        };
+
+    public VerenigingState Apply(KoepelstatusWerdTerugGezetNaarNietBepaald _) =>
+        this with
+        {
+            Koepelgegevens = Koepelgegevens with { Koepelstatus = Koepelstatus.NietBepaald },
+        };
+
+    public VerenigingState Apply(KoepelPrivacyverklaringWerdGeaccepteerd _) =>
+        this with
+        {
+            Koepelgegevens = Koepelgegevens with { PrivacyVerklaringGeaccepteerd = true },
+        };
+
+    public VerenigingState Apply(KoepelPrivacyverklaringWerdIngetrokken _) =>
+        this with
+        {
+            Koepelgegevens = Koepelgegevens with { PrivacyVerklaringGeaccepteerd = false },
+        };
 
     public VerenigingState Apply(VerenigingWerdNietLangerErkend _) => this with { IsErkend = false };
 

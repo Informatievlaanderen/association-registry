@@ -381,6 +381,21 @@ public partial class BeheerVerenigingDetailProjection : EventProjection
         IDocumentOperations ops
     ) => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingWerdGeidentificeerdAlsKoepel> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<KoepelPrivacyverklaringWerdIngetrokken> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<GeotagsWerdenBepaald> @event, IDocumentOperations ops) =>
         await UpdateMetadataOnly(@event, ops);
 

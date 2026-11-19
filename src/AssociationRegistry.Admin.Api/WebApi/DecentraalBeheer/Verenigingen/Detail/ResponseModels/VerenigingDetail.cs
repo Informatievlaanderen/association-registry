@@ -127,4 +127,8 @@ public class VerenigingDetail
     /// <summary>Geeft aan of de vereniging zich in stopzetting bevindt.</summary>
     [DataMember(Name = "InStopzetting")]
     public bool InStopzetting { get; init; }
+
+    /// <summary>De koepelgegevens van de vereniging</summary>
+    [DataMember(Name = "Koepelgegevens")]
+    public Koepelgegevens Koepelgegevens { get; init; } = null!;
 }

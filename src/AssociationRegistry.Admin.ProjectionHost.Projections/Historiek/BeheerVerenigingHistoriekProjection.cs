@@ -360,6 +360,21 @@ public partial class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<VerenigingWerdUitStopzettingGehaald> @event, IDocumentOperations ops) =>
         await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingWerdGeidentificeerdAlsKoepel> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingWerdGeidentificeerdAlsGeenKoepel> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<KoepelstatusWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<KoepelPrivacyverklaringWerdGeaccepteerd> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<KoepelPrivacyverklaringWerdIngetrokken> @event, IDocumentOperations ops) =>
+        await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
         IDocumentOperations ops

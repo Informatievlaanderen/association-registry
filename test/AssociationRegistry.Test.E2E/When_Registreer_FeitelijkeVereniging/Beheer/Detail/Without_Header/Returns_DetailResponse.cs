@@ -104,6 +104,11 @@ public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
                     _testContext.VCode
                 ),
                 Erkenningen = [],
+                Koepelgegevens = new Koepelgegevens
+                {
+                    Koepelstatus = "NietBepaald",
+                    PrivacyVerklaringGeaccepteerd = false,
+                },
             },
             compareConfig: AdminDetailComparisonConfig.Instance
         );

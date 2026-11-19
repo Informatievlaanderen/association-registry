@@ -49,4 +49,5 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public Bankrekeningnummer[] Bankrekeningnummers { get; set; } = Array.Empty<Bankrekeningnummer>();
     public Erkenning[] Erkenningen { get; set; } = Array.Empty<Erkenning>();
     public bool InStopzetting { get; set; }
+    public Koepelgegevens Koepelgegevens { get; set; } = Koepelgegevens.Default;
 }

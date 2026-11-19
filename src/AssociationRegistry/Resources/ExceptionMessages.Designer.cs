@@ -265,7 +265,16 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("EmptyVerenigingsNaam", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enkel een vereniging met rechtspersoonlijkheid kan als koepel geïdentificeerd worden..
+        /// </summary>
+        public static string EnkelVerenigingMetRechtspersoonlijkheidKanKoepelZijn {
+            get {
+                return ResourceManager.GetString("EnkelVerenigingMetRechtspersoonlijkheidKanKoepelZijn", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Er mag geen overlap zijn met bestaande erkenningen voor dezelfde combinatie (vCode, IPDC-product, GI)..
         /// </summary>
@@ -832,7 +841,16 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("OvoCodeIsNietGemachtigdOmDezeActieUitTeVoeren", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to De privacyverklaring kan enkel door een koepelvereniging geaccepteerd worden..
+        /// </summary>
+        public static string PrivacyverklaringKanEnkelDoorKoepelGeaccepteerdWorden {
+            get {
+                return ResourceManager.GetString("PrivacyverklaringKanEnkelDoorKoepelGeaccepteerdWorden", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to RedenVanWijziging is verplicht..
         /// </summary>
