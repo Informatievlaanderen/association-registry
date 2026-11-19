@@ -1,6 +1,6 @@
 
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0.302 AS base
+FROM mcr.microsoft.com/dotnet/sdk:10.0.404 AS base
 WORKDIR /
 
 COPY paket.* .
