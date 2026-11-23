@@ -8,6 +8,7 @@ using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Administratie.Bewaartermijnen;
 using Admin.Api.WebApi.Administratie.Configuratie;
 using Admin.Api.WebApi.Administratie.Sync.ResponseModels;
+using Admin.Api.WebApi.Relatieaanvragen.Opvragen.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Detail.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.WebApi.Verenigingen.Search.ResponseModels;
@@ -17,10 +18,8 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Elastic.Clients.Elasticsearch;
 using FluentAssertions;
 using Marten;
-using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Testing.Platform.Logging;
 using Newtonsoft.Json;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
@@ -60,6 +59,31 @@ public static class AdminApiEndpoints
         await SmartHttpClient
             .Create(source, authenticatedClient, headers)
             .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}");
+
+    public static async Task<RelatieaanvraagResponse> GetRelatieaanvraag(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string aanvraagId,
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<RelatieaanvraagResponse>($"/v1/relatieaanvragen/{aanvraagId}");
+
+    public static async Task<RelatieaanvragenResponse> GetRelatieaanvragen(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string vCode,
+        string? status = null,
+        RequestParameters? headers = null
+    ) =>
+        await SmartHttpClient
+            .Create(source, authenticatedClient, headers)
+            .GetWithRetryAsync<RelatieaanvragenResponse>(
+                status is null
+                    ? $"/v1/verenigingen/{vCode}/relatieaanvragen"
+                    : $"/v1/verenigingen/{vCode}/relatieaanvragen?status={status}"
+            );
 
     public static async Task<BewaartermijnResponse> GetBewaartermijn(
         this IAlbaHost source,
@@ -117,7 +141,7 @@ public static class AdminApiEndpoints
     )
     {
         var store2 = source.Services.GetRequiredService<IDocumentStore>();
-        var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
+        var logger = source.Services.GetRequiredService<ILogger<Program>>();
         await source.Services.GetRequiredService<ElasticsearchClient>().Indices.RefreshAsync(Indices.All);
 
         var allProjectionProgress = await store2.Advanced.AllProjectionProgress();

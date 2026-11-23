@@ -1,6 +1,6 @@
 # Koepels — wat ontbreekt er nog om te starten
 
-> Status: werkdocument · 2026-11-18 (bijgewerkt: header, GI/KBO, aggregate, koepelstatus, stories 1+25 samengevoegd)
+> Status: werkdocument · 2026-11-19 (bijgewerkt: header, GI/KBO, aggregate, koepelstatus, stories 1+25 samengevoegd, story 2 met de nieuwe storytekst)
 > Bron: analyse "Koepelvereniging als GI" + user stories 1–25.
 > Doel: per story oplijsten wat nog beslist of verduidelijkt moet worden vóór development, en een **voorstel** van request/response geven in de stijl van de bestaande Beheer-API.
 
@@ -87,19 +87,19 @@ Diagram 3 — subs op verschillende niveaus
   X --Lid--> E  waarbij E een VZER is (K5: koepel moet KBO zijn)
 ```
 
-**Nog open**
+**Ook beslist** (K9 en K10 bevestigd; K11 volgt daaruit, nog te bevestigen)
 | # | Regel | Gevolg |
 |---|---|---|
-| K9 | **Geen cycli** in lidmaatschappen. | A lid van B + B lid van A: ❌. Ook langere cirkels zoals A → B → D → A: ❌. |
+| K9 | **Ketens en cycli van Lid-relaties tussen koepels zijn toegestaan** (gewijzigd op 2026-11-19). Een keten die terug naar een sub loopt, kan niet: een sub is geen KBO-vereniging en dus nooit een koepel. | A ↔ B en A ↔ B ↔ C (allemaal koepels): ✅. `C --Sub--> B` + `B --Lid--> C`: ❌. |
 | K10 | **Beheer enkel via rechtstreekse relaties**, en enkel met geaccepteerde privacyverklaring. | Bij `C → B → A` mag A B beheren en mag B C beheren, maar A mag C niet beheren. In diagram 1 mag A E wel beheren, via de rechtstreekse relatie `E --Lid--> A`. |
 | K11 | **`leden`/`subverenigingen` tonen enkel rechtstreekse relaties.** | `leden` van A toont B en E (diagram 1), niet C. |
 
-**Ongeldig (cycli)**
+**Toegestaan (ketens tussen koepels, K9)**
 ```text
-  A --Lid--> B  +  B --Lid--> A                  (K9)
-  A --Lid--> B --Lid--> D --Lid--> A             (K9)
+  A --Lid--> B  +  B --Lid--> A                                    (A en B zijn koepels)
+  A --Lid--> B  +  B --Lid--> A  +  B --Lid--> C  +  C --Lid--> B  (A, B en C zijn koepels)
 ```
-- [ ] Technisch: de cyclusdetectie loopt over meerdere aggregates. Voorstel: bij het aanvragen én bij het bevestigen de keten naar boven volgen via de projectie (BFS op `lidmaatschappen`).
+Er is dus geen cyclusdetectie nodig: een Lid- of Sub-relatie kan enkel naar een koepel (KBO) wijzen.
 
 ### 0.3 Acceptatie toelatingsvoorwaarden — ✅ beslist
 
@@ -271,7 +271,12 @@ VR-Sequence: 4711
 - [x] Beheer-detailprojectie + response-model: `koepelstatus` als string, geen `bool?` (AGENTS.md). Historiek, PowerBI-historiek en de publieke sequence verwerken de events ook.
 - [x] Bestaande documents zonder event: standaard `NietBepaald`/`false` via de property-initializer. Er is geen migratie of rebuild nodig.
 - [x] Tests: command handling, validatie, request-mapping, projecties (detail, historiek, PowerBI) en E2E (detail + historiek). De bestaande E2E-detailverwachtingen zijn aangevuld met de standaard-koepelgegevens.
-- [ ] Postman-scenario.
+- [x] Postman-scenario's (`postman/features/koepels`, 22 scenario's).
+- [ ] **Later** (afgesproken op 2026-11-20): `Koepelstatus` gelijktrekken met de value-object-regels uit AGENTS.md, zoals `RelatieType`.
+  - `Labels`-consts op het value object.
+  - `Parse` gooit een `DomainException` met de toegelaten waarden. De `IsValid`-regel verdwijnt uit `WijzigKoepelgegevensRequestValidator`.
+  - De hardcoded boodschappen van die validator gaan naar de resx.
+  - De Postman-scenario's in `postman/features/koepels/scenarios.js` (`leegRequest`, `ongeldigeKoepelstatus`) mee aanpassen.
 
 ---
 
@@ -279,19 +284,64 @@ VR-Sequence: 4711
 
 ### Story 2 — Koepel dient relatieaanvraag in voor bestaande vereniging · M · 🟢
 
+> Bijgewerkt op 2026-11-19 met de nieuwe storytekst.
+
 **Al beslist**
+- Kanalen: koepelloket, CRM/MAGDA, bevoegde VR-acties en de initiële Excel-upload (story 8). Ze gebruiken allemaal hetzelfde endpoint. De upload roept het per rij aan.
+- De aanvragende koepel heeft `koepelstatus = Koepel` (dat vervangt `isKoepelvereniging: true`, 0.6) en is een KBO-vereniging (0.2).
+- VR controleert de vCodes, het relatietype en de combinatieregels van story 12 (K1–K9) voordat er een aanvraag ontstaat.
+- Er ontstaat enkel een aanvraag met status `Aangevraagd`: geen feitelijke relatie, geen subtypewijziging en geen beheerrecht.
+- De termijn is 90 dagen vanaf `aanvraagDatum`.
+- Max. 1 open aanvraag per koepel–verenigingpaar, **ongeacht wie ze indiende**: de koepel (story 2) of de vereniging (story 4) (0.4).
+  - Hetzelfde type opnieuw: VR geeft de bestaande open aanvraag terug.
+  - Een ander type: validatiefout.
+- Bestaande relaties worden niet gedupliceerd en niet automatisch omgezet (bv. lid → sub).
+- Afgesloten aanvragen worden niet heropend: een nieuwe aanvraag krijgt een nieuw id.
+- Meerdere open aanvragen of conflicterende gegevens geven een fout, nooit een willekeurige keuze.
+- Een aanvraag mag bestaan zonder actieve vertegenwoordiger bij de ontvanger.
+- De koepel mag haar eigen aanvraag niet namens de vereniging bevestigen (story 3: `403`).
 - Komt de feitelijke relatie intussen rechtstreeks tot stand, dan geeft bevestiging een validatiefout.
 - Eigen aggregate `Relatieaanvraag` (0.4). Het id is een sequentie zoals de vCode (0.5).
 - `aangevraagdDoor` komt uit `vr-namens`, niet uit de body.
-- `vr-namens` moet gelijk zijn aan `koepelVCode` of `verenigingVCode`, anders `403`.
-- Ontbreekt `vr-namens`: `400` "vr-namens is verplicht."
-- De koepel moet een KBO-vereniging zijn (0.2).
+- `vr-namens` moet gelijk zijn aan `koepelVCode` of `verenigingVCode`, anders `400` "De aanvrager moet een partij van de relatieaanvraag zijn." (2026-11-19: `400` in plaats van `403`, zoals de spec). Ontbreekt `vr-namens`: `400` "vr-namens is verplicht."
+- VR triggert VLO volgens story 14.
 
-**Ontbreekt nog**
-- [ ] Response bij "zelfde type staat al open": `200 OK` met de bestaande aanvraag, of `202` + `Location` naar de bestaande? Voorstel: `200` + body + `Location`.
-- [ ] Wat geldt als **aanvraagDatum**: commandtijdstip of eventtijdstip? Wordt `vervalDatum` op dag- of tijdstipniveau berekend, en in welke tijdzone?
-- [ ] Maximale lengte van `beschrijving`?
-- [ ] Notificatietrigger (0.7).
+**Beslist op 2026-11-19**
+- **Story 4 wordt meegenomen.** Het is hetzelfde endpoint; wie de aanvraag indient, maakt niet uit. De aanvrager komt uit `vr-namens` en moet `koepelVCode` of `verenigingVCode` uit de request zijn, anders `400`.
+- **`vr-namens` is altijd nodig**, ook bij VR-acties en de Excel-upload. Zonder header: `400`.
+- **De privacyverklaring is niet nodig om aan te vragen.** Ze is enkel nodig voor het latere beheer.
+- **Wat een aanvraag blokkeert:**
+  - een open aanvraag voor hetzelfde paar;
+  - een huidig lidmaatschap van de vereniging bij de koepel;
+  - een SUB-koppeling van de vereniging met de koepel.
+
+  Een paar kan nooit tegelijk lid en sub zijn.
+- **Hetzelfde type opnieuw geeft `400`**, geen `200`: een POST geeft nooit `200`. De boodschap noemt de open aanvraag.
+- **`aanvraagDatum` en `vervalDatum` zijn datums** (`DateOnly`). `vervalDatum` = `aanvraagDatum` + 90 dagen.
+- **Deze story is enkel het indienen**: een nieuw aggregate met de aanvraag en de controles in de handler. Bevestigen is een andere story met een ander endpoint, die de controles wellicht opnieuw doet. Er is nog geen VLO-trigger.
+- **Prefix `RA`.**
+- **Geen historiek.** De aanvraag verandert niets aan de verenigingen en leeft apart. Ze moet wel opvraagbaar zijn per vCode, als koepel of als vereniging, met een statusfilter. Daarvoor komt een eigen projectie.
+- **Aanvraag-events horen niet in `For_Any_Event`**: het is een ander aggregate.
+
+**Zelf ingevuld** (tenzij je iets anders wil)
+- `beschrijving`: zoals bij lidmaatschap. Geen maximale lengte, wel geen HTML.
+- `relatieType`: `Lidmaatschap` / `Subvereniging`, hoofdletterongevoelig zoals `koepelstatus`.
+- Twee gelijktijdige aanvragen voor hetzelfde paar: de database laat er maar één toe (zie hieronder). De tweede krijgt een `400`.
+
+**Technisch: kan starten**
+- Bestaat al:
+  - `EventStore` werkt met string-ids en heeft `Load<T>`, `SaveNew` en `SaveTransactional` over meerdere streams. Een eigen `Relatieaanvraag`-stream kan daarop draaien. Enkel `IAggregateSession` is vereniging-specifiek; er komt een kleine repository voor de aanvraag.
+  - De Marten-sequence voor vCodes (`VCodeSequence`) dient als voorbeeld voor `RA`.
+  - Koepelstatus, lidmaatschappen en subtype zitten op `VerenigingState`. De combinatieregels werken op de twee geladen verenigingen, zoals dubbelbeheer al twee verenigingen laadt.
+  - Wolverine heeft een durable outbox (SQS) voor de latere VLO-trigger.
+- Nieuw nodig:
+  - **`vr-namens`** lezen, zoals `InitiatorHeaderMiddleware` dat doet voor `VR-Initiator`, en in `CommandMetadata` zetten (story 15). Voor dit endpoint: `400` als de header ontbreekt en `403` als hij niet de koepel of de vereniging is. De generieke `403`-check op alle endpoints (story 18) is niet nodig om te starten.
+  - **Uniciteitsguard.** Alle projecties zijn vandaag async, dus "max. 1 open per paar" kan niet betrouwbaar via een projectie.
+    - Voorstel: per paar, en per vereniging voor een open SUB-aanvraag, een klein lock-document met die sleutel als id, in dezelfde transactie als het event. Een tweede gelijktijdige aanvraag faalt dan in de database.
+    - De handler probeert dan opnieuw, zoals `DubbelbeheerRetryPolicy`, en ziet de bestaande aanvraag.
+    - Bij het afsluiten (stories 3, 13 en 23) verdwijnt het lock-document.
+  - **Sanity-test:** `For_Any_Event` eist dat elk event in de vereniging-projecties verwerkt wordt. Aanvraag-events horen daar niet, want ze zitten in een eigen stream. Ze moeten uitgesloten worden, bv. via een eigen marker-interface.
+  - Na de nieuwe handler: `./regen-marten.sh`, voor de statische Wolverine-code van de E2E-hosts.
 
 **Voorstel request**
 ```http
@@ -342,14 +392,101 @@ Location: /v1/relatieaanvragen/RA0000001
 |---|---|
 | `vr-namens` ontbreekt | `400` "vr-namens is verplicht." |
 | `vr-namens` is geen `koepelVCode` of `verenigingVCode` | `403` |
-| Koepel heeft status ≠ `Koepel` | `400` "De aanvragende vereniging is niet als koepel geïdentificeerd." |
-| Koepel is geen KBO-vereniging | `400` |
+| `verenigingVCode` = `koepelVCode` | `400` |
+| Koepel is geen KBO-vereniging | `400` "De beoogde koepel moet een KBO-vereniging zijn." |
+| Koepel heeft status ≠ `Koepel` | `400` "De beoogde koepel moet als koepel geïdentificeerd zijn." (ongeacht wie indient, 2026-11-20) |
 | Ander type staat al open voor dit paar | `400` "Er staat al een relatieaanvraag van een ander type open." |
 | Actieve feitelijke relatie bestaat al | `400` "Er bestaat al een relatie tussen deze verenigingen." |
 | Combinatieregel story 12 geschonden | `400` met specifieke boodschap |
 | Onbekende vCode | `400` / `404` (zoals bij lidmaatschap toevoegen) |
 
-**Voorstel event:** `RelatieaanvraagWerdIngediend`.
+**Event:** `RelatieaanvraagWerdIngediend` (eigen stream per `aanvraagId`, geen historiek).
+
+**Geïmplementeerd (2026-11-19), samen met story 4**
+- `POST /v1/relatieaanvragen` met `vr-namens`: `202` met `Location: /v1/relatieaanvragen/RA0000001`, `ETag` en `VR-Sequence`.
+- `GET /v1/relatieaanvragen/{aanvraagId}` (doel van de `Location`) en `GET /v1/verenigingen/{vCode}/relatieaanvragen?status=…` (als koepel of als vereniging, `status` hoofdletterongevoelig).
+- Volgorde van de controles, in de volgorde van de spec, allemaal `400`:
+  1. `vr-namens` ontbreekt of is geen partij.
+  2. Dezelfde vereniging als koepel en als vereniging.
+  3. De koepel is geen KBO-vereniging: "De beoogde koepel moet een KBO-vereniging zijn."
+  4. Koepelhoedanigheid: de koepel moet `Koepel` zijn: "De beoogde koepel moet als koepel geïdentificeerd zijn." Sinds 2026-11-20 is dat dezelfde boodschap, ongeacht wie indient (zie A2).
+  5. Actieve feitelijke relatie: een lidmaatschap bij de koepel dat vandaag loopt, of een SUB-koppeling met de koepel. Geldt voor elk type.
+  6. Lidmaatschapsaanvraag: een actueel of toekomstig lidmaatschap bij dezelfde koepel (einddatum niet voorbij).
+  7. Er staat al een aanvraag open voor hetzelfde paar: aparte boodschap voor hetzelfde type (met het id) en voor een ander type.
+  8. Subverenigingsaanvraag:
+     - enkel een vereniging zonder rechtspersoonlijkheid met subtype leeg of `NB`;
+     - geen lidmaatschap waarvan de einddatum niet voorbij is (K6);
+     - geen open lidmaatschapsaanvraag bij een andere koepel (K6, 2026-11-20);
+     - geen open SUB-aanvraag bij een andere koepel.
+  9. Lidmaatschapsaanvraag:
+     - een sub kan geen lid worden (K6);
+     - geen open SUB-aanvraag bij een andere koepel (K6, 2026-11-20).
+- Waar de controles zitten (2026-11-20):
+  - 1 en 2 kan de request alleen al beantwoorden. Ze zitten in het value object `Partijen` (in `ToCommand`), dus er wordt niets geladen.
+  - 3 en 4 zitten in `BeoogdeKoepel.Create`.
+  - 5 tot 9 zitten in `Lidmaatschapsaanvraag.Create` en `Subverenigingsaanvraag.Create`.
+- Een `RA`-nummer wordt pas na de controles opgevraagd: een geweigerde aanvraag verbruikt geen nummer.
+- Uniciteit:
+  - In dezelfde transactie als het event wordt per paar (en per vereniging voor SUB) een `OpenRelatieaanvraagDocument` bewaard. Een gelijktijdige tweede aanvraag faalt in de database en krijgt `400`.
+  - **Bevestigen, weigeren, intrekken en verval (stories 3, 5, 23, 13) moeten dat document weer verwijderen.**
+- Migratie `migrations/production/admin.api/scripts/up/00009_add_relatieaanvragen.sql`: sequence, lock-tabel en de tabel van de projectie, met indexen op `KoepelVCode` en `VerenigingVCode`.
+
+**Bevestigd (2026-11-19)**
+- [x] Ook als de **vereniging** indient (story 4), moet de koepel al `Koepel` zijn.
+- [x] Een lidmaatschap blokkeert zolang de **einddatum** niet voorbij is: zonder einddatum, met een einddatum vanaf vandaag, en ook als het pas in de toekomst start. Bij bevestiging kan er dus geen overlap ontstaan.
+- [x] De GET-endpoints vragen (nog) geen `vr-namens` (story 10).
+
+**Beslist op 2026-11-20** (uitwerking in `relatieaanvragen-onduidelijkheden.md`)
+- [x] Het request blijft zoals het is. De gegevens van de relatie (`van`, `tot`, `identificatie`, `beschrijving`) zitten niet in de aanvraag.
+- [x] Een actueel of toekomstig lidmaatschap bij dezelfde koepel blijft een lidmaatschapsaanvraag blokkeren.
+- [x] K6 geldt ook tussen open aanvragen: een open SUB-aanvraag blokkeert een lidmaatschapsaanvraag bij een andere koepel. Geïmplementeerd.
+- [x] Omgekeerd blokkeert een open lidmaatschapsaanvraag een SUB-aanvraag. Geïmplementeerd.
+- [x] Meerdere open lidmaatschapsaanvragen bij verschillende koepels blijven toegelaten.
+- [x] De foutboodschap noemt het id van de open aanvraag, ook bij een andere koepel: je hebt het nodig om de aanvraag op te vragen. Vorm: "(relatieaanvraag: 'RA0000001')", of "(relatieaanvragen: …)" bij meerdere.
+- [x] Twee gelijktijdige aanvragen van een ander type kunnen er nog door. Aanvaard: bevestigen controleert de regels opnieuw.
+- [x] **Value objects valideren de request** (zie AGENTS.md). Een ongeldige `koepelVCode`/`verenigingVCode` geeft de gewone VCode-fout uit `VCode.Create`, zoals bij de andere endpoints. Er is geen eigen boodschap "moeten geldige vCodes zijn" meer. `relatieType` en de `status`-filter geven een fout van hun value object, met de toegelaten waarden uit dat value object: "RelatieType moet Lidmaatschap of Subvereniging zijn."
+
+**Vergelijking met de uitgewerkte story "Registreer een relatieaanvraag" (2026-11-19)**
+
+Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van het event, 90 dagen en `vr-namens` als aanvrager. Hieronder de verschillen.
+
+*Spec botst met een eerdere beslissing (beslist op 2026-11-19)*
+
+| # | Onderwerp | Spec | Beslist en geïmplementeerd |
+|---|---|---|---|
+| A1 | Zelfde open aanvraag opnieuw | Scope en documentatie: "eenzelfde open aanvraag teruggeven zonder duplicatie" (niet in de validatietabel) | `400` met het id van de open aanvraag ("POST geeft nooit `200`"). De spec mag die twee zinnen schrappen. |
+| A2 | Koepelhoedanigheid | Koepel dient in: `Koepel`. Vereniging dient in: `Koepel` of `NietBepaald`, niet `GeenKoepel`. | De koepel moet altijd `Koepel` zijn. De regeltekst in de spec laat `NietBepaald` nog toe. Sinds 2026-11-20 is het één boodschap, ongeacht wie indient en of de status `GeenKoepel` of `NietBepaald` is: "De beoogde koepel moet als koepel geïdentificeerd zijn." De KBO-check heeft een eigen boodschap: "De beoogde koepel moet een KBO-vereniging zijn." |
+| A3 | `VR-Namens` is geen partij | `400` "De aanvrager moet een partij van de relatieaanvraag zijn." | `400` met die boodschap (niet meer `403`) |
+| A4 | Historiek en detail | "Beheer historiek relatieaanvraag" met `namens`; detail met `afhandelDatum` | Niet: dat loopt via de GET-endpoints van de aanvragen |
+| A5 | `aanvraagId` | `AV000001` (6 cijfers; elders ook `AV-001`) | `RA0000001` (prefix `RA` bevestigd), nog niet opnieuw bekeken |
+
+*Gelijkgetrokken met de spec (2026-11-19)*
+- Foutboodschappen uit de spec voor de request (verplichte velden, relatieType) en voor de regels:
+  - geen partij;
+  - actieve feitelijke relatie;
+  - actueel of toekomstig lidmaatschap;
+  - ander open type;
+  - SUB-toelating.
+- Aparte KBO-check op de koepel, vóór de koepelhoedanigheid. De koepelhoedanigheid heeft sinds 2026-11-20 één boodschap, ongeacht wie indient (zie A2).
+- Actieve feitelijke relatie (lidmaatschap dat vandaag loopt, of een SUB-koppeling) blokkeert elk type. Een toekomstig lidmaatschap bij dezelfde koepel blokkeert een lidmaatschapsaanvraag met een eigen boodschap.
+- SUB-toelating: enkel een vereniging zonder rechtspersoonlijkheid met subtype leeg of `NB`. `FV`, `SUB` en KBO krijgen de boodschap uit de spec.
+
+*Nog open*
+
+| # | Onderwerp | Spec | Nu |
+|---|---|---|---|
+| B1 | Eventnaam en titel | `RelatieaanvraagWerdGeregistreerd`, "Registreer een relatieaanvraag" | `RelatieaanvraagWerdIngediend`, "Dien een relatieaanvraag in". Nog niet uitgerold, dus hernoemen is gratis. |
+| B2 | Waarden | `lidmaatschap`, `subvereniging`, `aangevraagd` (kleine letters, "exact") | `Lidmaatschap`, `Subvereniging`, `Aangevraagd`, zoals `koepelstatus` (`Koepel`); invoer is hoofdletterongevoelig |
+| B8 | Header | `VR-Namens` | `vr-namens`. HTTP-headers zijn hoofdletterongevoelig, dus enkel de schrijfwijze in Swagger en de foutboodschap verschilt. |
+| B9 | `412` | In de responses van de POST | Kan bij een nieuwe aanvraag niet (geen `If-Match`); wel bij de GET's met `expectedSequence` |
+| B10 | "Beschrijving moet een string zijn." | Eigen boodschap | Een niet-string in de JSON geeft de algemene fout van de API bij een ongeldige body |
+
+*Extra in de implementatie, niet in de spec (beslist in 0.2b/0.4)*
+- Max. 1 open SUB-aanvraag per vereniging, over alle koepels heen.
+- K6: een sub kan geen lid worden, en een vereniging met een lidmaatschap kan geen sub worden. Dat laatste valt deels samen met B6.
+- K6 ook tussen open aanvragen bij verschillende koepels (2026-11-20).
+- Koepel en vereniging mogen niet dezelfde zijn.
+- `beschrijving` mag geen HTML bevatten.
 
 ---
 
@@ -364,6 +501,10 @@ Location: /v1/relatieaanvragen/RA0000001
 - [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`?
 - [ ] Wordt bij bevestiging `identificatie`/`beschrijving` van het nieuwe lidmaatschap gevuld, bv. met de aanvraagbeschrijving? Of blijven die leeg?
 - [ ] Optionele reden bij weigeren?
+
+**Aandachtspunten**
+- Het nieuwe lidmaatschap krijgt `van` = de bevestigingsdatum, **niet leeg**. Een lege `van` betekent "oneindig in het verleden" en overlapt met een vroeger, beëindigd lidmaatschap bij dezelfde koepel (`LidmaatschapIsOverlappend`).
+- De regels opnieuw controleren op de bestaande relaties. Twee gelijktijdige aanvragen van een ander type, of de rechtstreekse endpoints (`POST /lidmaatschappen`, `PATCH /subtype`), kunnen K6 nog breken (zie `relatieaanvragen-onduidelijkheden.md`, punt 3).
 
 **Voorstel request**
 ```http
@@ -404,6 +545,8 @@ Location: /v1/verenigingen/V0000002/lidmaatschappen/3
 
 ### Story 4 — Vereniging vraagt zelf aan om lid/sub te worden · M · 🟢
 
+> Geïmplementeerd samen met story 2 (2026-11-19): hetzelfde endpoint, met de vereniging in `vr-namens`. De beoogde koepel moet `Koepel` zijn; `NietBepaald` of `GeenKoepel` geeft `400`.
+
 **Al beslist**
 - Wordt de beoogde koepel intussen `GeenKoepel`, dan blijft de aanvraag open en vervalt ze na 90 dagen.
 - Een vereniging mag meerdere open lidmaatschapsaanvragen hebben naar verschillende koepels, maar max. 1 open SUB-aanvraag (0.4).
@@ -429,9 +572,9 @@ vr-namens: V0000002
 }
 ```
 
-**Response:** hetzelfde als story 2. Extra fouten:
-- `400` "De beoogde koepel is expliciet als niet-koepel geïdentificeerd." bij status `GeenKoepel`;
-- `400` als de beoogde koepel een VZER is.
+**Response:** hetzelfde als story 2, met dezelfde boodschappen:
+- `400` "De beoogde koepel moet een KBO-vereniging zijn." als de beoogde koepel een VZER is;
+- `400` "De beoogde koepel moet als koepel geïdentificeerd zijn." bij status `GeenKoepel` of `NietBepaald`.
 
 ---
 
@@ -551,6 +694,8 @@ vr-namens: V0000001
 ---
 
 ### Story 10 — Aanvragen en feitelijke relaties raadplegen · M · 🟡
+
+> Deels geïmplementeerd met story 2 (2026-11-19): `GET /v1/verenigingen/{vCode}/relatieaanvragen?status=…` en `GET /v1/relatieaanvragen/{aanvraagId}`, met een eigen projectie (`RelatieaanvraagProjection`). Nog zonder `vr-namens`-check, en zonder `afhandelDatum` (er bestaat nog geen afhandeling).
 
 **Al beslist:** de omgekeerde leesrichting (koepel → leden/subverenigingen) staat in `koepelgegevens` in de detail (stories 1+25).
 
@@ -794,7 +939,7 @@ vr-namens: V0000001
 - [ ] Moet de **bestaande** `POST /lidmaatschappen` (rechtstreeks door een GI) dezelfde combinatieregels krijgen? Bv. geen lidmaatschap bij een bestaande SUB-koppeling. Dat is te verifiëren in `VoegLidmaatschapToeCommandHandler`. Er bestaat al `VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs`, maar enkel voor dezelfde koepel.
 - [ ] Zet de bestaande lidmaatschapsflow subtype null → FV vandaag al? Te verifiëren.
 - [ ] Moet de bestaande lidmaatschapsflow ook afdwingen dat de "andere vereniging" (de koepel) een KBO-vereniging is?
-- [x] ~~Cycli~~: geblokkeerd (K9).
+- [x] Cycli van Lid-relaties tussen koepels: toegestaan (K9, gewijzigd op 2026-11-19).
 - [ ] **TBD:** gelden K3, K6 en K9 ook op de **bestaande** endpoints `POST /lidmaatschappen` en `PATCH /subtype`?
 - [ ] "Actueel lidmaatschap" eenduidig definiëren (zie story 17).
 
@@ -860,6 +1005,7 @@ vr-namens: V0000001
 | 6 | VLO-contract (0.7), niet blokkerend via outbox | 14 (+ triggers overal) |
 | 7 | Clusters: in VR of in het mediatorplatform? | 16 |
 | 8 | Registratie nieuwe vereniging: bestaande endpoints uitbreiden of nieuw? | 6, 8 |
+| 9 | Story 2: `vr-namens` bij VR-acties en upload, privacyverklaring vereist, welke bestaande relatie blokkeert, response bij hetzelfde type | 2, 4, 8 |
 
 **Kan nu starten**
 - stories 1 + 25 (`PATCH /koepelgegevens` met `koepelstatus` + `privacyVerklaringGeaccepteerd`);

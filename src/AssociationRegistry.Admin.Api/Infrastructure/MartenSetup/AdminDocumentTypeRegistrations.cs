@@ -7,13 +7,13 @@ using HostedServices.InitialRegistreerInschrijvingVertegenwoordigers;
 using Hosts.Configuration.ConfigurationBindings;
 using Integrations.Magda.Shared.Models;
 using Marten;
-using Persoonsgegevens;
+using MartenDb.Relatieaanvragen;
 using Schema.Bewaartermijn;
-using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
 using Schema.Persoonsgegevens;
 using Schema.PowerBiExport;
+using Schema.Setup.Marten;
 using BeheerVerenigingDetailDocument = Schema.Detail.BeheerVerenigingDetailDocument;
 using LocatieLookupDocument = Schema.Locaties.LocatieLookupDocument;
 using LocatieZonderAdresMatchDocument = Schema.Locaties.LocatieZonderAdresMatchDocument;
@@ -30,19 +30,13 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
         opts.RegisterDocumentType<PowerBiExportDocument>();
-        opts.Schema.For<PowerBiExportDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<PowerBiExportDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<LocatieLookupDocument>();
-        opts.Schema.For<LocatieLookupDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
-        opts.Schema.For<LocatieZonderAdresMatchDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieZonderAdresMatchDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
@@ -50,13 +44,14 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
         opts.RegisterDocumentType<BankrekeningnummerPersoonsgegevensDocument>();
         opts.RegisterDocumentType<BewaartermijnDocument>();
-        opts.Schema.For<BewaartermijnDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<BewaartermijnDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<InitialisatieInschrijvingenDocument>();
 
         opts.RegisterDocumentType<VerenigingState>();
+
+        opts.RegisterRelatieaanvraagDocument();
+        opts.RegisterDocumentType<OpenRelatieaanvraagDocument>();
 
         return opts;
     }

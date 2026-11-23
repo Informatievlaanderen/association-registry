@@ -10,6 +10,7 @@ using Marten;
 using Marten.Newtonsoft;
 using Marten.Services;
 using Newtonsoft.Json;
+using Relatieaanvragen;
 using Serialization;
 using Upcasters;
 using VCodeGeneration;
@@ -77,6 +78,13 @@ public static class SetupExtensions
     public static StoreOptions AddVCodeSequence(this StoreOptions opts)
     {
         opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+
+        return opts;
+    }
+
+    public static StoreOptions AddRelatieaanvraagIdSequence(this StoreOptions opts)
+    {
+        opts.Storage.Add(new RelatieaanvraagIdSequence(opts));
 
         return opts;
     }

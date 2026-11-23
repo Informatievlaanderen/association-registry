@@ -35,6 +35,7 @@ using CommandHandling.Grar.GrarUpdates.Hernummering;
 using CommandHandling.Grar.GrarUpdates.LocatieFinder;
 using CommandHandling.MagdaSync.SyncKsz;
 using CommandHandling.MagdaSync.SyncKsz.Queries;
+using DecentraalBeheer.Relatieaanvragen;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.DubbelDetectie;
 using DecentraalBeheer.Vereniging.Geotags;
@@ -87,6 +88,7 @@ using Magda.Kbo;
 using Magda.Persoon;
 using Marten;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
+using MartenDb.Relatieaanvragen;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VCodeGeneration;
@@ -114,11 +116,13 @@ using Persoonsgegevens;
 using Queries;
 using Schema.Detail;
 using Schema.Historiek;
+using Schema.Relatieaanvragen;
 using Serilog;
 using Serilog.Debugging;
 using Vereniging;
 using Weasel.Core.Migrations;
 using WebApi.Administratie.Sync;
+using WebApi.Relatieaanvragen;
 using WebApi.Verenigingen;
 using WebApi.Verenigingen.Detail;
 using WebApi.Verenigingen.Historiek;
@@ -478,6 +482,7 @@ public class Program
                 builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>()
             )
             .AddSingleton<IVCodeService, SequenceVCodeService>()
+            .AddSingleton<IRelatieaanvraagIdService, SequenceRelatieaanvraagIdService>()
             .AddSingleton<IAmazonSQS>(sqsClient)
             .AddSingleton<IClock, Clock>()
             .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
@@ -506,6 +511,7 @@ public class Program
             .AddScoped<IVertegenwoordigerPersoonsgegevensQuery, VertegenwoordigerPersoonsgegevensQuery>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensRepository, BankrekeningnummerPersoonsgegevensRepository>()
             .AddScoped<IBankrekeningnummerPersoonsgegevensQuery, BankrekeningnummerPersoonsgegevensQuery>()
+            .AddScoped<IRelatieaanvraagRepository, RelatieaanvraagRepository>()
             .AddScoped<IPersoonsgegevensProcessor, PersoonsgegevensProcessor>()
             .AddScoped<IOrganisatieBevoegdheidService, OrganisatieBevoegdheidService>()
             .AddScoped<PersoonsgegevensEventTransformers>()
@@ -794,6 +800,8 @@ public class Program
             ISequenceGuarder<BeheerVerenigingHistoriekDocument>,
             BeheerHistoriekSequenceGuarder
         >();
+
+        builder.Services.AddSingleton<ISequenceGuarder<RelatieaanvraagDocument>, RelatieaanvraagSequenceGuarder>();
 
         builder.Services.AddSingleton(new KboSyncMetrics(new Meter(KboSyncMetrics.MeterName)));
 

@@ -53,4 +53,13 @@
   <data name="WerkingsgebiedMagSlechtsEenmaalVoorkomen">
     <value>Elke waarde in de werkingsgebieden mag slechts eenmaal voorkomen.</value>
   </data>
+  <data name="Status404Relatieaanvraag">
+    <value>De gevraagde relatieaanvraag werd niet gevonden.</value>
+  </data>
+  <data name="Status412Relatieaanvragen">
+    <value>De relatieaanvragen hebben niet de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="RelatieaanvraagVerplichteVeldenOntbreken">
+    <value>Geef een geldig JSON-object met verenigingVCode, koepelVCode en relatieType op.</value>
+  </data>
 </root>

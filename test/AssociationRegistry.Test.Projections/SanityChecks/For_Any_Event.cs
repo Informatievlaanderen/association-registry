@@ -24,6 +24,10 @@ public class For_Any_Event
         typeof(ErkenningWerdGecorrigeerd),
         typeof(ErkenningOpvolgersWerdenToegevoegdAlsBeheerder), // TODO check with analist if this needs to be exposed or not
         .. new PersoonsgegevensEventTransformers().Select(x => x.PersistedEventType),
+        // A relatieaanvraag is another aggregate: its events live in its own stream, not in the stream of a vereniging.
+        .. typeof(IEvent)
+            .Assembly.GetTypes()
+            .Where(t => typeof(IRelatieaanvraagEvent).IsAssignableFrom(t) && t.IsClass),
     ];
 
     // Because we want to update the metadata for each event!
