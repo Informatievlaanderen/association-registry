@@ -1,16 +1,17 @@
 namespace AssociationRegistry.Admin.Schema.Setup.Marten;
 
+using global::Marten;
 using Bewaartermijn;
 using DecentraalBeheer.Vereniging;
 using Detail;
 using Erkenningen;
-using global::Marten;
 using Grar.NutsLau;
 using Historiek;
 using KboSync;
 using Locaties;
 using Persoonsgegevens;
 using PowerBiExport;
+using Relatieaanvragen;
 
 public static class ProjectionDocumentTypeRegistrations
 {
@@ -21,15 +22,11 @@ public static class ProjectionDocumentTypeRegistrations
 
         opts.RegisterDocumentType<PowerBiExportDocument>();
 
-        opts.Schema.For<PowerBiExportDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<PowerBiExportDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<BewaartermijnDocument>();
 
-        opts.Schema.For<BewaartermijnDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<BewaartermijnDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<PowerBiExportDubbelDetectieDocument>();
 
@@ -39,21 +36,15 @@ public static class ProjectionDocumentTypeRegistrations
 
         opts.RegisterDocumentType<LocatieLookupDocument>();
 
-        opts.Schema.For<LocatieLookupDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
-        opts.Schema.For<LocatieZonderAdresMatchDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieZonderAdresMatchDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<ErkenningDocument>();
 
-        opts.Schema.For<ErkenningDocument>()
-            .UseNumericRevisions(true)
-            .UseOptimisticConcurrency(false);
+        opts.Schema.For<ErkenningDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
         opts.RegisterDocumentType<VertegenwoordigerPersoonsgegevensDocument>();
@@ -62,6 +53,18 @@ public static class ProjectionDocumentTypeRegistrations
         opts.RegisterDocumentType<PostalNutsLauInfo>();
 
         opts.RegisterDocumentType<VerenigingState>();
+
+        opts.RegisterRelatieaanvraagDocument();
+
+        return opts;
+    }
+
+    /// <summary>Also used by the Admin API: both hosts must configure the table the same way.</summary>
+    public static StoreOptions RegisterRelatieaanvraagDocument(this StoreOptions opts)
+    {
+        opts.RegisterDocumentType<RelatieaanvraagDocument>();
+
+        opts.Schema.For<RelatieaanvraagDocument>().Index(x => x.KoepelVCode).Index(x => x.VerenigingVCode);
 
         return opts;
     }

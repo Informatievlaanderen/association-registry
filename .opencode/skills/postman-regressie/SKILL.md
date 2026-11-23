@@ -101,7 +101,7 @@ Never `setTimeout`/sleep in a test script; always retry via `pm.execution.setNex
 ## 5. Naming
 
 - Feature prefix of 2-3 capitals per feature: `BR` bankrekeningnummers, `LO` locaties, `VT` vertegenwoordigers,
-  `LM` lidmaatschappen, `ER` erkenningen, `CG` contactgegevens, `ST` stopzetting, `SU` subverenigingen, `VW` verwijderen, `ZO` zoeken, `PR` projecties, `DD` dubbeldetectie, `GT` geotags, `KP` koepels,
+  `LM` lidmaatschappen, `ER` erkenningen, `CG` contactgegevens, `ST` stopzetting, `SU` subverenigingen, `VW` verwijderen, `ZO` zoeken, `PR` projecties, `DD` dubbeldetectie, `GT` geotags, `KP` koepels, `RA` relatieaanvragen,
   `X` weigeringen. A feature that spans several groups
   (dubbelmerge) uses the prefix of the group: `B` basisgegevens, `HA` hoofdactiviteiten, `WG` werkingsgebieden,
   `KBO` vereniging met rechtspersoonlijkheid, `ALL` all groups at once.

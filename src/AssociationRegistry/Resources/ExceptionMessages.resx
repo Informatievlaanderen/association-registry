@@ -419,4 +419,58 @@
   <data name="PrivacyverklaringKanEnkelDoorKoepelGeaccepteerdWorden">
     <value>De privacyverklaring kan enkel door een koepelvereniging geaccepteerd worden.</value>
   </data>
+  <data name="AanvragerIsGeenPartijBijRelatieaanvraag">
+    <value>De aanvrager moet een partij van de relatieaanvraag zijn.</value>
+  </data>
+  <data name="VerenigingKanGeenRelatieMetZichzelfAanvragen">
+    <value>Een vereniging kan geen relatie met zichzelf aanvragen.</value>
+  </data>
+  <data name="BeoogdeKoepelMoetKboVerenigingZijn">
+    <value>De beoogde koepel moet een KBO-vereniging zijn.</value>
+  </data>
+  <data name="BeoogdeKoepelIsNietAlsKoepelGeidentificeerd">
+    <value>De beoogde koepel moet als koepel geïdentificeerd zijn.</value>
+  </data>
+  <data name="ErBestaatAlEenActieveFeitelijkeRelatie">
+    <value>Er bestaat al een actieve feitelijke relatie tussen deze verenigingen.</value>
+  </data>
+  <data name="ActueelOfToekomstigLidmaatschapBijDezelfdeKoepel">
+    <value>Een actueel of toekomstig lidmaatschap bij dezelfde koepel blokkeert de lidmaatschapsaanvraag.</value>
+  </data>
+  <data name="SubverenigingsaanvraagIsNietToegestaan">
+    <value>Een subverenigingsaanvraag is alleen toegestaan voor VZER met subtype null of NB.</value>
+  </data>
+  <data name="SubverenigingKanGeenLidWorden">
+    <value>Een subvereniging kan geen lid worden van een koepel.</value>
+  </data>
+  <data name="VerenigingMetLidmaatschapKanGeenSubverenigingWorden">
+    <value>Een vereniging met een lidmaatschap kan geen subvereniging worden.</value>
+  </data>
+  <data name="VerenigingMetOpenSubverenigingsaanvraagKanGeenLidWorden">
+    <value>Een vereniging met een open subverenigingsaanvraag kan geen lid worden van een koepel (relatieaanvraag: '{0}').</value>
+  </data>
+  <data name="VerenigingMetOpenLidmaatschapsaanvraagKanGeenSubverenigingWorden">
+    <value>Een vereniging met een open lidmaatschapsaanvraag kan geen subvereniging worden (relatieaanvraag: '{0}').</value>
+  </data>
+  <data name="VerenigingMetOpenLidmaatschapsaanvragenKanGeenSubverenigingWorden">
+    <value>Een vereniging met open lidmaatschapsaanvragen kan geen subvereniging worden (relatieaanvragen: {0}).</value>
+  </data>
+  <data name="RelatieTypeIsOngeldig">
+    <value>RelatieType moet {0} zijn.</value>
+  </data>
+  <data name="RelatieaanvraagStatusIsOngeldig">
+    <value>De status moet {0} zijn.</value>
+  </data>
+  <data name="RelatieaanvraagVanHetzelfdeTypeStaatAlOpen">
+    <value>Er staat al een relatieaanvraag van hetzelfde type open voor deze verenigingen: '{0}'.</value>
+  </data>
+  <data name="RelatieaanvraagVanEenAnderTypeStaatAlOpen">
+    <value>Er bestaat al een open aanvraag van een ander relatietype voor dit paar.</value>
+  </data>
+  <data name="SubverenigingsaanvraagStaatAlOpen">
+    <value>Er staat al een aanvraag open om subvereniging te worden: '{0}'.</value>
+  </data>
+  <data name="RelatieaanvraagStaatAlOpen">
+    <value>Er staat al een relatieaanvraag open voor deze verenigingen.</value>
+  </data>
 </root>

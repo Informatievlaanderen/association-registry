@@ -116,5 +116,26 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("WerkingsgebiedMagSlechtsEenmaalVoorkomen", resourceCulture);
             }
         }
+
+        public static string Status404Relatieaanvraag {
+            get {
+                return ResourceManager.GetString("Status404Relatieaanvraag", resourceCulture);
+            }
+        }
+
+        public static string Status412Relatieaanvragen {
+            get {
+                return ResourceManager.GetString("Status412Relatieaanvragen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Geef een geldig JSON-object met verenigingVCode, koepelVCode en relatieType op..
+        /// </summary>
+        public static string RelatieaanvraagVerplichteVeldenOntbreken {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagVerplichteVeldenOntbreken", resourceCulture);
+            }
+        }
     }
 }
