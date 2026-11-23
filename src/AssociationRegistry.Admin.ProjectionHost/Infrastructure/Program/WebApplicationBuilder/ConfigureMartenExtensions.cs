@@ -31,6 +31,7 @@ using Projections.EventHandling.Geotags;
 using Projections.Historiek;
 using Projections.Locaties;
 using Projections.PowerBiExport;
+using Projections.Relatieaanvragen;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
@@ -271,6 +272,7 @@ public static class ConfigureMartenExtensions
             ProjectionLifecycle.Async
         );
         opts.Projections.Add(new ErkenningProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new RelatieaanvraagProjection(), ProjectionLifecycle.Async);
 
         opts.Projections.Add(
             new MartenSubscription(

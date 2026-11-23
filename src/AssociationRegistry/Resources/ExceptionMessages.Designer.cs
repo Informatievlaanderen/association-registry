@@ -1246,5 +1246,167 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("ZoekOpdrachtWasIncorrect", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De aanvrager moet een partij van de relatieaanvraag zijn..
+        /// </summary>
+        public static string AanvragerIsGeenPartijBijRelatieaanvraag {
+            get {
+                return ResourceManager.GetString("AanvragerIsGeenPartijBijRelatieaanvraag", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan geen relatie met zichzelf aanvragen..
+        /// </summary>
+        public static string VerenigingKanGeenRelatieMetZichzelfAanvragen {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenRelatieMetZichzelfAanvragen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De beoogde koepel moet een KBO-vereniging zijn..
+        /// </summary>
+        public static string BeoogdeKoepelMoetKboVerenigingZijn {
+            get {
+                return ResourceManager.GetString("BeoogdeKoepelMoetKboVerenigingZijn", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De beoogde koepel moet als koepel geïdentificeerd zijn..
+        /// </summary>
+        public static string BeoogdeKoepelIsNietAlsKoepelGeidentificeerd {
+            get {
+                return ResourceManager.GetString("BeoogdeKoepelIsNietAlsKoepelGeidentificeerd", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Er bestaat al een actieve feitelijke relatie tussen deze verenigingen..
+        /// </summary>
+        public static string ErBestaatAlEenActieveFeitelijkeRelatie {
+            get {
+                return ResourceManager.GetString("ErBestaatAlEenActieveFeitelijkeRelatie", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een actueel of toekomstig lidmaatschap bij dezelfde koepel blokkeert de lidmaatschapsaanvraag..
+        /// </summary>
+        public static string ActueelOfToekomstigLidmaatschapBijDezelfdeKoepel {
+            get {
+                return ResourceManager.GetString("ActueelOfToekomstigLidmaatschapBijDezelfdeKoepel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een subverenigingsaanvraag is alleen toegestaan voor VZER met subtype null of NB..
+        /// </summary>
+        public static string SubverenigingsaanvraagIsNietToegestaan {
+            get {
+                return ResourceManager.GetString("SubverenigingsaanvraagIsNietToegestaan", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een subvereniging kan geen lid worden van een koepel..
+        /// </summary>
+        public static string SubverenigingKanGeenLidWorden {
+            get {
+                return ResourceManager.GetString("SubverenigingKanGeenLidWorden", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging met een lidmaatschap kan geen subvereniging worden..
+        /// </summary>
+        public static string VerenigingMetLidmaatschapKanGeenSubverenigingWorden {
+            get {
+                return ResourceManager.GetString("VerenigingMetLidmaatschapKanGeenSubverenigingWorden", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging met een open subverenigingsaanvraag kan geen lid worden van een koepel (relatieaanvraag: &apos;{0}&apos;)..
+        /// </summary>
+        public static string VerenigingMetOpenSubverenigingsaanvraagKanGeenLidWorden {
+            get {
+                return ResourceManager.GetString("VerenigingMetOpenSubverenigingsaanvraagKanGeenLidWorden", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging met een open lidmaatschapsaanvraag kan geen subvereniging worden (relatieaanvraag: &apos;{0}&apos;)..
+        /// </summary>
+        public static string VerenigingMetOpenLidmaatschapsaanvraagKanGeenSubverenigingWorden {
+            get {
+                return ResourceManager.GetString("VerenigingMetOpenLidmaatschapsaanvraagKanGeenSubverenigingWorden", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging met open lidmaatschapsaanvragen kan geen subvereniging worden (relatieaanvragen: {0})..
+        /// </summary>
+        public static string VerenigingMetOpenLidmaatschapsaanvragenKanGeenSubverenigingWorden {
+            get {
+                return ResourceManager.GetString("VerenigingMetOpenLidmaatschapsaanvragenKanGeenSubverenigingWorden", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to RelatieType moet {0} zijn..
+        /// </summary>
+        public static string RelatieTypeIsOngeldig {
+            get {
+                return ResourceManager.GetString("RelatieTypeIsOngeldig", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De status moet {0} zijn..
+        /// </summary>
+        public static string RelatieaanvraagStatusIsOngeldig {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagStatusIsOngeldig", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Er staat al een relatieaanvraag van hetzelfde type open voor deze verenigingen: &apos;{0}&apos;..
+        /// </summary>
+        public static string RelatieaanvraagVanHetzelfdeTypeStaatAlOpen {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagVanHetzelfdeTypeStaatAlOpen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Er bestaat al een open aanvraag van een ander relatietype voor dit paar..
+        /// </summary>
+        public static string RelatieaanvraagVanEenAnderTypeStaatAlOpen {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagVanEenAnderTypeStaatAlOpen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Er staat al een aanvraag open om subvereniging te worden: &apos;{0}&apos;..
+        /// </summary>
+        public static string SubverenigingsaanvraagStaatAlOpen {
+            get {
+                return ResourceManager.GetString("SubverenigingsaanvraagStaatAlOpen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Er staat al een relatieaanvraag open voor deze verenigingen..
+        /// </summary>
+        public static string RelatieaanvraagStaatAlOpen {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagStaatAlOpen", resourceCulture);
+            }
+        }
     }
 }

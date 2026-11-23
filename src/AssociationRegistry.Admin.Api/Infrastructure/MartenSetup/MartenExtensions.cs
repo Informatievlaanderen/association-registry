@@ -38,6 +38,7 @@ public static class MartenExtensions
 
                 opts.UsePostgreSqlOptions(postgreSqlOptions)
                     .AddVCodeSequence()
+                    .AddRelatieaanvraagIdSequence()
                     .KeepV8Defaults()
                     .ConfigureSerialization()
                     .SetUpOpenTelemetry(isDevelopment)
