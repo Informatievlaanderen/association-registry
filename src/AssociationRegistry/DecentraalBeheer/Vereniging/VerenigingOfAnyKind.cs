@@ -15,10 +15,14 @@ using Framework;
 using Geotags;
 using Grar.AdresMatch;
 using Grar.Models;
+using ImTools;
 using Koepels;
 using Koepels.Exceptions;
 using Samenvoeging;
 using SocialMedias;
+using Subtypes.Default;
+using Subtypes.NietBepaald;
+using Subtypes.Subvereniging;
 using TelefoonNummers;
 using Wegwijs;
 
@@ -142,6 +146,52 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         return toegevoegdLidmaatschap;
     }
+
+    /// <summary>
+    ///     A confirmed lidmaatschapsaanvraag: the lidmaatschap starts on the bevestigingsdatum, without einddatum. A
+    ///     subtype leeg or NB becomes FV: a lid of a koepel is a feitelijke vereniging (story 12).
+    /// </summary>
+    public void WordLidVanKoepel(
+        VCode koepel,
+        string koepelNaam,
+        DateOnly bevestigingsDatum,
+        LidmaatschapIdentificatie identificatie,
+        LidmaatschapBeschrijving beschrijving
+    )
+    {
+        VoegLidmaatschapToe(
+            new ToeTeVoegenLidmaatschap(
+                koepel,
+                koepelNaam,
+                new Geldigheidsperiode(new GeldigVan(bevestigingsDatum), GeldigTot.Infinite),
+                identificatie,
+                beschrijving
+            )
+        );
+
+        if (State.Verenigingssubtype is DefaultSubtype or NietBepaaldSubtype)
+            AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode));
+    }
+
+    /// <summary>
+    ///     A confirmed subverenigingsaanvraag. The relatieaanvraag already checked that this is a vereniging zonder
+    ///     eigen rechtspersoonlijkheid with subtype leeg or NB.
+    /// </summary>
+    public void WordSubverenigingVanKoepel(
+        VCode koepel,
+        string koepelNaam,
+        SubverenigingIdentificatie identificatie,
+        SubverenigingBeschrijving beschrijving
+    ) =>
+        AddEvent(
+            EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(
+                VCode,
+                koepel,
+                koepelNaam,
+                identificatie,
+                beschrijving
+            )
+        );
 
     public void VerwijderLidmaatschap(LidmaatschapId lidmaatschapId)
     {

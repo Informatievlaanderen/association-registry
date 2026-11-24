@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
 
 using Be.Vlaanderen.Basisregisters.Api;
+using DecentraalBeheer.Relatieaanvragen;
 using DecentraalBeheer.Vereniging;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.WebApi;
@@ -50,6 +51,20 @@ public static class ControllerBaseExtensions
 
         return controller.Accepted(
             $"{appSettings.BaseUrl}/v1/verenigingen/{entityCommandResult.Vcode}/{entityName}/{entityCommandResult.EntityId}"
+        );
+    }
+
+    public static AcceptedResult PostResponse(
+        this ApiController controller,
+        AppSettings appSettings,
+        RelatieaanvraagCommandResult relatieaanvraagCommandResult
+    )
+    {
+        controller.Response.AddSequenceHeader(relatieaanvraagCommandResult.Sequence);
+        controller.Response.AddETagHeader(relatieaanvraagCommandResult.Version);
+
+        return controller.Accepted(
+            $"{appSettings.BaseUrl}/v1/relatieaanvragen/{relatieaanvraagCommandResult.AanvraagId}"
         );
     }
 }

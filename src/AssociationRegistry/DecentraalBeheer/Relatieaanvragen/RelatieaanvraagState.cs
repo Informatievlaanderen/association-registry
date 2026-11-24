@@ -1,0 +1,47 @@
+namespace AssociationRegistry.DecentraalBeheer.Relatieaanvragen;
+
+using Events;
+using Framework;
+using JasperFx;
+using Vereniging;
+
+/// <summary>The state of a relatieaanvraag, built from its own stream (the aanvraagId).</summary>
+public record RelatieaanvraagState : IHasVersion
+{
+    /// <summary>The stream key: Marten needs an identity to aggregate the stream. The same as the aanvraagId.</summary>
+    [Identity]
+    public string Id { get; set; } = null!;
+
+    /// <summary>Set by Marten: the version of the stream, for If-Match and optimistic concurrency.</summary>
+    public long Version { get; set; }
+
+    public RelatieaanvraagId AanvraagId { get; init; } = null!;
+    public VCode KoepelVCode { get; init; } = null!;
+    public VCode VerenigingVCode { get; init; } = null!;
+    public VCode AangevraagdDoor { get; init; } = null!;
+    public RelatieType RelatieType { get; init; } = null!;
+    public RelatieaanvraagStatus Status { get; init; } = null!;
+    public DateOnly VervalDatum { get; init; }
+
+    /// <summary>The other partij than the aanvrager: only the ontvanger can confirm the relatieaanvraag.</summary>
+    public VCode Ontvanger => AangevraagdDoor == KoepelVCode ? VerenigingVCode : KoepelVCode;
+
+    public RelatieaanvraagState Apply(RelatieaanvraagWerdIngediend @event) =>
+        this with
+        {
+            Id = @event.AanvraagId,
+            AanvraagId = RelatieaanvraagId.Hydrate(@event.AanvraagId),
+            KoepelVCode = VCode.Hydrate(@event.KoepelVCode),
+            VerenigingVCode = VCode.Hydrate(@event.VerenigingVCode),
+            AangevraagdDoor = VCode.Hydrate(@event.AangevraagdDoor),
+            RelatieType = RelatieType.Parse(@event.RelatieType),
+            Status = RelatieaanvraagStatus.Aangevraagd,
+            VervalDatum = @event.VervalDatum,
+        };
+
+    public RelatieaanvraagState Apply(RelatieaanvraagWerdBevestigd @event) =>
+        this with
+        {
+            Status = RelatieaanvraagStatus.Bevestigd,
+        };
+}

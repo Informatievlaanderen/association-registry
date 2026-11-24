@@ -10,13 +10,13 @@
 |---|---|---|
 | 1 | De aanvraag bevat de gegevens van de relatie niet | ✅ beslist: het request blijft zoals het is |
 | 2 | Een actueel of toekomstig lidmaatschap blokkeert | ✅ beslist: blijft zo |
-| 3 | Welke controles gebeuren opnieuw bij bevestiging? | 🟡 nodig voor story 3/5 |
+| 3 | Welke controles gebeuren opnieuw bij bevestiging? | ✅ geïmplementeerd (2026-11-23): de koepel en de regels van indienen, met de andere open aanvragen |
 | 4 | Aanvragen die niet meer kunnen slagen, blijven open | 🟡 |
 | 5 | K6 tussen open aanvragen | ✅ beslist en geïmplementeerd |
 | 6 | Wie mag bevestigen namens wie? | ✅ geen probleem |
 | 7 | Nieuwe verenigingen (story 6): SUB rechtstreeks, lidmaatschap via een aanvraag | 🟡 |
-| 8 | Bevestigen schrijft naar twee streams: welke `ETag` en `Location`? | 🟢 klein |
-| 9 | `400` of `403` voor "verkeerde partij" | 🟢 klein |
+| 8 | Bevestigen schrijft naar twee streams: welke `ETag` en `Location`? | 🟡 voorlopig: `ETag` en `Location` van de aanvraag, de hoogste `VR-Sequence` |
+| 9 | `400` of `403` voor "verkeerde partij" | ✅ beslist (2026-11-23): `400`, ook bij bevestigen |
 | 10 | Kleinere punten | 🟢 |
 | 11 | Analysedocument niet meer in lijn met de beslissingen | 🟢 opruimen |
 
@@ -28,6 +28,7 @@
 
 **Gevolgen voor bevestigen (story 3/5)**
 - Het nieuwe lidmaatschap start op de bevestigingsdatum en heeft geen einddatum.
+  - Bevestigd (2026-11-24): ook bij bevestigen kan geen einddatum opgegeven worden, alleen `identificatie` en `beschrijving`. Een einddatum zetten kan nadien via het bestaande endpoint om een lidmaatschap te wijzigen.
 - `van` moet de bevestigingsdatum zijn, **niet leeg**. Een lege `van` betekent "oneindig in het verleden" (`Geldigheidsperiode.OverlapsWith`).
   - Voorbeeld: een vereniging was lid van de koepel van 2020 tot 2024. De aanvraag mag, want dat lidmaatschap is voorbij.
   - Een lidmaatschap zonder `van` zou overlappen met 2020–2024. Dan faalt de bevestiging met `LidmaatschapIsOverlappend`.

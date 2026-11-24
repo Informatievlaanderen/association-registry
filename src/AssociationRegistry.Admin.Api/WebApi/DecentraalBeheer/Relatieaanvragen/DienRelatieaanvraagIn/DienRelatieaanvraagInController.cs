@@ -7,6 +7,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
+using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -91,9 +92,6 @@ public class DienRelatieaanvraagInController : ApiController
 
         var result = await _messageBus.InvokeAsync<RelatieaanvraagCommandResult>(envelope, cancellationToken);
 
-        Response.AddSequenceHeader(result.Sequence);
-        Response.AddETagHeader(result.Version);
-
-        return Accepted($"{_appSettings.BaseUrl}/v1/relatieaanvragen/{result.AanvraagId}");
+        return this.PostResponse(_appSettings, result);
     }
 }

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.MartenDb.Relatieaanvragen;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using DecentraalBeheer.Relatieaanvragen;
 using DecentraalBeheer.Relatieaanvragen.Exceptions;
@@ -94,5 +95,39 @@ public class RelatieaanvraagRepository : IRelatieaanvraagRepository
 
             throw new RelatieaanvraagStaatAlOpen();
         }
+    }
+
+    public Task<RelatieaanvraagState> Load(RelatieaanvraagId aanvraagId, long? expectedVersion) =>
+        _eventStore.Load<RelatieaanvraagState>(aanvraagId.Value, expectedVersion);
+
+    public async Task<StreamActionResult> SaveBevestiging(
+        RelatieaanvraagState relatieaanvraag,
+        RelatieaanvraagWerdBevestigd bevestigd,
+        VerenigingsBase vereniging,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    )
+    {
+        ReleaseGuards(relatieaanvraag);
+
+        var results = await _eventStore.SaveTransactional(
+            metadata,
+            cancellationToken,
+            new AggregateEvents(relatieaanvraag.AanvraagId.Value, relatieaanvraag.Version, [bevestigd]),
+            new AggregateEvents(vereniging.VCode, vereniging.Version, vereniging.UncommittedEvents.ToArray())
+        );
+
+        return new StreamActionResult(Sequence: results.Max(result => result.Sequence), Version: results[0].Version);
+    }
+
+    /// <summary>
+    ///     A closed relatieaanvraag no longer counts as open: every guard it holds is deleted, by aanvraagId. In the same
+    ///     session as the event store, so in the same transaction as the events.
+    /// </summary>
+    private void ReleaseGuards(RelatieaanvraagState relatieaanvraag)
+    {
+        var aanvraagId = relatieaanvraag.AanvraagId.Value;
+
+        _session.DeleteWhere<OpenRelatieaanvraagDocument>(document => document.AanvraagId == aanvraagId);
     }
 }

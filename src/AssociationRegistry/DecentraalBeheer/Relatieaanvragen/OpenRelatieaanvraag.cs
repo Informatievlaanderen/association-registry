@@ -14,4 +14,12 @@ public record OpenRelatieaanvragen(
 {
     public static OpenRelatieaanvragen Geen =>
         new(VoorKoepelEnVereniging: null, Subverenigingsaanvraag: null, Lidmaatschapsaanvragen: []);
+
+    /// <summary>The other open relatieaanvragen: when confirming, the relatieaanvraag itself is still open.</summary>
+    public OpenRelatieaanvragen Without(RelatieaanvraagId aanvraagId) =>
+        new(
+            VoorKoepelEnVereniging?.AanvraagId == aanvraagId ? null : VoorKoepelEnVereniging,
+            Subverenigingsaanvraag?.AanvraagId == aanvraagId ? null : Subverenigingsaanvraag,
+            Lidmaatschapsaanvragen.Where(aanvraag => aanvraag.AanvraagId != aanvraagId).ToArray()
+        );
 }

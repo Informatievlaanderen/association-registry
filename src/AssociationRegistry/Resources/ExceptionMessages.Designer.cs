@@ -1408,5 +1408,41 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("RelatieaanvraagStaatAlOpen", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Formaat van de aanvraagId moet '{0}' zijn..
+        /// </summary>
+        public static string RelatieaanvraagIdIsOngeldig {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagIdIsOngeldig", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enkel de ontvanger van de relatieaanvraag kan ze bevestigen..
+        /// </summary>
+        public static string NamensIsNietDeOntvanger {
+            get {
+                return ResourceManager.GetString("NamensIsNietDeOntvanger", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De relatieaanvraag werd al bevestigd..
+        /// </summary>
+        public static string RelatieaanvraagWerdAlBevestigd {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagWerdAlBevestigd", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De relatieaanvraag is vervallen..
+        /// </summary>
+        public static string RelatieaanvraagIsVervallen {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagIsVervallen", resourceCulture);
+            }
+        }
     }
 }
