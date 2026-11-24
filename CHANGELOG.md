@@ -1,3 +1,17 @@
+# [8.348.0](https://github.com/informatievlaanderen/association-registry/compare/v8.347.0...v8.348.0) (2026-11-24)
+
+
+### Bug Fixes
+
+* or-3800 make koepelstatus case insensitive ([903b6b4](https://github.com/informatievlaanderen/association-registry/commit/903b6b44d166d22642bfb013774d7125730c41bf))
+
+
+### Features
+
+* or-3800 add postman scenario for koepels ([cb8aa34](https://github.com/informatievlaanderen/association-registry/commit/cb8aa3441361d4394809819de6bf02d8f9ac09b9))
+* or-3800 implement wijzig koepelgegevens ([4da0528](https://github.com/informatievlaanderen/association-registry/commit/4da05285b9dd03706b3a150e844c7c537f9b849d))
+* or-3802 dien relatie aanvraag in ([c58b1f5](https://github.com/informatievlaanderen/association-registry/commit/c58b1f5f9bfa4f125f26f02da395661001c3c362))
+
 # [8.347.0](https://github.com/informatievlaanderen/association-registry/compare/v8.346.0...v8.347.0) (2026-11-18)
 
 
