@@ -26,6 +26,9 @@ public class Then_Examples
         "Verenigingen.Verenigingssubtype",
         "MogelijkeDuplicateVerenigingen.Verenigingssubtype",
         "Relatieaanvragen.Bevestiging",
+        "Relatieaanvragen.Weigering",
+        // the example of one relatieaanvraag is a bevestigde
+        "Weigering",
     };
 
     public Then_Examples(EventsInDbScenariosFixture fixture)

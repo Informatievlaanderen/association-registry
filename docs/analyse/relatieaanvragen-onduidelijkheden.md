@@ -144,7 +144,7 @@ Bevestigen schrijft naar de aanvraag én naar de vereniging, in één transactie
 
 - **`afhandelDatum`** (stories 3, 13, 23): AGENTS.md verbiedt `DateOnly?` op een `*Document`. Dat moet anders gemodelleerd worden, bv. een aparte afhandeling met datum en status.
 - **Vervaldatum:** is de aanvraag op de vervaldatum zelf nog te bevestigen? (Story 13 vraagt al "einde van de dag".)
-- **Reden bij weigeren of intrekken:** optioneel? (Story 3 open.)
+- **Reden bij weigeren of intrekken:** optioneel? Weigeren: voorlopig optioneel (2026-11-24). Intrekken: nog open.
 - **GET zonder `vr-namens`:** elke initiator ziet alle aanvragen van elke vereniging. Beslist als "nog", maar het moet nog op de lijst voor story 10.
 
 ---

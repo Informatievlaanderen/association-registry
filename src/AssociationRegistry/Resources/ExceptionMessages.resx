@@ -477,12 +477,15 @@
     <value>Formaat van de aanvraagId moet '{0}' zijn.</value>
   </data>
   <data name="NamensIsNietDeOntvanger">
-    <value>Enkel de ontvanger van de relatieaanvraag kan ze bevestigen.</value>
+    <value>Enkel de ontvanger van de relatieaanvraag kan ze bevestigen of weigeren.</value>
   </data>
   <data name="RelatieaanvraagWerdAlBevestigd">
     <value>De relatieaanvraag werd al bevestigd.</value>
   </data>
   <data name="RelatieaanvraagIsVervallen">
     <value>De relatieaanvraag is vervallen.</value>
+  </data>
+  <data name="RelatieaanvraagWerdAlGeweigerd">
+    <value>De relatieaanvraag werd al geweigerd.</value>
   </data>
 </root>

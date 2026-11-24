@@ -492,8 +492,8 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 
 ### Story 3 — Vereniging bevestigt of weigert ontvangen aanvraag · M · 🟢
 
-> **Bevestigen geïmplementeerd (2026-11-23)**, voor beide ontvangers (ook story 5): `POST /v1/relatieaanvragen/{aanvraagId}/bevestiging`. Weigeren volgt apart.
-> - `vr-namens` is niet de ontvanger (de aanvrager zelf of een derde) → `400` "Enkel de ontvanger van de relatieaanvraag kan ze bevestigen." Zoals bij indienen, niet `403`.
+> **Bevestigen geïmplementeerd (2026-11-23)**, voor beide ontvangers (ook story 5): `POST /v1/relatieaanvragen/{aanvraagId}/bevestiging`. Weigeren: zie verder.
+> - `vr-namens` is niet de ontvanger (de aanvrager zelf of een derde) → `400` "Enkel de ontvanger van de relatieaanvraag kan ze bevestigen of weigeren." Zoals bij indienen, niet `403`. Sinds 2026-11-24 één boodschap voor bevestigen en weigeren.
 > - Optionele body `{ identificatie, beschrijving }`: die van het lidmaatschap of de subvereniging.
 > - De aanvraag moet `Aangevraagd` zijn en de vervaldatum niet voorbij; op de vervaldatum zelf kan het nog. Al bevestigd → "De relatieaanvraag werd al bevestigd."; na de vervaldatum → "De relatieaanvraag is vervallen."
 > - VR controleert opnieuw de koepel (KBO, `Koepel`) en dezelfde regels als bij indienen, met de andere open aanvragen: de aanvraag zelf telt niet mee.
@@ -502,6 +502,14 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 > - De aanvraag toont `bevestiging: { datum }`.
 > - Response: `202`, `Location` en `ETag` van de aanvraag, `VR-Sequence` = de hoogste van aanvraag en vereniging.
 > - Nog niet: de notificatie via VLO (story 14).
+>
+> **Weigeren geïmplementeerd (2026-11-24)**, voor beide ontvangers (ook story 5): `POST /v1/relatieaanvragen/{aanvraagId}/weigering`.
+> - Optionele body `{ reden }`, zonder HTML. Voorlopig optioneel (zie "Ontbreekt nog").
+> - Dezelfde controles op de aanvraag als bij bevestigen: enkel de ontvanger, `Aangevraagd` en de vervaldatum niet voorbij. Al geweigerd → "De relatieaanvraag werd al geweigerd."; al bevestigd → "De relatieaanvraag werd al bevestigd."; na de vervaldatum → "De relatieaanvraag is vervallen." Een geweigerde aanvraag bevestigen geeft ook "De relatieaanvraag werd al geweigerd."
+> - Verder niets: weigeren is altijd toegestaan, ook als de koepel intussen niet meer `Koepel` is. De verenigingen worden niet geladen en krijgen geen events.
+> - Event `RelatieaanvraagWerdGeweigerd` (datum, reden), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
+> - De aanvraag toont `weigering: { datum, reden }`, met een lege `reden` als er geen opgegeven werd.
+> - Response: `202`, `Location`, `ETag` en `VR-Sequence` van de aanvraag. `If-Match` is de versie van de aanvraag.
 
 **Al beslist**
 - `vr-namens` moet de tegenpartij van `aangevraagdDoor` zijn, anders `403` (0.1).
@@ -511,7 +519,7 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 **Ontbreekt nog**
 - [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`?
 - [ ] Wordt bij bevestiging `identificatie`/`beschrijving` van het nieuwe lidmaatschap gevuld, bv. met de aanvraagbeschrijving? Of blijven die leeg?
-- [ ] Optionele reden bij weigeren?
+- [ ] Optionele reden bij weigeren? Voorlopig optioneel (2026-11-24). Verplicht maken is een regel in de validator.
 
 **Aandachtspunten**
 - Het nieuwe lidmaatschap krijgt `van` = de bevestigingsdatum, **niet leeg**. Een lege `van` betekent "oneindig in het verleden" en overlapt met een vroeger, beëindigd lidmaatschap bij dezelfde koepel (`LidmaatschapIsOverlappend`).

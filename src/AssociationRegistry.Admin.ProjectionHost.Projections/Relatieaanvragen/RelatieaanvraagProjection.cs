@@ -42,4 +42,15 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
         document.Bevestiging = new RelatieaanvraagBevestiging { Datum = @event.Data.BevestigingsDatum };
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdGeweigerd> @event)
+    {
+        document.Status = RelatieaanvraagStatus.Geweigerd.Value;
+        document.Weigering = new RelatieaanvraagWeigering
+        {
+            Datum = @event.Data.WeigeringsDatum,
+            Reden = @event.Data.Reden,
+        };
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
 }

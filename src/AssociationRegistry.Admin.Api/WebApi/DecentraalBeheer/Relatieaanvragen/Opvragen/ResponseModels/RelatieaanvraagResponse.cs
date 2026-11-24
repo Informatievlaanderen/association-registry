@@ -48,6 +48,10 @@ public class RelatieaanvraagResponse
     [DataMember(Name = "bevestiging", EmitDefaultValue = false)]
     public RelatieaanvraagBevestigingResponse? Bevestiging { get; init; }
 
+    /// <summary>De weigering van de aanvraag. Ontbreekt zolang de aanvraag niet geweigerd is.</summary>
+    [DataMember(Name = "weigering", EmitDefaultValue = false)]
+    public RelatieaanvraagWeigeringResponse? Weigering { get; init; }
+
     public static RelatieaanvraagResponse From(RelatieaanvraagDocument document) =>
         new()
         {
@@ -63,6 +67,13 @@ public class RelatieaanvraagResponse
             Bevestiging = document.Bevestiging is { } bevestiging
                 ? new RelatieaanvraagBevestigingResponse { Datum = bevestiging.Datum.FormatAsBelgianDate() }
                 : null,
+            Weigering = document.Weigering is { } weigering
+                ? new RelatieaanvraagWeigeringResponse
+                {
+                    Datum = weigering.Datum.FormatAsBelgianDate(),
+                    Reden = weigering.Reden,
+                }
+                : null,
         };
 }
 
@@ -73,6 +84,19 @@ public class RelatieaanvraagBevestigingResponse
     /// <summary>De datum waarop de aanvraag bevestigd werd</summary>
     [DataMember(Name = "datum")]
     public string Datum { get; init; } = null!;
+}
+
+/// <summary>De weigering van een relatieaanvraag</summary>
+[DataContract]
+public class RelatieaanvraagWeigeringResponse
+{
+    /// <summary>De datum waarop de aanvraag geweigerd werd</summary>
+    [DataMember(Name = "datum")]
+    public string Datum { get; init; } = null!;
+
+    /// <summary>De reden van de weigering. Leeg als er geen reden opgegeven werd.</summary>
+    [DataMember(Name = "reden")]
+    public string Reden { get; init; } = null!;
 }
 
 /// <summary>De relatieaanvragen van een vereniging, als koepel of als vereniging</summary>

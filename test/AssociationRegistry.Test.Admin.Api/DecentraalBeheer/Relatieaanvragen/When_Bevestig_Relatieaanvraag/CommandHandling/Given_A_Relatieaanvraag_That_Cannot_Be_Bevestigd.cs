@@ -49,6 +49,23 @@ public class Given_A_Relatieaanvraag_That_Cannot_Be_Bevestigd
     }
 
     [Fact]
+    public async ValueTask When_Already_Geweigerd_Then_It_Throws_RelatieaanvraagWerdAlGeweigerd()
+    {
+        var ctx = new BevestigRelatieaanvraagContext(
+            Koepel(KoepelA),
+            Vzer(VerenigingC),
+            RelatieType.Lidmaatschap,
+            aangevraagdDoor: KoepelA,
+            alreadyGeweigerd: true
+        );
+
+        await Assert.ThrowsAsync<RelatieaanvraagWerdAlGeweigerd>(async () => await ctx.Bevestig(VerenigingC));
+
+        ctx.ShouldNotHaveSaved();
+        ctx.ShouldNotHaveLoadedTheVerenigingen();
+    }
+
+    [Fact]
     public async ValueTask When_The_Vervaldatum_Is_Over_Then_It_Throws_RelatieaanvraagIsVervallen()
     {
         var vervalDatum = BevestigRelatieaanvraagContext.AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen);
