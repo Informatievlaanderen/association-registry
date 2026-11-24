@@ -153,6 +153,13 @@ public class DienRelatieaanvraagInContext
             CommandMetadata metadata,
             CancellationToken cancellationToken
         ) => throw new NotSupportedException();
+
+        public Task<StreamActionResult> SaveWeigering(
+            RelatieaanvraagState relatieaanvraag,
+            RelatieaanvraagWerdGeweigerd geweigerd,
+            CommandMetadata metadata,
+            CancellationToken cancellationToken
+        ) => throw new NotSupportedException();
     }
 
     private class RelatieaanvraagIdServiceStub : IRelatieaanvraagIdService

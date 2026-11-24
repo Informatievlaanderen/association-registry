@@ -6,8 +6,8 @@ using Framework;
 using Vereniging;
 
 /// <summary>
-///     A relatieaanvraag that its ontvanger (the other partij than the aanvrager) can still confirm: it is Aangevraagd
-///     and its vervaldatum is not over. Confirming on the vervaldatum itself is still possible.
+///     A relatieaanvraag that its ontvanger (the other partij than the aanvrager) can still confirm or refuse: it is
+///     Aangevraagd and its vervaldatum is not over. On the vervaldatum itself it is still possible.
 /// </summary>
 public sealed class OntvangenRelatieaanvraag
 {
@@ -23,6 +23,7 @@ public sealed class OntvangenRelatieaanvraag
     {
         Throw<NamensIsNietDeOntvanger>.If(namens != relatieaanvraag.Ontvanger);
         Throw<RelatieaanvraagWerdAlBevestigd>.If(relatieaanvraag.Status == RelatieaanvraagStatus.Bevestigd);
+        Throw<RelatieaanvraagWerdAlGeweigerd>.If(relatieaanvraag.Status == RelatieaanvraagStatus.Geweigerd);
         Throw<RelatieaanvraagIsVervallen>.If(today > relatieaanvraag.VervalDatum);
 
         return new OntvangenRelatieaanvraag(relatieaanvraag);
@@ -50,4 +51,12 @@ public sealed class OntvangenRelatieaanvraag
 
         return new RelatieaanvraagWerdBevestigd(_relatieaanvraag.AanvraagId.Value, today);
     }
+
+    /// <summary>
+    ///     Refusing checks no more than <see cref="Create" />: not the koepel, not the rules of the type. Nothing changes
+    ///     on the verenigingen. The caller saves the event.
+    /// </summary>
+    /// <param name="reden">Optional: empty when none was given.</param>
+    public RelatieaanvraagWerdGeweigerd Weiger(string reden, DateOnly today) =>
+        new(_relatieaanvraag.AanvraagId.Value, today, reden);
 }

@@ -39,6 +39,16 @@ public interface IRelatieaanvraagRepository
         CommandMetadata metadata,
         CancellationToken cancellationToken
     );
+
+    /// <summary>
+    ///     Saves the refusal: the relatieaanvraag no longer counts as open. Returns its version (its ETag) and sequence.
+    /// </summary>
+    Task<StreamActionResult> SaveWeigering(
+        RelatieaanvraagState relatieaanvraag,
+        RelatieaanvraagWerdGeweigerd geweigerd,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    );
 }
 
 public interface IRelatieaanvraagIdService

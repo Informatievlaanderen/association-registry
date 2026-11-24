@@ -1419,7 +1419,7 @@ namespace AssociationRegistry.Resources {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Enkel de ontvanger van de relatieaanvraag kan ze bevestigen..
+        ///   Looks up a localized string similar to Enkel de ontvanger van de relatieaanvraag kan ze bevestigen of weigeren..
         /// </summary>
         public static string NamensIsNietDeOntvanger {
             get {
@@ -1442,6 +1442,15 @@ namespace AssociationRegistry.Resources {
         public static string RelatieaanvraagIsVervallen {
             get {
                 return ResourceManager.GetString("RelatieaanvraagIsVervallen", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De relatieaanvraag werd al geweigerd..
+        /// </summary>
+        public static string RelatieaanvraagWerdAlGeweigerd {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagWerdAlGeweigerd", resourceCulture);
             }
         }
     }

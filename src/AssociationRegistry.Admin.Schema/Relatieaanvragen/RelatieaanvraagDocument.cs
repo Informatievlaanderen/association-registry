@@ -19,10 +19,21 @@ public class RelatieaanvraagDocument : IMetadata
     /// <summary>Only when the relatieaanvraag was confirmed.</summary>
     public RelatieaanvraagBevestiging? Bevestiging { get; set; }
 
+    /// <summary>Only when the relatieaanvraag was refused.</summary>
+    public RelatieaanvraagWeigering? Weigering { get; set; }
+
     public Metadata Metadata { get; set; } = null!;
 }
 
 public class RelatieaanvraagBevestiging
 {
     public DateOnly Datum { get; set; }
+}
+
+public class RelatieaanvraagWeigering
+{
+    public DateOnly Datum { get; set; }
+
+    /// <summary>Empty when no reden was given.</summary>
+    public string Reden { get; set; } = string.Empty;
 }

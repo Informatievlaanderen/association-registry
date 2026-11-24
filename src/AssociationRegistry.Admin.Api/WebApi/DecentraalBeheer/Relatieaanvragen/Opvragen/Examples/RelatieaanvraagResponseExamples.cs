@@ -37,6 +37,25 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             Beschrijving = "Wij zijn de afdeling Bree",
             Bevestiging = new RelatieaanvraagBevestigingResponse { Datum = "2026-11-23" },
         };
+
+    internal static RelatieaanvraagResponse Geweigerd =>
+        new()
+        {
+            AanvraagId = "RA0000003",
+            KoepelVCode = "V0001004",
+            VerenigingVCode = "V0001003",
+            AangevraagdDoor = "V0001004",
+            RelatieType = DomainRelatieType.Lidmaatschap.Value,
+            Status = RelatieaanvraagStatus.Geweigerd.Value,
+            AanvraagDatum = "2026-11-20",
+            VervalDatum = "2027-02-18",
+            Beschrijving = "Aanvraag lidmaatschap bij de koepel",
+            Weigering = new RelatieaanvraagWeigeringResponse
+            {
+                Datum = "2026-11-24",
+                Reden = "Wij zijn geen lid van deze koepel.",
+            },
+        };
 }
 
 public class RelatieaanvragenResponseExamples : IExamplesProvider<RelatieaanvragenResponse>
@@ -44,6 +63,11 @@ public class RelatieaanvragenResponseExamples : IExamplesProvider<Relatieaanvrag
     public RelatieaanvragenResponse GetExamples() =>
         new()
         {
-            Relatieaanvragen = [RelatieaanvraagResponseExamples.Aangevraagd, RelatieaanvraagResponseExamples.Bevestigd],
+            Relatieaanvragen =
+            [
+                RelatieaanvraagResponseExamples.Aangevraagd,
+                RelatieaanvraagResponseExamples.Bevestigd,
+                RelatieaanvraagResponseExamples.Geweigerd,
+            ],
         };
 }

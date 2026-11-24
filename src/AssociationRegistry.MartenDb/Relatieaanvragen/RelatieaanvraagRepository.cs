@@ -120,6 +120,24 @@ public class RelatieaanvraagRepository : IRelatieaanvraagRepository
         return new StreamActionResult(Sequence: results.Max(result => result.Sequence), Version: results[0].Version);
     }
 
+    public async Task<StreamActionResult> SaveWeigering(
+        RelatieaanvraagState relatieaanvraag,
+        RelatieaanvraagWerdGeweigerd geweigerd,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    )
+    {
+        ReleaseGuards(relatieaanvraag);
+
+        var results = await _eventStore.SaveTransactional(
+            metadata,
+            cancellationToken,
+            new AggregateEvents(relatieaanvraag.AanvraagId.Value, relatieaanvraag.Version, [geweigerd])
+        );
+
+        return results[0];
+    }
+
     /// <summary>
     ///     A closed relatieaanvraag no longer counts as open: every guard it holds is deleted, by aanvraagId. In the same
     ///     session as the event store, so in the same transaction as the events.

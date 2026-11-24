@@ -23,7 +23,7 @@ public record RelatieaanvraagState : IHasVersion
     public RelatieaanvraagStatus Status { get; init; } = null!;
     public DateOnly VervalDatum { get; init; }
 
-    /// <summary>The other partij than the aanvrager: only the ontvanger can confirm the relatieaanvraag.</summary>
+    /// <summary>The other partij than the aanvrager: only the ontvanger can confirm or refuse the relatieaanvraag.</summary>
     public VCode Ontvanger => AangevraagdDoor == KoepelVCode ? VerenigingVCode : KoepelVCode;
 
     public RelatieaanvraagState Apply(RelatieaanvraagWerdIngediend @event) =>
@@ -43,5 +43,11 @@ public record RelatieaanvraagState : IHasVersion
         this with
         {
             Status = RelatieaanvraagStatus.Bevestigd,
+        };
+
+    public RelatieaanvraagState Apply(RelatieaanvraagWerdGeweigerd @event) =>
+        this with
+        {
+            Status = RelatieaanvraagStatus.Geweigerd,
         };
 }
