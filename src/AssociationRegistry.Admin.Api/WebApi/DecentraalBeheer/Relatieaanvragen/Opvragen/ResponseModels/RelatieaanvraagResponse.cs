@@ -44,6 +44,10 @@ public class RelatieaanvraagResponse
     [DataMember(Name = "beschrijving")]
     public string Beschrijving { get; init; } = null!;
 
+    /// <summary>De bevestiging van de aanvraag. Ontbreekt zolang de aanvraag niet bevestigd is.</summary>
+    [DataMember(Name = "bevestiging", EmitDefaultValue = false)]
+    public RelatieaanvraagBevestigingResponse? Bevestiging { get; init; }
+
     public static RelatieaanvraagResponse From(RelatieaanvraagDocument document) =>
         new()
         {
@@ -56,7 +60,19 @@ public class RelatieaanvraagResponse
             AanvraagDatum = document.AanvraagDatum.FormatAsBelgianDate(),
             VervalDatum = document.VervalDatum.FormatAsBelgianDate(),
             Beschrijving = document.Beschrijving,
+            Bevestiging = document.Bevestiging is { } bevestiging
+                ? new RelatieaanvraagBevestigingResponse { Datum = bevestiging.Datum.FormatAsBelgianDate() }
+                : null,
         };
+}
+
+/// <summary>De bevestiging van een relatieaanvraag</summary>
+[DataContract]
+public class RelatieaanvraagBevestigingResponse
+{
+    /// <summary>De datum waarop de aanvraag bevestigd werd</summary>
+    [DataMember(Name = "datum")]
+    public string Datum { get; init; } = null!;
 }
 
 /// <summary>De relatieaanvragen van een vereniging, als koepel of als vereniging</summary>

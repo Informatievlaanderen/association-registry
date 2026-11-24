@@ -64,7 +64,12 @@ public static class ProjectionDocumentTypeRegistrations
     {
         opts.RegisterDocumentType<RelatieaanvraagDocument>();
 
-        opts.Schema.For<RelatieaanvraagDocument>().Index(x => x.KoepelVCode).Index(x => x.VerenigingVCode);
+        // A single stream projection gets numeric revisions (mt_version bigint) in the projection host.
+        opts.Schema.For<RelatieaanvraagDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false)
+            .Index(x => x.KoepelVCode)
+            .Index(x => x.VerenigingVCode);
 
         return opts;
     }

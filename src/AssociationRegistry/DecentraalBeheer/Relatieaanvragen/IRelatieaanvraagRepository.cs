@@ -1,5 +1,6 @@
 namespace AssociationRegistry.DecentraalBeheer.Relatieaanvragen;
 
+using Events;
 using EventStore;
 using Framework;
 using Vereniging;
@@ -18,6 +19,23 @@ public interface IRelatieaanvraagRepository
     /// </summary>
     Task<StreamActionResult> SaveNew(
         Relatieaanvraag relatieaanvraag,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken
+    );
+
+    /// <summary>Loads the relatieaanvraag; with expectedVersion (If-Match) it must still be at that version.</summary>
+    Task<RelatieaanvraagState> Load(RelatieaanvraagId aanvraagId, long? expectedVersion);
+
+    /// <summary>
+    ///     Saves the confirmation and the relatie on the vereniging in one transaction: both, or nothing. The
+    ///     relatieaanvraag no longer counts as open.
+    ///     Returns the version of the relatieaanvraag (its ETag) and the highest sequence of both streams, so a client
+    ///     can wait until the relatieaanvraag and the vereniging are both projected.
+    /// </summary>
+    Task<StreamActionResult> SaveBevestiging(
+        RelatieaanvraagState relatieaanvraag,
+        RelatieaanvraagWerdBevestigd bevestigd,
+        VerenigingsBase vereniging,
         CommandMetadata metadata,
         CancellationToken cancellationToken
     );

@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Admin.Api.Documentation.When_Calling_GetExamples;
 
+using System.Collections;
+using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
-using System.Collections;
-using System.Reflection;
 using Xunit;
 
 [Collection(nameof(AdminApiCollection))]
@@ -25,6 +25,7 @@ public class Then_Examples
         "Verenigingen.Einddatum",
         "Verenigingen.Verenigingssubtype",
         "MogelijkeDuplicateVerenigingen.Verenigingssubtype",
+        "Relatieaanvragen.Bevestiging",
     };
 
     public Then_Examples(EventsInDbScenariosFixture fixture)
@@ -35,13 +36,14 @@ public class Then_Examples
     [Fact]
     public void Do_not_have_null_values()
     {
-        var types = typeof(Program).Assembly
-                                   .GetTypes()
-                                   .Where(x => !x.IsAbstract &&
-                                               x.GetInterfaces()
-                                                .Any(y => y.IsGenericType &&
-                                                          y.GetGenericTypeDefinition() == typeof(IExamplesProvider<>)))
-                                   .ToList();
+        var types = typeof(Program)
+            .Assembly.GetTypes()
+            .Where(x =>
+                !x.IsAbstract
+                && x.GetInterfaces()
+                    .Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IExamplesProvider<>))
+            )
+            .ToList();
 
         using var context = new AssertionScope();
 
@@ -65,27 +67,31 @@ public class Then_Examples
                 CheckAllPropertiesNotNull(example, type);
             }
         else
-            examples.ShouldHaveAllPropertiesNotNull(
-                type.Name,
-                string.Empty,
-                _allowedNullProperties);
+            examples.ShouldHaveAllPropertiesNotNull(type.Name, string.Empty, _allowedNullProperties);
     }
 }
 
 public static class NotNullExtensions
 {
-    public static void ShouldHaveAllPropertiesNotNull(this object obj, string baseType, string? parentName, params string[] allowedNulls)
+    public static void ShouldHaveAllPropertiesNotNull(
+        this object obj,
+        string baseType,
+        string? parentName,
+        params string[] allowedNulls
+    )
     {
         foreach (var property in obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
-            if (!property.CanRead) continue;
+            if (!property.CanRead)
+                continue;
 
-            if (property.GetIndexParameters().Length > 0) continue;
+            if (property.GetIndexParameters().Length > 0)
+                continue;
 
-            var fullPath =
-                string.IsNullOrEmpty(parentName) ? property.Name : parentName + "." + property.Name;
+            var fullPath = string.IsNullOrEmpty(parentName) ? property.Name : parentName + "." + property.Name;
 
-            if (allowedNulls is not null && allowedNulls.Contains(fullPath)) continue;
+            if (allowedNulls is not null && allowedNulls.Contains(fullPath))
+                continue;
 
             var propertyValue = property.GetValue(obj, index: null);
             propertyValue.Should().NotBeNull($"because property '{fullPath}' should not be null on type '{baseType}'.");

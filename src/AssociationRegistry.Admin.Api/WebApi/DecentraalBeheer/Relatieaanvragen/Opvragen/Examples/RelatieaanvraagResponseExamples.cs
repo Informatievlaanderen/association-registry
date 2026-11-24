@@ -7,9 +7,9 @@ using RelatieaanvraagStatus = DecentraalBeheer.Relatieaanvragen.RelatieaanvraagS
 
 public class RelatieaanvraagResponseExamples : IExamplesProvider<RelatieaanvraagResponse>
 {
-    public RelatieaanvraagResponse GetExamples() => Voorbeeld;
+    public RelatieaanvraagResponse GetExamples() => Bevestigd;
 
-    internal static RelatieaanvraagResponse Voorbeeld =>
+    internal static RelatieaanvraagResponse Aangevraagd =>
         new()
         {
             AanvraagId = "RA0000001",
@@ -22,10 +22,28 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             VervalDatum = "2027-02-17",
             Beschrijving = "Aanvraag lidmaatschap bij de koepel",
         };
+
+    internal static RelatieaanvraagResponse Bevestigd =>
+        new()
+        {
+            AanvraagId = "RA0000002",
+            KoepelVCode = "V0001001",
+            VerenigingVCode = "V0001003",
+            AangevraagdDoor = "V0001003",
+            RelatieType = DomainRelatieType.Subvereniging.Value,
+            Status = RelatieaanvraagStatus.Bevestigd.Value,
+            AanvraagDatum = "2026-11-19",
+            VervalDatum = "2027-02-17",
+            Beschrijving = "Wij zijn de afdeling Bree",
+            Bevestiging = new RelatieaanvraagBevestigingResponse { Datum = "2026-11-23" },
+        };
 }
 
 public class RelatieaanvragenResponseExamples : IExamplesProvider<RelatieaanvragenResponse>
 {
     public RelatieaanvragenResponse GetExamples() =>
-        new() { Relatieaanvragen = [RelatieaanvraagResponseExamples.Voorbeeld] };
+        new()
+        {
+            Relatieaanvragen = [RelatieaanvraagResponseExamples.Aangevraagd, RelatieaanvraagResponseExamples.Bevestigd],
+        };
 }

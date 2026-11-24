@@ -473,4 +473,16 @@
   <data name="RelatieaanvraagStaatAlOpen">
     <value>Er staat al een relatieaanvraag open voor deze verenigingen.</value>
   </data>
+  <data name="RelatieaanvraagIdIsOngeldig">
+    <value>Formaat van de aanvraagId moet '{0}' zijn.</value>
+  </data>
+  <data name="NamensIsNietDeOntvanger">
+    <value>Enkel de ontvanger van de relatieaanvraag kan ze bevestigen.</value>
+  </data>
+  <data name="RelatieaanvraagWerdAlBevestigd">
+    <value>De relatieaanvraag werd al bevestigd.</value>
+  </data>
+  <data name="RelatieaanvraagIsVervallen">
+    <value>De relatieaanvraag is vervallen.</value>
+  </data>
 </root>

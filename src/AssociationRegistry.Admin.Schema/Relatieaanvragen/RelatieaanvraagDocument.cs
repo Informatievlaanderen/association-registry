@@ -15,5 +15,14 @@ public class RelatieaanvraagDocument : IMetadata
     public DateOnly AanvraagDatum { get; set; }
     public DateOnly VervalDatum { get; set; }
     public string Beschrijving { get; set; } = string.Empty;
+
+    /// <summary>Only when the relatieaanvraag was confirmed.</summary>
+    public RelatieaanvraagBevestiging? Bevestiging { get; set; }
+
     public Metadata Metadata { get; set; } = null!;
+}
+
+public class RelatieaanvraagBevestiging
+{
+    public DateOnly Datum { get; set; }
 }

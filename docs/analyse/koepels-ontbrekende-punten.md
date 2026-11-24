@@ -145,7 +145,7 @@ Het VLO-endpointcontract bestaat nog niet. Voorstel: VR publiceert per trigger e
 |---|---|
 | Beëindigen SUB-relatie | **De koepel** kan beheren en beëindigen (story 24). Het is geen exclusieve VR-actie. |
 | Subtype na SUB-verwijdering | SUB → **NB** |
-| NB + bevestigd lidmaatschap | NB → **FV** |
+| Leeg of NB + bevestigd lidmaatschap | Leeg of NB → **FV** (leeg bevestigd op 2026-11-23) |
 | Subvereniging beëindigt zelf | **Niet toegelaten.** De sub kan haar eigen SUB-koppeling niet laten beslissen; enkel de koepel kan dat. Het bestaande `PATCH /v1/verenigingen/{vCode}/subtype` krijgt dus een regel: met `vr-namens` = de sub zelf → `403`. |
 
 - [ ] Gevolg om te bevestigen: calls **zonder** `vr-namens`, dus andere GI's in de gewone flow, behouden hun huidige rechten op `PATCH /subtype`.
@@ -492,10 +492,21 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 
 ### Story 3 — Vereniging bevestigt of weigert ontvangen aanvraag · M · 🟢
 
+> **Bevestigen geïmplementeerd (2026-11-23)**, voor beide ontvangers (ook story 5): `POST /v1/relatieaanvragen/{aanvraagId}/bevestiging`. Weigeren volgt apart.
+> - `vr-namens` is niet de ontvanger (de aanvrager zelf of een derde) → `400` "Enkel de ontvanger van de relatieaanvraag kan ze bevestigen." Zoals bij indienen, niet `403`.
+> - Optionele body `{ identificatie, beschrijving }`: die van het lidmaatschap of de subvereniging.
+> - De aanvraag moet `Aangevraagd` zijn en de vervaldatum niet voorbij; op de vervaldatum zelf kan het nog. Al bevestigd → "De relatieaanvraag werd al bevestigd."; na de vervaldatum → "De relatieaanvraag is vervallen."
+> - VR controleert opnieuw de koepel (KBO, `Koepel`) en dezelfde regels als bij indienen, met de andere open aanvragen: de aanvraag zelf telt niet mee.
+> - Bevestiging, relatie en subtypewijziging in één transactie, samen met het vrijgeven van de lock-documenten van de aanvraag.
+> - Lidmaatschap: `van` = bevestigingsdatum, geen `tot`. Subtype **leeg of NB → FV** (0.9).
+> - De aanvraag toont `bevestiging: { datum }`.
+> - Response: `202`, `Location` en `ETag` van de aanvraag, `VR-Sequence` = de hoogste van aanvraag en vereniging.
+> - Nog niet: de notificatie via VLO (story 14).
+
 **Al beslist**
 - `vr-namens` moet de tegenpartij van `aangevraagdDoor` zijn, anders `403` (0.1).
 - De actieve vertegenwoordiger wordt bij het inloggen gecontroleerd (0.1).
-- NB + bevestigd lidmaatschap → FV (0.9).
+- Leeg of NB + bevestigd lidmaatschap → FV (0.9).
 
 **Ontbreekt nog**
 - [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`?
@@ -925,7 +936,7 @@ vr-namens: V0000001
 ### Story 12 — Onverenigbare relaties blokkeren · M · 🟢
 
 **Al beslist (0.2, 0.9)**
-- NB + bevestigd lidmaatschap → FV.
+- Leeg of NB + bevestigd lidmaatschap → FV.
 - Subtype na SUB-beëindiging → NB.
 - De koepel is altijd een KBO-vereniging; kinderen zijn KBO of VZER.
 - Ketenregels K1–K8 (0.2b):

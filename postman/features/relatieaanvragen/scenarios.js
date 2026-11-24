@@ -14,7 +14,13 @@
 // - Subverenigingsaanvraag: geen actieve relatie, max. 1 open aanvraag per paar, enkel een VZER met subtype leeg of
 //   NB, geen lopend lidmaatschap en geen open lidmaatschapsaanvraag (K6), max. 1 open subverenigingsaanvraag (K7).
 // - Opvragen: GET /v1/relatieaanvragen/{aanvraagId} en GET /v1/verenigingen/{vCode}/relatieaanvragen[?status=].
-// Een relatieaanvraag heeft een eigen stream: ze verschijnt niet in de historiek of de detail van de verenigingen.
+// - Bevestigen: POST /v1/relatieaanvragen/{aanvraagId}/bevestiging met vr-namens = de ontvanger (de andere partij dan
+//   de aanvrager). BevestigRelatieaanvraagRequestValidator: geen HTML in identificatie en beschrijving.
+//   OntvangenRelatieaanvraag: enkel de ontvanger, niet al bevestigd, niet vervallen (90 dagen: niet te testen). Daarna
+//   de koepel en de regels van indienen opnieuw, zonder de aanvraag zelf. Lidmaatschap: vanaf vandaag zonder einddatum,
+//   subtype leeg of NB wordt FV. Subvereniging: subtype SUB van de koepel.
+// Een relatieaanvraag heeft een eigen stream: ze verschijnt niet in de historiek of de detail van de verenigingen. Enkel
+// de relatie die bij de bevestiging ontstaat, komt op de vereniging.
 //
 // Rollen: A is altijd een nieuwe VZER (de vereniging), K en L zijn koepels (KBO; op Test hergebruikt), X is een
 // tweede VZER. Op Test zijn K en L bestaande verenigingen: ze worden eerst als koepel geïdentificeerd (200 of 202), en
@@ -30,6 +36,8 @@ const STATUSSEN = ['Aangevraagd', 'Bevestigd', 'Geweigerd', 'Ingetrokken', 'Verv
 const AANGEVRAAGD = 'Aangevraagd';
 const ONBEKENDE_VCODE = 'V9999999';
 const ONBEKENDE_AANVRAAG = 'RA9999999';
+const AANVRAAG_ID_FORMAAT = 'RA0000000';
+const BEVESTIGD = 'Bevestigd';
 
 // "A, B of C", zoals AllowedValues.Describe
 const opsomming = (waarden) => (waarden.length === 1 ? waarden[0] : `${waarden.slice(0, -1).join(', ')} of ${waarden[waarden.length - 1]}`);
@@ -57,6 +65,10 @@ const BERICHT = {
   zelfdeTypeOpen: (id) => `Er staat al een relatieaanvraag van hetzelfde type open voor deze verenigingen: '${id}'.`,
   anderTypeOpen: 'Er bestaat al een open aanvraag van een ander relatietype voor dit paar.',
   subAlOpen: (id) => `Er staat al een aanvraag open om subvereniging te worden: '${id}'.`,
+  nietDeOntvanger: 'Enkel de ontvanger van de relatieaanvraag kan ze bevestigen.',
+  alBevestigd: 'De relatieaanvraag werd al bevestigd.',
+  aanvraagIdFormaat: `Formaat van de aanvraagId moet '${AANVRAAG_ID_FORMAAT}' zijn.`,
+  aanvraagOnbekend: `De resource met id '${ONBEKENDE_AANVRAAG}' werd niet gevonden.`,
 };
 
 // Datums (yyyy-MM-dd, UTC zoals de API-containers): aanvraag- en vervaldatum, begin en einde van een lidmaatschap.
@@ -91,6 +103,20 @@ function dienIn(naam, { koepel = 'K', vereniging = 'A', type = LIDMAATSCHAP, nam
   };
 }
 const ingediend = (id, n, naam, opties) => dienIn(naam, opties, ok(), { bewaarId: aanvraagVar(id, n) });
+
+// POST /v1/relatieaanvragen/{aanvraagId}/bevestiging. Default: K bevestigt aanvraag 1 van het scenario, zonder
+// relatiegegevens. aanvraagId: een literal (onbekend of ongeldig). namens: rol of literal, null = zonder vr-namens.
+function bevestig(naam, { id, n = 1, aanvraagId, namens = 'K', body = {} } = {}, verwacht = ok(), extra = {}) {
+  return {
+    naam,
+    actie: 'POST',
+    beheerPad: `v1/relatieaanvragen/${aanvraagId || aanvraag(id, n)}/bevestiging`,
+    headers: namens === null ? {} : { 'vr-namens': vCode(namens) },
+    body,
+    verwacht,
+    ...extra,
+  };
+}
 
 const alsKoepel = (rol = 'K') => ({
   naam: `Identificeer ${rol} als koepel`,
@@ -140,6 +166,19 @@ const KOEPEL = { K: { kbo: true } };
 const TWEE_KOEPELS = { K: { kbo: true }, L: { kbo: true } };
 // A relatieaanvraag changes nothing on the verenigingen.
 const GEEN_RELATIEAANVRAAG_IN_HISTORIEK = { geen: ['Relatieaanvraag'] };
+
+// beheer detail van A na een bevestiging
+const lidmaatschapVan = (rol, { identificatie = '', beschrijving = '' } = {}) => ({
+  andereVereniging: vCode(rol),
+  van: '{{vandaag}}',
+  tot: '',
+  identificatie,
+  beschrijving,
+});
+const lidmaatschappen = (items) => ({ lijst: { veld: 'lidmaatschappen', items } });
+const GEEN_LIDMAATSCHAP = { beheerDetail: lidmaatschappen([]) };
+const gebeurtenis = (naam) => ({ gebeurtenis: naam, aantal: 1 });
+const nogOpen = (id) => detail(id, { status: AANGEVRAAGD });
 
 // ================================================================ scenarios
 
@@ -528,12 +567,230 @@ const autorisatie = [
   },
 ];
 
+const bevestigen = [
+  {
+    id: 'RA80',
+    name: 'Koepel bevestigt lidmaatschapsaanvraag -> lidmaatschap vanaf vandaag zonder einddatum, subtype FV, Bevestigd',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA80', 1, 'Dien lidmaatschapsaanvraag in namens A'),
+      bevestig(
+        'Bevestig namens K',
+        { id: 'RA80', body: { identificatie: 'LID-0001', beschrijving: 'Lid van de Witte Raad' } },
+        { status: 202, locatie: aanvraag('RA80') }
+      ),
+    ],
+    final: {
+      beheerDetail: {
+        ...lidmaatschappen([lidmaatschapVan('K', { identificatie: 'LID-0001', beschrijving: 'Lid van de Witte Raad' })]),
+        props: { verenigingssubtype: { code: 'FV' } },
+      },
+    },
+    historiek: {
+      bevat: [gebeurtenis('LidmaatschapWerdToegevoegd'), gebeurtenis('VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging')],
+      geen: ['Relatieaanvraag'],
+    },
+    controles: [
+      detail('RA80', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } }),
+      lijstVan('A', [item('RA80', 1, { status: BEVESTIGD })], { status: BEVESTIGD }),
+      lijstVan('A', [], { status: AANGEVRAAGD }),
+    ],
+  },
+  {
+    id: 'RA81',
+    name: 'Vereniging bevestigt subverenigingsaanvraag van de koepel -> subtype SUB van de koepel, Bevestigd',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA81', 1, 'Dien subverenigingsaanvraag in namens K', { type: SUBVERENIGING, namens: 'K' }),
+      bevestig('Bevestig namens A', {
+        id: 'RA81',
+        namens: 'A',
+        body: { identificatie: 'SUB-0001', beschrijving: 'Afdeling Rivendel' },
+      }),
+    ],
+    final: {
+      beheerDetail: {
+        ...lidmaatschappen([]),
+        props: {
+          verenigingssubtype: { code: 'SUB' },
+          subverenigingVan: { andereVereniging: '{{vCodeK}}', identificatie: 'SUB-0001', beschrijving: 'Afdeling Rivendel' },
+        },
+      },
+    },
+    historiek: { bevat: [gebeurtenis('VerenigingssubtypeWerdVerfijndNaarSubvereniging')], geen: ['Lidmaatschap'] },
+    controles: [detail('RA81', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } })],
+  },
+  {
+    id: 'RA82',
+    name: 'Feitelijke vereniging, zonder relatiegegevens -> lidmaatschap met lege identificatie en beschrijving, subtype blijft FV',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      subtype('FV'),
+      ingediend('RA82', 1, 'Dien lidmaatschapsaanvraag in'),
+      bevestig('Bevestig zonder relatiegegevens', { id: 'RA82' }),
+    ],
+    final: { beheerDetail: { ...lidmaatschappen([lidmaatschapVan('K')]), props: { verenigingssubtype: { code: 'FV' } } } },
+    // FV komt van de subtype-stap, niet nog eens van de bevestiging
+    historiek: { bevat: [gebeurtenis('LidmaatschapWerdToegevoegd'), gebeurtenis('VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging')] },
+  },
+  {
+    id: 'RA83',
+    name: 'Bevestigen door de aanvrager of door een andere vereniging -> 400, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA83', 1, 'Dien lidmaatschapsaanvraag in namens A'),
+      bevestig('Bevestig namens A (de aanvrager)', { id: 'RA83', namens: 'A' }, fout(BERICHT.nietDeOntvanger)),
+      bevestig('Bevestig namens een andere vereniging', { id: 'RA83', namens: ONBEKENDE_VCODE }, fout(BERICHT.nietDeOntvanger)),
+    ],
+    final: GEEN_LIDMAATSCHAP,
+    controles: [nogOpen('RA83')],
+  },
+  {
+    id: 'RA84',
+    name: 'Al bevestigd -> opnieuw bevestigen 400, één lidmaatschap',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA84', 1, 'Dien lidmaatschapsaanvraag in'),
+      bevestig('Bevestig namens K', { id: 'RA84' }),
+      bevestig('Bevestig opnieuw namens K', { id: 'RA84' }, fout(BERICHT.alBevestigd)),
+    ],
+    final: { beheerDetail: lidmaatschappen([lidmaatschapVan('K')]) },
+    historiek: { bevat: [gebeurtenis('LidmaatschapWerdToegevoegd')] },
+  },
+  {
+    id: 'RA85',
+    name: 'Na bevestiging -> nieuwe aanvraag voor hetzelfde paar 400 door de relatie, niet omdat ze nog open staat',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA85', 1, 'Dien lidmaatschapsaanvraag in'),
+      bevestig('Bevestig namens K', { id: 'RA85' }),
+      dienIn('Dien opnieuw een lidmaatschapsaanvraag in namens K', { namens: 'K' }, fout(BERICHT.actieveRelatie)),
+    ],
+    controles: [lijstVan('A', [item('RA85', 1, { status: BEVESTIGD })])],
+  },
+  {
+    id: 'RA86',
+    name: 'Koepel intussen niet meer als koepel geïdentificeerd -> bevestigen 400, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA86', 1, 'Dien lidmaatschapsaanvraag in'),
+      nietAlsKoepel(),
+      bevestig('Bevestig namens K', { id: 'RA86' }, fout(BERICHT.geenKoepel)),
+    ],
+    final: GEEN_LIDMAATSCHAP,
+    controles: [nogOpen('RA86')],
+  },
+  {
+    id: 'RA87',
+    name: 'Lidmaatschap intussen rechtstreeks toegevoegd -> bevestigen 400, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      wachtOp('K'),
+      ingediend('RA87', 1, 'Dien lidmaatschapsaanvraag in'),
+      lidmaatschap('K'),
+      bevestig('Bevestig namens K', { id: 'RA87' }, fout(BERICHT.actieveRelatie)),
+    ],
+    historiek: { bevat: [gebeurtenis('LidmaatschapWerdToegevoegd')] },
+    controles: [nogOpen('RA87')],
+  },
+  {
+    id: 'RA88',
+    name: 'Subverenigingsaanvraag, intussen lid van een andere koepel -> bevestigen 400, aanvraag blijft open',
+    verenigingen: TWEE_KOEPELS,
+    stappen: [
+      alsKoepel('K'),
+      wachtOp('L'),
+      ingediend('RA88', 1, 'Dien subverenigingsaanvraag bij K in', { type: SUBVERENIGING }),
+      lidmaatschap('L'),
+      bevestig('Bevestig namens K', { id: 'RA88' }, fout(BERICHT.lidKanGeenSub)),
+    ],
+    final: { beheerDetail: { propsNiet: { verenigingssubtype: { code: 'SUB' } } } },
+    controles: [nogOpen('RA88')],
+  },
+  {
+    id: 'RA89',
+    name: 'Verouderde If-Match -> 412, actuele If-Match -> bevestigd',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      dienIn('Dien lidmaatschapsaanvraag in', {}, ok(), { bewaarId: aanvraagVar('RA89'), bewaarHeader: { ETag: 'etagRA89' } }),
+      bevestig('Bevestig met een te hoge If-Match', { id: 'RA89' }, { status: 412 }, { headers: { 'vr-namens': '{{vCodeK}}', 'If-Match': 'W/"9"' } }),
+      bevestig('Bevestig met de actuele If-Match', { id: 'RA89' }, ok(), { headers: { 'vr-namens': '{{vCodeK}}', 'If-Match': '{{etagRA89}}' } }),
+    ],
+    final: { beheerDetail: lidmaatschappen([lidmaatschapVan('K')]) },
+    controles: [detail('RA89', { status: BEVESTIGD })],
+  },
+];
+
+const bevestigenValidatie = [
+  {
+    id: 'RA90',
+    name: 'Ongeldige aanvraagId -> 400',
+    geenRegistratie: true,
+    stappen: [bevestig('Bevestig met een vCode als aanvraagId', { aanvraagId: 'V0001001', namens: ONBEKENDE_VCODE }, fout(BERICHT.aanvraagIdFormaat))],
+  },
+  {
+    id: 'RA91',
+    name: 'Onbekende relatieaanvraag -> 400',
+    geenRegistratie: true,
+    stappen: [bevestig('Bevestig een onbekende aanvraag', { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE }, fout(BERICHT.aanvraagOnbekend))],
+  },
+  {
+    id: 'RA92',
+    name: 'Zonder of met ongeldige vr-namens -> 400',
+    geenRegistratie: true,
+    stappen: [
+      bevestig('Bevestig zonder vr-namens', { aanvraagId: ONBEKENDE_AANVRAAG, namens: null }, fout(BERICHT.vrNamensVerplicht)),
+      bevestig('Bevestig met ongeldige vr-namens', { aanvraagId: ONBEKENDE_AANVRAAG, namens: 'ongeldig' }, fout(BERICHT.vCodeFormaat)),
+    ],
+  },
+  {
+    id: 'RA93',
+    name: 'HTML in identificatie of beschrijving -> 400',
+    geenRegistratie: true,
+    stappen: [
+      bevestig(
+        'Bevestig met HTML in de identificatie',
+        { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE, body: { identificatie: '<b>LID</b>' } },
+        validatie('identificatie', BERICHT.html)
+      ),
+      bevestig(
+        'Bevestig met HTML in de beschrijving',
+        { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE, body: { beschrijving: '<b>Fellowship</b>' } },
+        validatie('beschrijving', BERICHT.html)
+      ),
+    ],
+  },
+  {
+    id: 'RA94',
+    name: 'Zonder token -> 401, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA94', 1, 'Dien lidmaatschapsaanvraag in'),
+      bevestig('Bevestig zonder token', { id: 'RA94' }, { status: 401, title: 'Unauthorized' }, { zonderToken: true }),
+    ],
+    final: GEEN_LIDMAATSCHAP,
+    controles: [nogOpen('RA94')],
+  },
+];
+
 module.exports = {
   name: 'Relatieaanvragen',
   description:
     'Relatieaanvragen tussen een koepel en een vereniging (POST /v1/relatieaanvragen met vr-namens): een lidmaatschap ' +
     'of een subvereniging, ingediend door de koepel of de vereniging. Opvragen via GET /v1/relatieaanvragen/{aanvraagId} ' +
-    'en GET /v1/verenigingen/{vCode}/relatieaanvragen. Een aanvraag wijzigt niets aan de verenigingen.',
+    'en GET /v1/verenigingen/{vCode}/relatieaanvragen. Een aanvraag wijzigt niets aan de verenigingen. Bevestigen via ' +
+    'POST /v1/relatieaanvragen/{aanvraagId}/bevestiging door de ontvanger: dan ontstaat het lidmaatschap of de ' +
+    'subvereniging op de vereniging.',
   setup: SETUP_DATUMS,
   groepen: [
     { name: 'Indienen', scenarios: indienen },
@@ -544,5 +801,7 @@ module.exports = {
     { name: 'Validatie', scenarios: validatieFouten },
     { name: 'Opvragen', scenarios: opvragen },
     { name: 'Autorisatie', scenarios: autorisatie },
+    { name: 'Bevestigen', scenarios: bevestigen },
+    { name: 'Bevestigen - validatie', scenarios: bevestigenValidatie },
   ],
 };
