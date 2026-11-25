@@ -488,4 +488,10 @@
   <data name="RelatieaanvraagWerdAlGeweigerd">
     <value>De relatieaanvraag werd al geweigerd.</value>
   </data>
+  <data name="NamensIsNietDeAanvrager">
+    <value>Enkel de aanvrager van de relatieaanvraag kan ze intrekken.</value>
+  </data>
+  <data name="RelatieaanvraagWerdAlIngetrokken">
+    <value>De relatieaanvraag werd al ingetrokken.</value>
+  </data>
 </root>

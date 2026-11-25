@@ -53,4 +53,15 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
         };
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdIngetrokken> @event)
+    {
+        document.Status = RelatieaanvraagStatus.Ingetrokken.Value;
+        document.Intrekking = new RelatieaanvraagIntrekking
+        {
+            Datum = @event.Data.IntrekkingsDatum,
+            Reden = @event.Data.Reden,
+        };
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
 }

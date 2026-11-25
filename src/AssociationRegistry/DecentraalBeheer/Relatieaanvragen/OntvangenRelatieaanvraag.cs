@@ -22,9 +22,7 @@ public sealed class OntvangenRelatieaanvraag
     public static OntvangenRelatieaanvraag Create(RelatieaanvraagState relatieaanvraag, VCode namens, DateOnly today)
     {
         Throw<NamensIsNietDeOntvanger>.If(namens != relatieaanvraag.Ontvanger);
-        Throw<RelatieaanvraagWerdAlBevestigd>.If(relatieaanvraag.Status == RelatieaanvraagStatus.Bevestigd);
-        Throw<RelatieaanvraagWerdAlGeweigerd>.If(relatieaanvraag.Status == RelatieaanvraagStatus.Geweigerd);
-        Throw<RelatieaanvraagIsVervallen>.If(today > relatieaanvraag.VervalDatum);
+        relatieaanvraag.ThrowIfNotOpen(today);
 
         return new OntvangenRelatieaanvraag(relatieaanvraag);
     }

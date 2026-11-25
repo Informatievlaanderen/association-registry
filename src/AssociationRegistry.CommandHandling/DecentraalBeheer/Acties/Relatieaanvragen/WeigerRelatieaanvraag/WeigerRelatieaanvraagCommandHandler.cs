@@ -34,7 +34,7 @@ public class WeigerRelatieaanvraagCommandHandler
             .Create(relatieaanvraag, command.GeweigerdDoor, today)
             .Weiger(command.Reden, today);
 
-        var result = await _relatieaanvraagRepository.SaveWeigering(
+        var result = await _relatieaanvraagRepository.SaveAfsluiting(
             relatieaanvraag,
             geweigerd,
             envelope.Metadata,

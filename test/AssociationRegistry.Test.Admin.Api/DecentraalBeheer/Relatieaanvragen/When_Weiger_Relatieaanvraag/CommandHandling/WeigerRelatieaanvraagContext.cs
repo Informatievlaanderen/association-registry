@@ -32,6 +32,7 @@ public class WeigerRelatieaanvraagContext
         RelatieType? relatieType = null,
         bool alreadyBevestigd = false,
         bool alreadyGeweigerd = false,
+        bool alreadyIngetrokken = false,
         DateOnly? today = null
     )
     {
@@ -56,11 +57,16 @@ public class WeigerRelatieaanvraagContext
                 new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum, "Reden")
             );
 
+        if (alreadyIngetrokken)
+            relatieaanvraag = relatieaanvraag.Apply(
+                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum, "Reden")
+            );
+
         _repository = new RelatieaanvraagRepositoryStub(relatieaanvraag);
         _commandHandler = new WeigerRelatieaanvraagCommandHandler(_repository, new ClockStub(today ?? Today));
     }
 
-    public RelatieaanvraagWerdGeweigerd? Geweigerd => _repository.Geweigerd;
+    public RelatieaanvraagWerdGeweigerd? Geweigerd => _repository.Afsluiting as RelatieaanvraagWerdGeweigerd;
 
     public async Task<RelatieaanvraagCommandResult> Weiger(VCode geweigerdDoor, string reden = "")
     {
@@ -71,7 +77,7 @@ public class WeigerRelatieaanvraagContext
         return await _commandHandler.Handle(new CommandEnvelope<WeigerRelatieaanvraagCommand>(command, metadata));
     }
 
-    public void ShouldNotHaveSaved() => _repository.Geweigerd.Should().BeNull();
+    public void ShouldNotHaveSaved() => _repository.Afsluiting.Should().BeNull();
 
     private class RelatieaanvraagRepositoryStub : IRelatieaanvraagRepository
     {
@@ -82,19 +88,19 @@ public class WeigerRelatieaanvraagContext
             _relatieaanvraag = relatieaanvraag;
         }
 
-        public RelatieaanvraagWerdGeweigerd? Geweigerd { get; private set; }
+        public IRelatieaanvraagEvent? Afsluiting { get; private set; }
 
         public Task<RelatieaanvraagState> Load(RelatieaanvraagId aanvraagId, long? expectedVersion) =>
             Task.FromResult(_relatieaanvraag);
 
-        public Task<StreamActionResult> SaveWeigering(
+        public Task<StreamActionResult> SaveAfsluiting(
             RelatieaanvraagState relatieaanvraag,
-            RelatieaanvraagWerdGeweigerd geweigerd,
+            IRelatieaanvraagEvent afsluiting,
             CommandMetadata metadata,
             CancellationToken cancellationToken
         )
         {
-            Geweigerd = geweigerd;
+            Afsluiting = afsluiting;
 
             return Task.FromResult(new StreamActionResult(Sequence: 10, Version: relatieaanvraag.Version + 1));
         }

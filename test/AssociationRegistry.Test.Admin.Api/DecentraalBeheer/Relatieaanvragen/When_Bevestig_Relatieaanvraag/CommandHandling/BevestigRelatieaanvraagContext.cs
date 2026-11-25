@@ -36,6 +36,7 @@ public class BevestigRelatieaanvraagContext
         OpenRelatieaanvraag[]? otherOpenRelatieaanvragen = null,
         bool alreadyBevestigd = false,
         bool alreadyGeweigerd = false,
+        bool alreadyIngetrokken = false,
         DateOnly? today = null
     )
     {
@@ -60,6 +61,11 @@ public class BevestigRelatieaanvraagContext
 
         if (alreadyGeweigerd)
             relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, Today, "Reden"));
+
+        if (alreadyIngetrokken)
+            relatieaanvraag = relatieaanvraag.Apply(
+                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, Today, "Reden")
+            );
 
         _repository = new RelatieaanvraagRepositoryStub(
             relatieaanvraag,
@@ -190,9 +196,9 @@ public class BevestigRelatieaanvraagContext
             CancellationToken cancellationToken
         ) => throw new NotSupportedException();
 
-        public Task<StreamActionResult> SaveWeigering(
+        public Task<StreamActionResult> SaveAfsluiting(
             RelatieaanvraagState relatieaanvraag,
-            RelatieaanvraagWerdGeweigerd geweigerd,
+            IRelatieaanvraagEvent afsluiting,
             CommandMetadata metadata,
             CancellationToken cancellationToken
         ) => throw new NotSupportedException();

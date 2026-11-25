@@ -16,13 +16,17 @@
 // - Opvragen: GET /v1/relatieaanvragen/{aanvraagId} en GET /v1/verenigingen/{vCode}/relatieaanvragen[?status=].
 // - Bevestigen: POST /v1/relatieaanvragen/{aanvraagId}/bevestiging met vr-namens = de ontvanger (de andere partij dan
 //   de aanvrager). BevestigRelatieaanvraagRequestValidator: geen HTML in identificatie en beschrijving.
-//   OntvangenRelatieaanvraag: enkel de ontvanger, niet al bevestigd of geweigerd, niet vervallen (90 dagen: niet te
-//   testen). Daarna de koepel en de regels van indienen opnieuw, zonder de aanvraag zelf. Lidmaatschap: vanaf vandaag
-//   zonder einddatum, subtype leeg of NB wordt FV. Subvereniging: subtype SUB van de koepel.
+//   OntvangenRelatieaanvraag: enkel de ontvanger, niet al bevestigd, geweigerd of ingetrokken, niet vervallen (90
+//   dagen: niet te testen). Daarna de koepel en de regels van indienen opnieuw, zonder de aanvraag zelf. Lidmaatschap:
+//   vanaf vandaag zonder einddatum, subtype leeg of NB wordt FV. Subvereniging: subtype SUB van de koepel.
 // - Weigeren: POST /v1/relatieaanvragen/{aanvraagId}/weigering met vr-namens = de ontvanger en een optionele reden.
 //   WeigerRelatieaanvraagRequestValidator: geen HTML in de reden. Dezelfde OntvangenRelatieaanvraag, maar verder geen
 //   controles: ook een koepel die niet meer als koepel geïdentificeerd is, kan weigeren. Er ontstaat geen relatie, en
 //   het paar is weer vrij voor een nieuwe aanvraag.
+// - Intrekken: POST /v1/relatieaanvragen/{aanvraagId}/intrekking met vr-namens = de aanvrager en een optionele reden.
+//   TrekRelatieaanvraagInRequestValidator: geen HTML in de reden. IngediendeRelatieaanvraag: enkel de aanvrager, en
+//   dezelfde controles op de status en de vervaldatum als hierboven. Verder geen controles. Er ontstaat geen relatie,
+//   en het paar is weer vrij voor een nieuwe aanvraag.
 // Een relatieaanvraag heeft een eigen stream: ze verschijnt niet in de historiek of de detail van de verenigingen. Enkel
 // de relatie die bij de bevestiging ontstaat, komt op de vereniging.
 //
@@ -43,6 +47,7 @@ const ONBEKENDE_AANVRAAG = 'RA9999999';
 const AANVRAAG_ID_FORMAAT = 'RA0000000';
 const BEVESTIGD = 'Bevestigd';
 const GEWEIGERD = 'Geweigerd';
+const INGETROKKEN = 'Ingetrokken';
 
 // "A, B of C", zoals AllowedValues.Describe
 const opsomming = (waarden) => (waarden.length === 1 ? waarden[0] : `${waarden.slice(0, -1).join(', ')} of ${waarden[waarden.length - 1]}`);
@@ -73,6 +78,8 @@ const BERICHT = {
   nietDeOntvanger: 'Enkel de ontvanger van de relatieaanvraag kan ze bevestigen of weigeren.',
   alBevestigd: 'De relatieaanvraag werd al bevestigd.',
   alGeweigerd: 'De relatieaanvraag werd al geweigerd.',
+  nietDeAanvrager: 'Enkel de aanvrager van de relatieaanvraag kan ze intrekken.',
+  alIngetrokken: 'De relatieaanvraag werd al ingetrokken.',
   aanvraagIdFormaat: `Formaat van de aanvraagId moet '${AANVRAAG_ID_FORMAAT}' zijn.`,
   aanvraagOnbekend: `De resource met id '${ONBEKENDE_AANVRAAG}' werd niet gevonden.`,
 };
@@ -110,9 +117,9 @@ function dienIn(naam, { koepel = 'K', vereniging = 'A', type = LIDMAATSCHAP, nam
 }
 const ingediend = (id, n, naam, opties) => dienIn(naam, opties, ok(), { bewaarId: aanvraagVar(id, n) });
 
-// POST /v1/relatieaanvragen/{aanvraagId}/bevestiging of /weigering. Default: K handelt aanvraag 1 van het scenario af,
-// met een lege body (geen relatiegegevens, geen reden). aanvraagId: een literal (onbekend of ongeldig). namens: rol of
-// literal, null = zonder vr-namens.
+// POST /v1/relatieaanvragen/{aanvraagId}/bevestiging, /weigering of /intrekking. Default: K handelt aanvraag 1 van het
+// scenario af, met een lege body (geen relatiegegevens, geen reden). aanvraagId: een literal (onbekend of ongeldig).
+// namens: rol of literal, null = zonder vr-namens.
 const handelAf =
   (afhandeling) =>
   (naam, { id, n = 1, aanvraagId, namens = 'K', body = {} } = {}, verwacht = ok(), extra = {}) => ({
@@ -126,6 +133,7 @@ const handelAf =
   });
 const bevestig = handelAf('bevestiging');
 const weiger = handelAf('weigering');
+const trekIn = handelAf('intrekking');
 
 const alsKoepel = (rol = 'K') => ({
   naam: `Identificeer ${rol} als koepel`,
@@ -792,7 +800,7 @@ const bevestigenValidatie = [
   },
 ];
 
-const REDEN = 'Wij blijven onafhankelijk van de Witte Raad.';
+const REDEN_WEIGERING = 'Wij blijven onafhankelijk van de Witte Raad.';
 
 const weigeren = [
   {
@@ -802,12 +810,12 @@ const weigeren = [
     stappen: [
       alsKoepel(),
       ingediend('RA100', 1, 'Dien lidmaatschapsaanvraag in namens K', { namens: 'K' }),
-      weiger('Weiger namens A', { id: 'RA100', namens: 'A', body: { reden: REDEN } }, { status: 202, locatie: aanvraag('RA100') }),
+      weiger('Weiger namens A', { id: 'RA100', namens: 'A', body: { reden: REDEN_WEIGERING } }, { status: 202, locatie: aanvraag('RA100') }),
     ],
     final: { beheerDetail: { ...lidmaatschappen([]), propsNiet: { verenigingssubtype: { code: 'FV' } } } },
     historiek: { geen: ['Relatieaanvraag', 'Lidmaatschap'] },
     controles: [
-      detail('RA100', { status: GEWEIGERD, weigering: { datum: '{{vandaag}}', reden: REDEN } }),
+      detail('RA100', { status: GEWEIGERD, weigering: { datum: '{{vandaag}}', reden: REDEN_WEIGERING } }),
       lijstVan('A', [item('RA100', 1, { status: GEWEIGERD })], { status: GEWEIGERD }),
       lijstVan('A', [], { status: AANGEVRAAGD }),
     ],
@@ -963,6 +971,178 @@ const weigerenValidatie = [
   },
 ];
 
+const REDEN_INTREKKING = 'Per vergissing ingediend door Pippin.';
+
+const intrekken = [
+  {
+    id: 'RA120',
+    name: 'Koepel trekt lidmaatschapsaanvraag in -> Ingetrokken met reden, geen relatie',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA120', 1, 'Dien lidmaatschapsaanvraag in namens K', { namens: 'K' }),
+      trekIn('Trek in namens K', { id: 'RA120', body: { reden: REDEN_INTREKKING } }, { status: 202, locatie: aanvraag('RA120') }),
+    ],
+    final: { beheerDetail: { ...lidmaatschappen([]), propsNiet: { verenigingssubtype: { code: 'FV' } } } },
+    historiek: { geen: ['Relatieaanvraag', 'Lidmaatschap'] },
+    controles: [
+      detail('RA120', { status: INGETROKKEN, intrekking: { datum: '{{vandaag}}', reden: REDEN_INTREKKING } }),
+      lijstVan('A', [item('RA120', 1, { status: INGETROKKEN })], { status: INGETROKKEN }),
+      lijstVan('A', [], { status: AANGEVRAAGD }),
+    ],
+  },
+  {
+    id: 'RA121',
+    name: 'Vereniging trekt subverenigingsaanvraag in zonder reden -> Ingetrokken met lege reden, geen subvereniging',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA121', 1, 'Dien subverenigingsaanvraag in namens A', { type: SUBVERENIGING }),
+      trekIn('Trek in namens A zonder reden', { id: 'RA121', namens: 'A' }),
+    ],
+    final: { beheerDetail: { propsNiet: { verenigingssubtype: { code: 'SUB' } } } },
+    controles: [detail('RA121', { status: INGETROKKEN, intrekking: { datum: '{{vandaag}}', reden: '' } })],
+  },
+  {
+    id: 'RA122',
+    name: 'Na intrekking -> nieuwe aanvraag voor hetzelfde paar kan opnieuw',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA122', 1, 'Dien lidmaatschapsaanvraag in'),
+      trekIn('Trek in namens A', { id: 'RA122', namens: 'A' }),
+      ingediend('RA122', 2, 'Dien opnieuw een lidmaatschapsaanvraag in'),
+    ],
+    controles: [lijstVan('A', [item('RA122', 1, { status: INGETROKKEN }), item('RA122', 2)])],
+  },
+  {
+    id: 'RA123',
+    name: 'Na intrekking van een subverenigingsaanvraag -> subverenigingsaanvraag bij een andere koepel kan (K7)',
+    verenigingen: TWEE_KOEPELS,
+    stappen: [
+      alsKoepel('K'),
+      alsKoepel('L'),
+      ingediend('RA123', 1, 'Dien subverenigingsaanvraag bij K in', { type: SUBVERENIGING }),
+      trekIn('Trek in namens A', { id: 'RA123', namens: 'A' }),
+      ingediend('RA123', 2, 'Dien subverenigingsaanvraag bij L in', { koepel: 'L', type: SUBVERENIGING }),
+    ],
+    controles: [
+      lijstVan('A', [item('RA123', 1, { koepelVCode: '{{vCodeK}}', status: INGETROKKEN }), item('RA123', 2, { koepelVCode: '{{vCodeL}}' })]),
+    ],
+  },
+  {
+    id: 'RA124',
+    name: 'Intrekken door de ontvanger of door een andere vereniging -> 400, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA124', 1, 'Dien lidmaatschapsaanvraag in namens A'),
+      trekIn('Trek in namens K (de ontvanger)', { id: 'RA124' }, fout(BERICHT.nietDeAanvrager)),
+      trekIn('Trek in namens een andere vereniging', { id: 'RA124', namens: ONBEKENDE_VCODE }, fout(BERICHT.nietDeAanvrager)),
+    ],
+    controles: [nogOpen('RA124')],
+  },
+  {
+    id: 'RA125',
+    name: 'Al ingetrokken -> opnieuw intrekken, bevestigen of weigeren 400, geen relatie',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA125', 1, 'Dien lidmaatschapsaanvraag in'),
+      trekIn('Trek in namens A', { id: 'RA125', namens: 'A' }),
+      trekIn('Trek opnieuw in namens A', { id: 'RA125', namens: 'A' }, fout(BERICHT.alIngetrokken)),
+      bevestig('Bevestig na de intrekking', { id: 'RA125' }, fout(BERICHT.alIngetrokken)),
+      weiger('Weiger na de intrekking', { id: 'RA125' }, fout(BERICHT.alIngetrokken)),
+    ],
+    final: GEEN_LIDMAATSCHAP,
+    controles: [detail('RA125', { status: INGETROKKEN })],
+  },
+  {
+    id: 'RA126',
+    name: 'Al bevestigd -> intrekken 400, lidmaatschap blijft',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA126', 1, 'Dien lidmaatschapsaanvraag in'),
+      bevestig('Bevestig namens K', { id: 'RA126' }),
+      trekIn('Trek in na de bevestiging', { id: 'RA126', namens: 'A' }, fout(BERICHT.alBevestigd)),
+    ],
+    final: { beheerDetail: lidmaatschappen([lidmaatschapVan('K')]) },
+    controles: [detail('RA126', { status: BEVESTIGD })],
+  },
+  {
+    id: 'RA127',
+    name: 'Al geweigerd -> intrekken 400',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA127', 1, 'Dien lidmaatschapsaanvraag in'),
+      weiger('Weiger namens K', { id: 'RA127' }),
+      trekIn('Trek in na de weigering', { id: 'RA127', namens: 'A' }, fout(BERICHT.alGeweigerd)),
+    ],
+    controles: [detail('RA127', { status: GEWEIGERD })],
+  },
+  {
+    id: 'RA128',
+    name: 'Verouderde If-Match -> 412, actuele If-Match -> ingetrokken',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      dienIn('Dien lidmaatschapsaanvraag in', {}, ok(), { bewaarId: aanvraagVar('RA128'), bewaarHeader: { ETag: 'etagRA128' } }),
+      trekIn('Trek in met een te hoge If-Match', { id: 'RA128' }, { status: 412 }, { headers: { 'vr-namens': '{{vCodeA}}', 'If-Match': 'W/"9"' } }),
+      trekIn('Trek in met de actuele If-Match', { id: 'RA128' }, ok(), { headers: { 'vr-namens': '{{vCodeA}}', 'If-Match': '{{etagRA128}}' } }),
+    ],
+    controles: [detail('RA128', { status: INGETROKKEN })],
+  },
+];
+
+const intrekkenValidatie = [
+  {
+    id: 'RA130',
+    name: 'Ongeldige aanvraagId -> 400',
+    geenRegistratie: true,
+    stappen: [trekIn('Trek in met een vCode als aanvraagId', { aanvraagId: 'V0001001', namens: ONBEKENDE_VCODE }, fout(BERICHT.aanvraagIdFormaat))],
+  },
+  {
+    id: 'RA131',
+    name: 'Onbekende relatieaanvraag -> 400',
+    geenRegistratie: true,
+    stappen: [trekIn('Trek een onbekende aanvraag in', { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE }, fout(BERICHT.aanvraagOnbekend))],
+  },
+  {
+    id: 'RA132',
+    name: 'Zonder of met ongeldige vr-namens -> 400',
+    geenRegistratie: true,
+    stappen: [
+      trekIn('Trek in zonder vr-namens', { aanvraagId: ONBEKENDE_AANVRAAG, namens: null }, fout(BERICHT.vrNamensVerplicht)),
+      trekIn('Trek in met ongeldige vr-namens', { aanvraagId: ONBEKENDE_AANVRAAG, namens: 'ongeldig' }, fout(BERICHT.vCodeFormaat)),
+    ],
+  },
+  {
+    id: 'RA133',
+    name: 'HTML in de reden -> 400',
+    geenRegistratie: true,
+    stappen: [
+      trekIn(
+        'Trek in met HTML in de reden',
+        { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE, body: { reden: '<b>Isengard</b>' } },
+        validatie('reden', BERICHT.html)
+      ),
+    ],
+  },
+  {
+    id: 'RA134',
+    name: 'Zonder token -> 401, aanvraag blijft open',
+    verenigingen: KOEPEL,
+    stappen: [
+      alsKoepel(),
+      ingediend('RA134', 1, 'Dien lidmaatschapsaanvraag in'),
+      trekIn('Trek in zonder token', { id: 'RA134', namens: 'A' }, { status: 401, title: 'Unauthorized' }, { zonderToken: true }),
+    ],
+    controles: [nogOpen('RA134')],
+  },
+];
+
 module.exports = {
   name: 'Relatieaanvragen',
   description:
@@ -971,7 +1151,8 @@ module.exports = {
     'en GET /v1/verenigingen/{vCode}/relatieaanvragen. Een aanvraag wijzigt niets aan de verenigingen. Bevestigen via ' +
     'POST /v1/relatieaanvragen/{aanvraagId}/bevestiging door de ontvanger: dan ontstaat het lidmaatschap of de ' +
     'subvereniging op de vereniging. Weigeren via POST /v1/relatieaanvragen/{aanvraagId}/weigering door de ontvanger, ' +
-    'met een optionele reden: er ontstaat geen relatie.',
+    'met een optionele reden: er ontstaat geen relatie. Intrekken via POST /v1/relatieaanvragen/{aanvraagId}/intrekking ' +
+    'door de aanvrager, met een optionele reden: er ontstaat geen relatie.',
   setup: SETUP_DATUMS,
   groepen: [
     { name: 'Indienen', scenarios: indienen },
@@ -986,5 +1167,7 @@ module.exports = {
     { name: 'Bevestigen - validatie', scenarios: bevestigenValidatie },
     { name: 'Weigeren', scenarios: weigeren },
     { name: 'Weigeren - validatie', scenarios: weigerenValidatie },
+    { name: 'Intrekken', scenarios: intrekken },
+    { name: 'Intrekken - validatie', scenarios: intrekkenValidatie },
   ],
 };

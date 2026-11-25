@@ -56,6 +56,25 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
                 Reden = "Wij zijn geen lid van deze koepel.",
             },
         };
+
+    internal static RelatieaanvraagResponse Ingetrokken =>
+        new()
+        {
+            AanvraagId = "RA0000004",
+            KoepelVCode = "V0001001",
+            VerenigingVCode = "V0001005",
+            AangevraagdDoor = "V0001005",
+            RelatieType = DomainRelatieType.Subvereniging.Value,
+            Status = RelatieaanvraagStatus.Ingetrokken.Value,
+            AanvraagDatum = "2026-11-21",
+            VervalDatum = "2027-02-19",
+            Beschrijving = "Wij zijn de afdeling Bree",
+            Intrekking = new RelatieaanvraagIntrekkingResponse
+            {
+                Datum = "2026-11-24",
+                Reden = "De aanvraag werd per vergissing ingediend.",
+            },
+        };
 }
 
 public class RelatieaanvragenResponseExamples : IExamplesProvider<RelatieaanvragenResponse>
@@ -68,6 +87,7 @@ public class RelatieaanvragenResponseExamples : IExamplesProvider<Relatieaanvrag
                 RelatieaanvraagResponseExamples.Aangevraagd,
                 RelatieaanvraagResponseExamples.Bevestigd,
                 RelatieaanvraagResponseExamples.Geweigerd,
+                RelatieaanvraagResponseExamples.Ingetrokken,
             ],
         };
 }

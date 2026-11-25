@@ -41,11 +41,12 @@ public interface IRelatieaanvraagRepository
     );
 
     /// <summary>
-    ///     Saves the refusal: the relatieaanvraag no longer counts as open. Returns its version (its ETag) and sequence.
+    ///     Saves the event that closes the relatieaanvraag without a relatie (geweigerd, ingetrokken): it no longer counts
+    ///     as open. Returns its version (its ETag) and sequence.
     /// </summary>
-    Task<StreamActionResult> SaveWeigering(
+    Task<StreamActionResult> SaveAfsluiting(
         RelatieaanvraagState relatieaanvraag,
-        RelatieaanvraagWerdGeweigerd geweigerd,
+        IRelatieaanvraagEvent afsluiting,
         CommandMetadata metadata,
         CancellationToken cancellationToken
     );
