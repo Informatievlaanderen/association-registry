@@ -517,7 +517,7 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 - Leeg of NB + bevestigd lidmaatschap → FV (0.9).
 
 **Ontbreekt nog**
-- [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`?
+- [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`? Nu (2026-11-24): het tweede krijgt `400` "De relatieaanvraag werd al …", of `412` bij een echte race (optimistic concurrency op de stream van de aanvraag). Graag bevestigen.
 - [ ] Wordt bij bevestiging `identificatie`/`beschrijving` van het nieuwe lidmaatschap gevuld, bv. met de aanvraagbeschrijving? Of blijven die leeg?
 - [ ] Optionele reden bij weigeren? Voorlopig optioneel (2026-11-24). Verplicht maken is een regel in de validator.
 
@@ -841,8 +841,17 @@ Voorstel events:
 
 ### Story 23 — Eigen open aanvraag intrekken · M · 🟢
 
+> **Geïmplementeerd (2026-11-24):** `POST /v1/relatieaanvragen/{aanvraagId}/intrekking`, met `vr-namens` = de aanvrager.
+> - `vr-namens` is niet de aanvrager (de ontvanger of een derde) → `400` "Enkel de aanvrager van de relatieaanvraag kan ze intrekken." Zoals bij bevestigen en weigeren, niet `403`.
+> - Optionele body `{ reden }`, zonder HTML. Voorlopig optioneel, zoals bij weigeren.
+> - Dezelfde controles op de status en de vervaldatum als bij bevestigen en weigeren. Al ingetrokken → "De relatieaanvraag werd al ingetrokken." Een ingetrokken aanvraag bevestigen of weigeren geeft dezelfde boodschap.
+> - Verder niets: de verenigingen worden niet geladen en krijgen geen events.
+> - Event `RelatieaanvraagWerdIngetrokken` (datum, reden), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
+> - De aanvraag toont `intrekking: { datum, reden }`, met een lege `reden` als er geen opgegeven werd.
+> - Response: `202`, `Location`, `ETag` en `VR-Sequence` van de aanvraag. `If-Match` is de versie van de aanvraag.
+
 **Al beslist**
-- `vr-namens` moet `aangevraagdDoor` zijn, anders `403` (0.1).
+- `vr-namens` moet `aangevraagdDoor` zijn, anders `403` (0.1). Geïmplementeerd als `400`, zoals de andere relatieacties.
 - Concurrency met bevestiging: optimistic concurrency op de aanvraagstream (eigen aggregate, 0.4).
 
 **Voorstel request**

@@ -52,6 +52,10 @@ public class RelatieaanvraagResponse
     [DataMember(Name = "weigering", EmitDefaultValue = false)]
     public RelatieaanvraagWeigeringResponse? Weigering { get; init; }
 
+    /// <summary>De intrekking van de aanvraag. Ontbreekt zolang de aanvraag niet ingetrokken is.</summary>
+    [DataMember(Name = "intrekking", EmitDefaultValue = false)]
+    public RelatieaanvraagIntrekkingResponse? Intrekking { get; init; }
+
     public static RelatieaanvraagResponse From(RelatieaanvraagDocument document) =>
         new()
         {
@@ -72,6 +76,13 @@ public class RelatieaanvraagResponse
                 {
                     Datum = weigering.Datum.FormatAsBelgianDate(),
                     Reden = weigering.Reden,
+                }
+                : null,
+            Intrekking = document.Intrekking is { } intrekking
+                ? new RelatieaanvraagIntrekkingResponse
+                {
+                    Datum = intrekking.Datum.FormatAsBelgianDate(),
+                    Reden = intrekking.Reden,
                 }
                 : null,
         };
@@ -95,6 +106,19 @@ public class RelatieaanvraagWeigeringResponse
     public string Datum { get; init; } = null!;
 
     /// <summary>De reden van de weigering. Leeg als er geen reden opgegeven werd.</summary>
+    [DataMember(Name = "reden")]
+    public string Reden { get; init; } = null!;
+}
+
+/// <summary>De intrekking van een relatieaanvraag</summary>
+[DataContract]
+public class RelatieaanvraagIntrekkingResponse
+{
+    /// <summary>De datum waarop de aanvraag ingetrokken werd</summary>
+    [DataMember(Name = "datum")]
+    public string Datum { get; init; } = null!;
+
+    /// <summary>De reden van de intrekking. Leeg als er geen reden opgegeven werd.</summary>
     [DataMember(Name = "reden")]
     public string Reden { get; init; } = null!;
 }

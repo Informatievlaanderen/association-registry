@@ -1,6 +1,7 @@
 namespace AssociationRegistry.DecentraalBeheer.Relatieaanvragen;
 
 using Events;
+using Exceptions;
 using Framework;
 using JasperFx;
 using Vereniging;
@@ -26,6 +27,18 @@ public record RelatieaanvraagState : IHasVersion
     /// <summary>The other partij than the aanvrager: only the ontvanger can confirm or refuse the relatieaanvraag.</summary>
     public VCode Ontvanger => AangevraagdDoor == KoepelVCode ? VerenigingVCode : KoepelVCode;
 
+    /// <summary>
+    ///     Only an open relatieaanvraag can be confirmed, refused or withdrawn: Aangevraagd, and the vervaldatum not over.
+    ///     On the vervaldatum itself it is still open.
+    /// </summary>
+    public void ThrowIfNotOpen(DateOnly today)
+    {
+        Throw<RelatieaanvraagWerdAlBevestigd>.If(Status == RelatieaanvraagStatus.Bevestigd);
+        Throw<RelatieaanvraagWerdAlGeweigerd>.If(Status == RelatieaanvraagStatus.Geweigerd);
+        Throw<RelatieaanvraagWerdAlIngetrokken>.If(Status == RelatieaanvraagStatus.Ingetrokken);
+        Throw<RelatieaanvraagIsVervallen>.If(today > VervalDatum);
+    }
+
     public RelatieaanvraagState Apply(RelatieaanvraagWerdIngediend @event) =>
         this with
         {
@@ -49,5 +62,11 @@ public record RelatieaanvraagState : IHasVersion
         this with
         {
             Status = RelatieaanvraagStatus.Geweigerd,
+        };
+
+    public RelatieaanvraagState Apply(RelatieaanvraagWerdIngetrokken @event) =>
+        this with
+        {
+            Status = RelatieaanvraagStatus.Ingetrokken,
         };
 }

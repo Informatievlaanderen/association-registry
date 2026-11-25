@@ -120,9 +120,9 @@ public class RelatieaanvraagRepository : IRelatieaanvraagRepository
         return new StreamActionResult(Sequence: results.Max(result => result.Sequence), Version: results[0].Version);
     }
 
-    public async Task<StreamActionResult> SaveWeigering(
+    public async Task<StreamActionResult> SaveAfsluiting(
         RelatieaanvraagState relatieaanvraag,
-        RelatieaanvraagWerdGeweigerd geweigerd,
+        IRelatieaanvraagEvent afsluiting,
         CommandMetadata metadata,
         CancellationToken cancellationToken
     )
@@ -132,7 +132,7 @@ public class RelatieaanvraagRepository : IRelatieaanvraagRepository
         var results = await _eventStore.SaveTransactional(
             metadata,
             cancellationToken,
-            new AggregateEvents(relatieaanvraag.AanvraagId.Value, relatieaanvraag.Version, [geweigerd])
+            new AggregateEvents(relatieaanvraag.AanvraagId.Value, relatieaanvraag.Version, [afsluiting])
         );
 
         return results[0];

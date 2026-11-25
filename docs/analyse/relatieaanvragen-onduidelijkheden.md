@@ -16,7 +16,7 @@
 | 6 | Wie mag bevestigen namens wie? | ✅ geen probleem |
 | 7 | Nieuwe verenigingen (story 6): SUB rechtstreeks, lidmaatschap via een aanvraag | 🟡 |
 | 8 | Bevestigen schrijft naar twee streams: welke `ETag` en `Location`? | 🟡 voorlopig: `ETag` en `Location` van de aanvraag, de hoogste `VR-Sequence` |
-| 9 | `400` of `403` voor "verkeerde partij" | ✅ beslist (2026-11-23): `400`, ook bij bevestigen |
+| 9 | `400` of `403` voor "verkeerde partij" | ✅ beslist (2026-11-23): `400`, ook bij bevestigen, weigeren en intrekken |
 | 10 | Kleinere punten | 🟢 |
 | 11 | Analysedocument niet meer in lijn met de beslissingen | 🟢 opruimen |
 
@@ -144,7 +144,7 @@ Bevestigen schrijft naar de aanvraag én naar de vereniging, in één transactie
 
 - **`afhandelDatum`** (stories 3, 13, 23): AGENTS.md verbiedt `DateOnly?` op een `*Document`. Dat moet anders gemodelleerd worden, bv. een aparte afhandeling met datum en status.
 - **Vervaldatum:** is de aanvraag op de vervaldatum zelf nog te bevestigen? (Story 13 vraagt al "einde van de dag".)
-- **Reden bij weigeren of intrekken:** optioneel? Weigeren: voorlopig optioneel (2026-11-24). Intrekken: nog open.
+- **Reden bij weigeren of intrekken:** optioneel? Voorlopig optioneel bij allebei (2026-11-24).
 - **GET zonder `vr-namens`:** elke initiator ziet alle aanvragen van elke vereniging. Beslist als "nog", maar het moet nog op de lijst voor story 10.
 
 ---

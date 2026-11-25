@@ -36,6 +36,16 @@ public class Given_A_Relatieaanvraag_That_Cannot_Be_Geweigerd
     }
 
     [Fact]
+    public async ValueTask When_Already_Ingetrokken_Then_It_Throws_RelatieaanvraagWerdAlIngetrokken()
+    {
+        var ctx = new WeigerRelatieaanvraagContext(aangevraagdDoor: KoepelA, alreadyIngetrokken: true);
+
+        await Assert.ThrowsAsync<RelatieaanvraagWerdAlIngetrokken>(async () => await ctx.Weiger(VerenigingC));
+
+        ctx.ShouldNotHaveSaved();
+    }
+
+    [Fact]
     public async ValueTask When_Already_Bevestigd_Then_It_Throws_RelatieaanvraagWerdAlBevestigd()
     {
         var ctx = new WeigerRelatieaanvraagContext(aangevraagdDoor: KoepelA, alreadyBevestigd: true);

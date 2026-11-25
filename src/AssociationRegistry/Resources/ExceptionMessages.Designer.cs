@@ -1453,5 +1453,23 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("RelatieaanvraagWerdAlGeweigerd", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Enkel de aanvrager van de relatieaanvraag kan ze intrekken..
+        /// </summary>
+        public static string NamensIsNietDeAanvrager {
+            get {
+                return ResourceManager.GetString("NamensIsNietDeAanvrager", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to De relatieaanvraag werd al ingetrokken..
+        /// </summary>
+        public static string RelatieaanvraagWerdAlIngetrokken {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagWerdAlIngetrokken", resourceCulture);
+            }
+        }
     }
 }

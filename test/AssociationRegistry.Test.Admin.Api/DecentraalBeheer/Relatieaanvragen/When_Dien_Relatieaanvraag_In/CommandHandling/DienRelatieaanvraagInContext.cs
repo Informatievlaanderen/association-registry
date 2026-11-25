@@ -154,9 +154,9 @@ public class DienRelatieaanvraagInContext
             CancellationToken cancellationToken
         ) => throw new NotSupportedException();
 
-        public Task<StreamActionResult> SaveWeigering(
+        public Task<StreamActionResult> SaveAfsluiting(
             RelatieaanvraagState relatieaanvraag,
-            RelatieaanvraagWerdGeweigerd geweigerd,
+            IRelatieaanvraagEvent afsluiting,
             CommandMetadata metadata,
             CancellationToken cancellationToken
         ) => throw new NotSupportedException();
