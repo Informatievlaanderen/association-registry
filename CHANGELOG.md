@@ -1,3 +1,12 @@
+# [8.349.0](https://github.com/informatievlaanderen/association-registry/compare/v8.348.0...v8.349.0) (2026-11-25)
+
+
+### Features
+
+* or-3805 bevestig relatie aanvraag ([5ea7a6d](https://github.com/informatievlaanderen/association-registry/commit/5ea7a6d216dad71ac6b1c0780757ef60914c155a))
+* or-3805 trek relatie aanvraag in ([caafd78](https://github.com/informatievlaanderen/association-registry/commit/caafd7884148fc30ec69be516c14691facfdd35a))
+* or-3805 weiger relatie aanvraag ([47395db](https://github.com/informatievlaanderen/association-registry/commit/47395db2711271d053ae60012b832f7740e769fe))
+
 # [8.348.0](https://github.com/informatievlaanderen/association-registry/compare/v8.347.0...v8.348.0) (2026-11-24)
 
 
