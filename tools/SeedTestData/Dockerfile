@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0.302 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0.404 AS build
 WORKDIR /src
 
 # Copy project files
@@ -24,7 +24,7 @@ COPY test/AssociationRegistry.Test.Common/Framework/NutsLauInfoMock.cs test/Asso
 # Build
 RUN dotnet publish tools/SeedTestData/SeedTestData.csproj -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0.10
+FROM mcr.microsoft.com/dotnet/aspnet:10.0.15
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "SeedTestData.dll"]
