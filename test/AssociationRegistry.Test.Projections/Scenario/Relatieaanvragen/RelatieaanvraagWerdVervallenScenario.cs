@@ -2,7 +2,10 @@ namespace AssociationRegistry.Test.Projections.Scenario.Relatieaanvragen;
 
 using Events;
 
-/// <summary>A relatieaanvraag that was ingediend and then vervallen, in its own stream.</summary>
+/// <summary>
+///     A relatieaanvraag that was ingediend and then vervallen, in its own stream. The job ran a few days after the
+///     vervaldatum.
+/// </summary>
 public class RelatieaanvraagWerdVervallenScenario : ScenarioBase
 {
     public RelatieaanvraagWerdIngediendScenario Ingediend { get; } = new();
@@ -12,7 +15,7 @@ public class RelatieaanvraagWerdVervallenScenario : ScenarioBase
     {
         RelatieaanvraagWerdVervallen = new RelatieaanvraagWerdVervallen(
             Ingediend.AggregateId,
-            Ingediend.RelatieaanvraagWerdIngediend.VervalDatum
+            Ingediend.RelatieaanvraagWerdIngediend.VervalDatum.AddDays(3)
         );
     }
 

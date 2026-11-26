@@ -68,7 +68,7 @@ public class BevestigRelatieaanvraagContext
 
         if (alreadyVervallen)
             relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdVervallen(AanvraagId.Value, ingediend.VervalDatum)
+                new RelatieaanvraagWerdVervallen(AanvraagId.Value, ingediend.VervalDatum.AddDays(1))
             );
 
         _repository = new RelatieaanvraagRepositoryStub(

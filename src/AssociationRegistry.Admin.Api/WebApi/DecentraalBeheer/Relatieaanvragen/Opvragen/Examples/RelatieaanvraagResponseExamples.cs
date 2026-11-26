@@ -69,7 +69,7 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AfhandelDatum = "2026-11-24",
         };
 
-    /// <summary>The afhandelDatum of a vervallen relatieaanvraag is the day after the vervalDatum.</summary>
+    /// <summary>Vervallen by the job on the day after the vervalDatum.</summary>
     internal static RelatieaanvraagResponse Vervallen =>
         new()
         {

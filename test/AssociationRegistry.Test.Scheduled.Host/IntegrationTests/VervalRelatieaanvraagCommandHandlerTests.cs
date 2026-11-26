@@ -30,6 +30,7 @@ public class VervalRelatieaanvraagCommandHandlerTestsFixture : IAsyncLifetime
     public static readonly RelatieaanvraagId TeVervallen = RelatieaanvraagId.Create(1);
     public static readonly RelatieaanvraagId NogOpen = RelatieaanvraagId.Create(2);
     public static readonly DateOnly VervalDatum = new(2026, 11, 18);
+    public static readonly DateOnly Today = VervalDatum.AddDays(1);
 
     public IDocumentSession Session { get; private set; } = null!;
 
@@ -48,7 +49,7 @@ public class VervalRelatieaanvraagCommandHandlerTestsFixture : IAsyncLifetime
 
         var handler = new VervalRelatieaanvraagCommandHandler(
             new RelatieaanvraagRepository(Session, eventStore),
-            new ClockStub(VervalDatum.AddDays(1)),
+            new ClockStub(Today),
             NullLogger<VervalRelatieaanvraagCommandHandler>.Instance
         );
 
@@ -149,7 +150,7 @@ public class VervalRelatieaanvraagCommandHandlerTests(VervalRelatieaanvraagComma
     : IClassFixture<VervalRelatieaanvraagCommandHandlerTestsFixture>
 {
     [Fact]
-    public async Task Then_The_Relatieaanvraag_Is_Vervallen_Once_With_Its_VervalDatum()
+    public async Task Then_The_Relatieaanvraag_Is_Vervallen_Once_Today()
     {
         var events = await fixture.Session.Events.FetchStreamAsync(
             VervalRelatieaanvraagCommandHandlerTestsFixture.TeVervallen.Value
@@ -162,7 +163,7 @@ public class VervalRelatieaanvraagCommandHandlerTests(VervalRelatieaanvraagComma
             .Be(
                 new RelatieaanvraagWerdVervallen(
                     VervalRelatieaanvraagCommandHandlerTestsFixture.TeVervallen.Value,
-                    VervalRelatieaanvraagCommandHandlerTestsFixture.VervalDatum
+                    VervalRelatieaanvraagCommandHandlerTestsFixture.Today
                 )
             );
     }

@@ -111,11 +111,12 @@ Een command kan dubbel komen: Wolverine levert minstens één keer, de job kan t
 
 - De naam volgt de andere afsluitingen (`WerdBevestigd`, `WerdGeweigerd`, `WerdIngetrokken`) en de status `Vervallen`. Story 13 stelt ze al voor.
 - Een eventnaam ligt vast zodra hij in productie staat.
-- `VervalDatum` is het zakelijke feit: de aanvraag verviel na die dag. De datum waarop de job draaide hoort er niet in. Die hangt af van de job, en het tijdstip staat al in de metadata van het event.
+- `VervalDatum` is de dag waarop de aanvraag vervallen werd: de dag dat de job draaide, zoals `WeigeringsDatum` bij een weigering. Normaal is dat de dag na de vervaldatum, maar later als de job een tijd niet draaide. De vervaldatum zelf, de laatste dag dat de aanvraag open was, staat al in `RelatieaanvraagWerdIngediend`.
+- Aangepast op 2026-11-26. Eerst was `VervalDatum` de vervaldatum van de aanvraag, en rekende de projectie de dag erna als afhandeldatum. Dat klopt niet als de job later draait.
 
 ### 8. Projectie en response
 
-- `RelatieaanvraagProjection` zet de status op `Vervallen` en de `afhandelDatum` op de dag na de vervalDatum: de eerste dag dat de aanvraag vervallen is. Elke afsluiting vult `afhandelDatum` (2026-11-26, in plaats van de objecten `bevestiging`, `weigering` en `intrekking`).
+- `RelatieaanvraagProjection` zet de status op `Vervallen` en de `afhandelDatum` op de `VervalDatum` van het event: de dag dat de aanvraag vervallen werd. De `vervalDatum` van het document blijft de laatste dag dat de aanvraag open was. Elke afsluiting vult `afhandelDatum` (2026-11-26, in plaats van de objecten `bevestiging`, `weigering` en `intrekking`).
 - `GET …/relatieaanvragen?status=Vervallen` werkt daarmee vanzelf.
 - Geen SQL-migratie: het document is JSON. Waar al afgesloten aanvragen in de oude vorm bewaard zijn, moet de projectie opnieuw opgebouwd worden.
 
@@ -157,8 +158,8 @@ De scheduled host doet `AssertDatabaseMatchesConfigurationOnStartup`. Hij moet d
 
 - Domein: vervalt de dag na de vervaldatum, niet op de vervaldatum zelf, en niet als ze al bevestigd, geweigerd, ingetrokken of vervallen is.
 - `ThrowIfNotOpen` op status `Vervallen`, voor bevestigen, weigeren en intrekken.
-- Handler: bewaart het event en geeft het paar vrij, zodat een nieuwe aanvraag voor hetzelfde paar lukt. Een afgesloten aanvraag of een tweede command doet niets en gooit niet.
-- Projectie: `Given_RelatieaanvraagWerdVervallen` geeft status `Vervallen` en afhandelDatum = de dag na de vervalDatum.
+- Handler: bewaart het event met vandaag als `VervalDatum`, ook als de job dagen later draait, en geeft het paar vrij, zodat een nieuwe aanvraag voor hetzelfde paar lukt. Een afgesloten aanvraag of een tweede command doet niets en gooit niet.
+- Projectie: `Given_RelatieaanvraagWerdVervallen` geeft status `Vervallen` en afhandelDatum = de `VervalDatum` van het event. Het scenario laat de job drie dagen te laat draaien, zodat het verschil met "de dag na de vervaldatum" zichtbaar is.
 - Query: enkel `Aangevraagd` met een vervaldatum vóór vandaag, zoals `TeVerlopenErkenningenQueryTests`.
 - Processor: één `SendAsync` per aanvraag.
 - Routing: `CommandEnvelope<VervalRelatieaanvraagCommand>` gaat naar de Postgres-queue, mode `Durable`.
@@ -173,7 +174,7 @@ De scheduled host doet `AssertDatabaseMatchesConfigurationOnStartup`. Hij moet d
 
 ## Beslist (2026-11-26)
 
-1. Event `RelatieaanvraagWerdVervallen(AanvraagId, VervalDatum)`, met `VervalDatum` als enige datum.
+1. Event `RelatieaanvraagWerdVervallen(AanvraagId, VervalDatum)`, met `VervalDatum` als enige datum: de dag dat de aanvraag vervallen werd (aangepast op 2026-11-26, zie 7).
 2. De job draait om 01:00 UTC.
 3. `ThrowIfNotOpen` kijkt naar de status én de datum (B hieronder), zoals story 13 vraagt.
 4. De routing van de bestaande jobs komt later, in een aparte commit. Bij de bewaartermijnen verandert dan ook de foutafhandeling: nu komt een fout via `InvokeAsync` in de job en dus in Slack; via een queue komt ze na de retries in de dead letters.

@@ -45,8 +45,8 @@ public class RelatieaanvraagResponse
     public string Beschrijving { get; init; } = null!;
 
     /// <summary>
-    /// De datum waarop de aanvraag afgehandeld werd: bevestigd, geweigerd of ingetrokken, of voor een vervallen
-    /// aanvraag de dag na de vervalDatum. Leeg zolang de aanvraag open is.
+    /// De datum waarop de aanvraag afgehandeld werd: bevestigd, geweigerd, ingetrokken of vervallen. Leeg zolang de
+    /// aanvraag open is.
     /// </summary>
     [DataMember(Name = "afhandelDatum")]
     public string AfhandelDatum { get; init; } = null!;

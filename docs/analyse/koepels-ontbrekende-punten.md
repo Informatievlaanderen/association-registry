@@ -318,7 +318,7 @@ VR-Sequence: 4711
   Een paar kan nooit tegelijk lid en sub zijn.
 - **Hetzelfde type opnieuw geeft `400`**, geen `200`: een POST geeft nooit `200`. De boodschap noemt de open aanvraag.
 - **`aanvraagDatum` en `vervalDatum` zijn datums** (`DateOnly`). `vervalDatum` = `aanvraagDatum` + de vervaltermijn: 90 dagen, per omgeving instelbaar (`RelatieaanvraagOptions:VervaltermijnInDagen`), bv. korter op Test om verval manueel te testen.
-- **`afhandelDatum`** (2026-11-26): de dag van de bevestiging, weigering of intrekking, of bij verval de dag na de vervaldatum. Leeg zolang de aanvraag open is. Vervangt de objecten `bevestiging`, `weigering` en `intrekking`; een reden bestaat niet meer.
+- **`afhandelDatum`** (2026-11-26): de dag van de bevestiging, weigering, intrekking of verval. Bij verval is dat de dag dat de job de aanvraag liet vervallen: normaal de dag na de vervaldatum, later als de job een tijd niet draaide. Leeg zolang de aanvraag open is. Vervangt de objecten `bevestiging`, `weigering` en `intrekking`; een reden bestaat niet meer.
 - **Deze story is enkel het indienen**: een nieuw aggregate met de aanvraag en de controles in de handler. Bevestigen is een andere story met een ander endpoint, die de controles wellicht opnieuw doet. Er is nog geen VLO-trigger.
 - **Prefix `RA`.**
 - **Geen historiek.** De aanvraag verandert niets aan de verenigingen en leeft apart. Ze moet wel opvraagbaar zijn per vCode, als koepel of als vereniging, met een statusfilter. Daarvoor komt een eigen projectie.
