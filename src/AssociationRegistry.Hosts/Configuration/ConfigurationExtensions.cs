@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Hosts.Configuration;
 
+using AssociationRegistry.DecentraalBeheer.Relatieaanvragen;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Integrations.Grar.Bewaartermijnen;
@@ -71,6 +72,10 @@ public static class ConfigurationExtensions
 
         return bewaartermijnDuration is null ? new BewaartermijnOptions() : bewaartermijnDuration!;
     }
+
+    public static RelatieaanvraagOptions GetRelatieaanvraagOptions(this IConfiguration configuration) =>
+        configuration.GetSection(nameof(RelatieaanvraagOptions)).Get<RelatieaanvraagOptions>()
+        ?? new RelatieaanvraagOptions();
 
     public static AppSettings GetAppSettings(this IConfiguration configuration)
     {

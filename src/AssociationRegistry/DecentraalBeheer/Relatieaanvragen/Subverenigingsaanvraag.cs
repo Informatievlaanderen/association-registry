@@ -21,13 +21,21 @@ public sealed class Subverenigingsaanvraag : Relatieaanvraag
         string beschrijving,
         OpenRelatieaanvragen openRelatieaanvragen,
         IRelatieaanvraagIdService aanvraagIdService,
+        int vervaltermijnInDagen,
         DateOnly vandaag
     )
     {
         CheckRules(koepel, vereniging, openRelatieaanvragen, vandaag);
 
         return new Subverenigingsaanvraag(
-            await Ingediend(partijen, RelatieType.Subvereniging, beschrijving, aanvraagIdService, vandaag)
+            await Ingediend(
+                partijen,
+                RelatieType.Subvereniging,
+                beschrijving,
+                aanvraagIdService,
+                vervaltermijnInDagen,
+                vandaag
+            )
         );
     }
 

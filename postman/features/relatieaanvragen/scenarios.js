@@ -27,6 +27,12 @@
 //   TrekRelatieaanvraagInRequestValidator: geen HTML in de reden. IngediendeRelatieaanvraag: enkel de aanvrager, en
 //   dezelfde controles op de status en de vervaldatum als hierboven. Verder geen controles. Er ontstaat geen relatie,
 //   en het paar is weer vrij voor een nieuwe aanvraag.
+// - Verval: een job in de scheduled host, elke nacht om 01:00 UTC, of manueel via
+//   POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin, 202: de job draait na het antwoord). Een
+//   aanvraag vervalt pas de dag na de vervaldatum (vandaag + de vervaltermijn: 90 dagen, per environment instelbaar),
+//   en de API zet de aanvraagdatum altijd op vandaag: ook met een korte termijn vervalt een aanvraag ten vroegste de dag
+//   na het indienen, dus niet binnen één run. Het verval zelf testen de tests van de scheduled host, en manueel op een
+//   environment met een korte termijn. Hier enkel de trigger, en dat een aanvraag binnen de termijn open blijft.
 // Een relatieaanvraag heeft een eigen stream: ze verschijnt niet in de historiek of de detail van de verenigingen. Enkel
 // de relatie die bij de bevestiging ontstaat, komt op de vereniging.
 //
@@ -85,9 +91,12 @@ const BERICHT = {
 };
 
 // Datums (yyyy-MM-dd, UTC zoals de API-containers): aanvraag- en vervaldatum, begin en einde van een lidmaatschap.
+// De vervaltermijn is 90 dagen, tenzij de environment vervaltermijnInDagen zet: enkel nodig waar de Admin API een andere
+// termijn heeft (RelatieaanvraagOptions:VervaltermijnInDagen, bv. 1 op Test).
 const SETUP_DATUMS = `const dag = (n) => { const d = new Date(); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const vervaltermijn = String(pm.variables.get('vervaltermijnInDagen') === undefined ? '' : pm.variables.get('vervaltermijnInDagen')).trim();
 pm.collectionVariables.set('vandaag', dag(0));
-pm.collectionVariables.set('vervaldatum', dag(90));
+pm.collectionVariables.set('vervaldatum', dag(vervaltermijn === '' ? 90 : Number(vervaltermijn)));
 pm.collectionVariables.set('gisteren', dag(-1));
 pm.collectionVariables.set('morgen', dag(1));`;
 
@@ -134,6 +143,15 @@ const handelAf =
 const bevestig = handelAf('bevestiging');
 const weiger = handelAf('weigering');
 const trekIn = handelAf('intrekking');
+
+// POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen: start de verval-job van de scheduled host (superadmin).
+const startVerval = (naam = 'Start verval manueel', verwacht = ok(), extra = {}) => ({
+  naam,
+  actie: 'POST',
+  beheerPad: 'v1/admin/scheduledhost/trigger/verval-relatieaanvragen',
+  verwacht,
+  ...extra,
+});
 
 const alsKoepel = (rol = 'K') => ({
   naam: `Identificeer ${rol} als koepel`,
@@ -202,7 +220,7 @@ const nogOpen = (id) => detail(id, { status: AANGEVRAAGD });
 const indienen = [
   {
     id: 'RA1',
-    name: 'Vereniging vraagt lidmaatschap aan bij koepel -> Aangevraagd, vervalt na 90 dagen',
+    name: 'Vereniging vraagt lidmaatschap aan bij koepel -> Aangevraagd, vervalt na de vervaltermijn (standaard 90 dagen)',
     verenigingen: KOEPEL,
     stappen: [alsKoepel(), ingediend('RA1', 1, 'Dien lidmaatschapsaanvraag in namens A', { beschrijving: 'Lid van de Raad van Elrond' })],
     historiek: GEEN_RELATIEAANVRAAG_IN_HISTORIEK,
@@ -1143,6 +1161,29 @@ const intrekkenValidatie = [
   },
 ];
 
+// Een vervallen aanvraag kan je via de API niet maken (zie Verval bovenaan): geen scenario voor het verval zelf.
+const verval = [
+  {
+    id: 'RA140',
+    name: 'Verval manueel starten -> 202, een aanvraag binnen de termijn blijft open',
+    description:
+      'De trigger start de verval-job van de scheduled host, zoals elke nacht om 01:00 UTC. Een 202 betekent dat de ' +
+      'scheduled host de job aanvaard heeft. Een vervallen aanvraag kan je binnen één run niet maken (ze vervalt ten ' +
+      'vroegste de dag na het indienen): dit scenario controleert de keten Admin API -> scheduled host, en dat de ' +
+      'aanvraag daarna nog open is.',
+    vereist: { superAdmin: true },
+    verenigingen: KOEPEL,
+    stappen: [alsKoepel(), ingediend('RA140', 1, 'Dien lidmaatschapsaanvraag in'), startVerval()],
+    controles: [detail('RA140', { status: AANGEVRAAGD, vervalDatum: '{{vervaldatum}}' })],
+  },
+  {
+    id: 'RA141',
+    name: 'Verval manueel starten zonder token -> 401',
+    geenRegistratie: true,
+    stappen: [startVerval('Start verval zonder token', { status: 401, title: 'Unauthorized' }, { zonderToken: true })],
+  },
+];
+
 module.exports = {
   name: 'Relatieaanvragen',
   description:
@@ -1152,7 +1193,9 @@ module.exports = {
     'POST /v1/relatieaanvragen/{aanvraagId}/bevestiging door de ontvanger: dan ontstaat het lidmaatschap of de ' +
     'subvereniging op de vereniging. Weigeren via POST /v1/relatieaanvragen/{aanvraagId}/weigering door de ontvanger, ' +
     'met een optionele reden: er ontstaat geen relatie. Intrekken via POST /v1/relatieaanvragen/{aanvraagId}/intrekking ' +
-    'door de aanvrager, met een optionele reden: er ontstaat geen relatie.',
+    'door de aanvrager, met een optionele reden: er ontstaat geen relatie. Verval: een job in de scheduled host sluit ' +
+    'elke nacht de aanvragen af waarvan de vervaldatum voorbij is; manueel via ' +
+    'POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin).',
   setup: SETUP_DATUMS,
   groepen: [
     { name: 'Indienen', scenarios: indienen },
@@ -1169,5 +1212,6 @@ module.exports = {
     { name: 'Weigeren - validatie', scenarios: weigerenValidatie },
     { name: 'Intrekken', scenarios: intrekken },
     { name: 'Intrekken - validatie', scenarios: intrekkenValidatie },
+    { name: 'Verval', scenarios: verval },
   ],
 };

@@ -4,7 +4,9 @@ using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Resources;
 
-/// <summary>The vervaldatum is over, also when the status is not Vervallen yet.</summary>
+/// <summary>
+///     The status is Vervallen, or the vervaldatum is over and the job of the scheduled host did not close it yet.
+/// </summary>
 [Serializable]
 public class RelatieaanvraagIsVervallen : DomainException
 {

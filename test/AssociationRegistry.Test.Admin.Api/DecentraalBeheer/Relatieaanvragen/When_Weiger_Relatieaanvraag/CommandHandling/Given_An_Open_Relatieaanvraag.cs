@@ -53,7 +53,7 @@ public class Given_An_Open_Relatieaanvraag
     [Fact]
     public async ValueTask On_The_Vervaldatum_Then_It_Is_Geweigerd()
     {
-        var vervalDatum = WeigerRelatieaanvraagContext.AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen);
+        var vervalDatum = WeigerRelatieaanvraagContext.AanvraagDatum.AddDays(90);
 
         var ctx = new WeigerRelatieaanvraagContext(aangevraagdDoor: KoepelA, today: vervalDatum);
 

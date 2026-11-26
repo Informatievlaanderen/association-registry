@@ -1446,6 +1446,14 @@ namespace AssociationRegistry.Resources {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Relatieaanvraag {0} met status {1} en vervaldatum {2} kan niet vervallen..
+        /// </summary>
+        public static string RelatieaanvraagKanNietVervallen {
+            get {
+                return ResourceManager.GetString("RelatieaanvraagKanNietVervallen", resourceCulture);
+            }
+        }
+        /// <summary>
         ///   Looks up a localized string similar to De relatieaanvraag werd al geweigerd..
         /// </summary>
         public static string RelatieaanvraagWerdAlGeweigerd {

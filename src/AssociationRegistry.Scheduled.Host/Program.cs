@@ -6,6 +6,8 @@ using Bewaartermijnen;
 using CommandHandling.Bewaartermijnen.Acties.Verlopen;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.ActiveerErkenning;
 using CommandHandling.DecentraalBeheer.Acties.Erkenningen.VerloopErkenning;
+using CommandHandling.DecentraalBeheer.Acties.Relatieaanvragen.VervalRelatieaanvraag;
+using DecentraalBeheer.Relatieaanvragen;
 using DecentraalBeheer.Vereniging;
 using DecentraalBeheer.Vereniging.Geotags;
 using DubbelBeheer;
@@ -20,6 +22,7 @@ using Infrastructure.Program.WebApplicationBuilder;
 using Integrations.Slack;
 using JasperFx;
 using MartenDb.BankrekeningnummerPersoonsgegevens;
+using MartenDb.Relatieaanvragen;
 using MartenDb.Store;
 using MartenDb.Transformers;
 using MartenDb.VertegenwoordigerPersoonsgegevens;
@@ -39,6 +42,7 @@ using PowerBi;
 using PowerBi.Exporters;
 using Quartz;
 using Queries;
+using Relatieaanvragen.Verval;
 using Serilog;
 using Serilog.Debugging;
 using WebApi.Schedulers;
@@ -114,6 +118,7 @@ public class Program
         var powerBiExportOptions = builder.Configuration.GetPowerBiExportOptions();
         var activeerErkenningenOptions = builder.Configuration.GetActiveerErkenningenOptions();
         var verloopErkenningenOptions = builder.Configuration.GetVerloopErkenningenOptions();
+        var vervalRelatieaanvragenOptions = builder.Configuration.GetVervalRelatieaanvragenOptions();
         var dubbelImportOptions = builder.Configuration.GetDubbelImportOptions();
 
         builder.ConfigureOpenTelemetry(new ScheduledHostInstrumentation());
@@ -154,6 +159,19 @@ public class Program
                     opts.ForJob(erkenningenVerloopJob)
                         .WithCronSchedule(
                             verloopErkenningenOptions.Cron,
+                            schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
+                        )
+                );
+            })
+            .AddQuartz(q =>
+            {
+                var relatieaanvragenVervalJob = new JobKey(VervalRelatieaanvragenJob.JobName);
+                q.AddJob<VervalRelatieaanvragenJob>(opts => opts.WithIdentity(relatieaanvragenVervalJob));
+
+                q.AddTrigger(opts =>
+                    opts.ForJob(relatieaanvragenVervalJob)
+                        .WithCronSchedule(
+                            vervalRelatieaanvragenOptions.Cron,
                             schedule => schedule.InTimeZone(TimeZoneInfo.Utc)
                         )
                 );
@@ -216,6 +234,10 @@ public class Program
             .AddScoped<VerloopErkenningCommandHandler>()
             .AddScoped<IVerloopErkenningenProcessor, VerloopErkenningenProcessor>()
             .AddScoped<ITeVerlopenErkenningenQuery, TeVerlopenErkenningenQuery>()
+            .AddScoped<IRelatieaanvraagRepository, RelatieaanvraagRepository>()
+            .AddScoped<VervalRelatieaanvraagCommandHandler>()
+            .AddScoped<IVervalRelatieaanvragenProcessor, VervalRelatieaanvragenProcessor>()
+            .AddScoped<ITeVervallenRelatieaanvragenQuery, TeVervallenRelatieaanvragenQuery>()
             .AddScoped<VerloopBewaartermijnCommandHandler>()
             .AddScoped<IVerlopenBewaartermijnenProcessor, VerlopenBewaartermijnenProcessor>()
             .AddScoped<IVerlopenBewaartermijnQuery, VerlopenBewaartermijnQuery>()

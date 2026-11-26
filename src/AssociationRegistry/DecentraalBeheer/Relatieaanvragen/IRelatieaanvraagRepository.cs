@@ -41,8 +41,8 @@ public interface IRelatieaanvraagRepository
     );
 
     /// <summary>
-    ///     Saves the event that closes the relatieaanvraag without a relatie (geweigerd, ingetrokken): it no longer counts
-    ///     as open. Returns its version (its ETag) and sequence.
+    ///     Saves the event that closes the relatieaanvraag without a relatie (geweigerd, ingetrokken, vervallen): it no
+    ///     longer counts as open. Returns its version (its ETag) and sequence.
     /// </summary>
     Task<StreamActionResult> SaveAfsluiting(
         RelatieaanvraagState relatieaanvraag,

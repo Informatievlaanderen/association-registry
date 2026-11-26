@@ -25,4 +25,19 @@ public class ScheduledHostHttpClient : IDisposable
 
     public async Task TriggerVerwerkDubbelen(CancellationToken cancellationToken) =>
         await _httpClient.PostAsync(requestUri: "/v1/trigger/verwerk-dubbelen", content: null, cancellationToken);
+
+    /// <summary>
+    ///     Throws when the scheduled host refuses the trigger (e.g. an older version without this job): a caller must not
+    ///     get a success for a job that will not run.
+    /// </summary>
+    public async Task TriggerVervalRelatieaanvragen(CancellationToken cancellationToken)
+    {
+        using var response = await _httpClient.PostAsync(
+            requestUri: "/v1/trigger/verval-relatieaanvragen",
+            content: null,
+            cancellationToken
+        );
+
+        response.EnsureSuccessStatusCode();
+    }
 }

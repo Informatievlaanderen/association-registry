@@ -12,18 +12,21 @@ public class DienRelatieaanvraagInCommandHandler
     private readonly IAggregateSession _aggregateSession;
     private readonly IRelatieaanvraagRepository _relatieaanvraagRepository;
     private readonly IRelatieaanvraagIdService _aanvraagIdService;
+    private readonly RelatieaanvraagOptions _options;
     private readonly IClock _clock;
 
     public DienRelatieaanvraagInCommandHandler(
         IAggregateSession aggregateSession,
         IRelatieaanvraagRepository relatieaanvraagRepository,
         IRelatieaanvraagIdService aanvraagIdService,
+        RelatieaanvraagOptions options,
         IClock clock
     )
     {
         _aggregateSession = aggregateSession;
         _relatieaanvraagRepository = relatieaanvraagRepository;
         _aanvraagIdService = aanvraagIdService;
+        _options = options;
         _clock = clock;
     }
 
@@ -53,6 +56,7 @@ public class DienRelatieaanvraagInCommandHandler
             command.Beschrijving,
             openRelatieaanvragen,
             _aanvraagIdService,
+            _options.VervaltermijnInDagen,
             _clock
         );
 

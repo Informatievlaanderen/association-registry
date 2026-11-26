@@ -82,10 +82,29 @@ public class Given_A_Relatieaanvraag_That_Cannot_Be_Bevestigd
         ctx.ShouldNotHaveLoadedTheVerenigingen();
     }
 
+    /// <summary>Today is before the vervaldatum: only the status says it is vervallen.</summary>
+    [Fact]
+    public async ValueTask When_Already_Vervallen_Then_It_Throws_RelatieaanvraagIsVervallen()
+    {
+        var ctx = new BevestigRelatieaanvraagContext(
+            Koepel(KoepelA),
+            Vzer(VerenigingC),
+            RelatieType.Lidmaatschap,
+            aangevraagdDoor: KoepelA,
+            alreadyVervallen: true
+        );
+
+        await Assert.ThrowsAsync<RelatieaanvraagIsVervallen>(async () => await ctx.Bevestig(VerenigingC));
+
+        ctx.ShouldNotHaveSaved();
+        ctx.ShouldNotHaveLoadedTheVerenigingen();
+    }
+
+    /// <summary>The job did not close it yet: the status is still Aangevraagd.</summary>
     [Fact]
     public async ValueTask When_The_Vervaldatum_Is_Over_Then_It_Throws_RelatieaanvraagIsVervallen()
     {
-        var vervalDatum = BevestigRelatieaanvraagContext.AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen);
+        var vervalDatum = BevestigRelatieaanvraagContext.AanvraagDatum.AddDays(90);
 
         var ctx = new BevestigRelatieaanvraagContext(
             Koepel(KoepelA),
@@ -103,7 +122,7 @@ public class Given_A_Relatieaanvraag_That_Cannot_Be_Bevestigd
     [Fact]
     public async ValueTask On_The_Vervaldatum_Then_It_Is_Bevestigd()
     {
-        var vervalDatum = BevestigRelatieaanvraagContext.AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen);
+        var vervalDatum = BevestigRelatieaanvraagContext.AanvraagDatum.AddDays(90);
 
         var ctx = new BevestigRelatieaanvraagContext(
             Koepel(KoepelA),

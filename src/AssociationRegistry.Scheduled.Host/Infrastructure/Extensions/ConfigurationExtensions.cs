@@ -10,6 +10,7 @@ using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using PowerBi;
+using Relatieaanvragen.Verval;
 
 public static class ConfigurationExtensions
 {
@@ -98,6 +99,23 @@ public static class ConfigurationExtensions
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(
             options.Cron,
             $"{nameof(VerloopErkenningenOptions)}.{nameof(VerloopErkenningenOptions.Cron)}"
+        );
+
+        return options;
+    }
+
+    public static VervalRelatieaanvragenOptions GetVervalRelatieaanvragenOptions(this IConfiguration configuration)
+    {
+        var options = configuration
+            .GetSection(nameof(VervalRelatieaanvragenOptions))
+            .Get<VervalRelatieaanvragenOptions>();
+
+        if (options is null)
+            throw new ArgumentNullException(nameof(options));
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(
+            options.Cron,
+            $"{nameof(VervalRelatieaanvragenOptions)}.{nameof(VervalRelatieaanvragenOptions.Cron)}"
         );
 
         return options;

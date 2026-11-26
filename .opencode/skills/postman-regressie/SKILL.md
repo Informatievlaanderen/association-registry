@@ -69,6 +69,8 @@ Rules:
    `feitelijkeverenigingen` stay as they are: with `VR-Api-Version: v2` the result is the same VZER.
 2. **Unique data.** Namen contain the scenario id and a `{{$randomUUID}}`. IBANs are generated (valid Belgian IBAN).
    INSZ/KBO only where the API requires known numbers: then from `testdata_*` or the root script lists.
+   Only a demo collection uses fixed, readable namen (`a: { naam: 'Wandelclub Hobbitstee' }`, section 6), and only for
+   a registration without locaties: that one is not checked for dubbels.
 3. **Fictional persons:** Lord of the Rings names (Frodo Baggins, Samwise Gamgee, Aragorn Elessar, ...).
 4. **Assert only on your own data.** Filter zoek results on your own vCode (`q=vCode:{{vCodeA}}`). Never count
    global results or assume "the latest" vereniging.
@@ -182,7 +184,11 @@ Building blocks (`shared/builders.js`):
   - `op: 'D'` sends the step to another vereniging of the scenario (`{{vCodeD}}`).
   - `{ wachtOp: 'X' }` waits until vereniging X is in beheer detail and stores its naam in `naamX` (also for a KBO
     vereniging), e.g. before a lidmaatschap refers to it.
-- **Scenario options**: `geenRegistratie: true` (no vereniging A: only refused requests), `vereist: { kboModus:
+  - `{ controle: { naam, pad, spec, api? } }` runs a controle (see `controles` below) between two steps, e.g. the
+    detail of a relatieaanvraag that is still `Aangevraagd` before it is bevestigd.
+- **Scenario options**: `description` (the description of the folder, shown in its Overview in Postman, e.g. what a
+  demo shows), `a: { naam }` or `verenigingen: { X: { naam } }` (a fixed naam instead of `Regressie <id> <rol> <uuid>`,
+  also in `naam<rol>`; only in a demo, see section 3.2), `geenRegistratie: true` (no vereniging A: only refused requests), `vereist: { kboModus:
   'bestaand' }` (skipped on other environments; the skip is visible as one passing test `<id> overgeslagen: draait
   enkel op Test (kboModus = bestaand) (deze environment: ...)`, the folder description says where it runs, and the
   collection description and the output of `generate.js` list every scenario that does not run everywhere. In the
@@ -320,7 +326,16 @@ Arguments reach curl in the Windows codepage, so `België` arrives as invalid UT
    `regressie-all.yml` picks it up from `COLLECTIONS`. Commit the scenarios and the workflows, not the generated
    collection.
 
-## 10. Migrating an existing collection
+## 10. Demo collection
+
+A demo for the customer is a separate feature `<feature>-demo` (e.g. `features/relatieaanvragen-demo`) with a
+selection of the regression scenarios: the happy paths and a few business rules, no validation, autorisatie or
+If-Match. Ids `D1`, `D2`, ...; one story per folder, with a `description` (the talking points, with the user story),
+`{ controle }` steps to show the state between two steps, and readable namen (`a: { naam }`). It runs on Local and
+Test like a regression collection, request by request (Send) or per folder in the Runner (only the Runner retries a
+request until the projection caught up). It is not added to `COLLECTIONS` in the workflows.
+
+## 11. Migrating an existing collection
 
 1. Inventory: for every request/folder in the old collection, note which rule it tests and which variables it uses
    from the environment.

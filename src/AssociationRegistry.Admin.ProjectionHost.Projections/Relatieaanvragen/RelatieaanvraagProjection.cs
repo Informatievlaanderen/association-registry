@@ -64,4 +64,11 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
         };
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    /// <summary>Only the status: the date is the vervalDatum, which the document already has.</summary>
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdVervallen> @event)
+    {
+        document.Status = RelatieaanvraagStatus.Vervallen.Value;
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
 }

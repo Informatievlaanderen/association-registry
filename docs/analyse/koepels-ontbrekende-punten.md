@@ -317,7 +317,7 @@ VR-Sequence: 4711
 
   Een paar kan nooit tegelijk lid en sub zijn.
 - **Hetzelfde type opnieuw geeft `400`**, geen `200`: een POST geeft nooit `200`. De boodschap noemt de open aanvraag.
-- **`aanvraagDatum` en `vervalDatum` zijn datums** (`DateOnly`). `vervalDatum` = `aanvraagDatum` + 90 dagen.
+- **`aanvraagDatum` en `vervalDatum` zijn datums** (`DateOnly`). `vervalDatum` = `aanvraagDatum` + de vervaltermijn: 90 dagen, per omgeving instelbaar (`RelatieaanvraagOptions:VervaltermijnInDagen`), bv. korter op Test om verval manueel te testen.
 - **Deze story is enkel het indienen**: een nieuw aggregate met de aanvraag en de controles in de handler. Bevestigen is een andere story met een ander endpoint, die de controles wellicht opnieuw doet. Er is nog geen VLO-trigger.
 - **Prefix `RA`.**
 - **Geen historiek.** De aanvraag verandert niets aan de verenigingen en leeft apart. Ze moet wel opvraagbaar zijn per vCode, als koepel of als vereniging, met een statusfilter. Daarvoor komt een eigen projectie.
@@ -890,12 +890,19 @@ vr-namens: V0000001
 
 ### Story 13 — Automatisch verval na 90 dagen · S · 🟢
 
-**Ontbreekt nog**
-- [ ] Exact moment: vervalDatum op dagbasis (einde van de dag, Brusselse tijd) of op tijdstip?
-- [ ] Draait dit als job in `AssociationRegistry.Scheduled.Host`? Welke frequentie (dagelijks)?
-- [ ] Bevestigen na de vervaldatum, maar vóór de job draaide: VR moet dit ook bij bevestiging zelf controleren (de story vraagt dit al).
+> **Geïmplementeerd (2026-11-26).** Design: `relatieaanvragen-verval-design.md`.
+> - Elke nacht om 01:00 UTC zoekt een job in `AssociationRegistry.Scheduled.Host` de aanvragen met status `Aangevraagd` en een vervaldatum vóór vandaag. Manueel starten: `POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen` in de Admin API (superadmin).
+> - Per aanvraag gaat een command via een durable Postgres-queue naar een handler in dezelfde host. Die bewaart `RelatieaanvraagWerdVervallen(aanvraagId, vervalDatum)` en verwijdert de lock-documenten in dezelfde transactie: het paar is daarna vrij voor een nieuwe aanvraag.
+> - De status wordt `Vervallen`. De response krijgt geen nieuw object: de datum is de `vervalDatum`.
+> - Bevestigen, weigeren en intrekken van een vervallen aanvraag geeft "De relatieaanvraag is vervallen.": op de status `Vervallen`, en vanaf de dag na de vervaldatum ook al vóór de job draaide.
 
-**Geen publiek endpoint.** Voorstel event: `RelatieaanvraagWerdVervallen`.
+**Ontbreekt nog**
+- [x] Exact moment: op dagbasis. De aanvraag vervalt de dag na de `vervalDatum`; op de vervaldatum zelf kan het nog.
+- [ ] Brusselse tijd: VR rekent, zoals overal, in UTC-dagen. "Einde van de dag, Brusselse tijd" zou een keuze voor heel VR zijn. Graag bevestigen dat UTC volstaat.
+- [x] Job in `AssociationRegistry.Scheduled.Host`, dagelijks om 01:00 UTC.
+- [x] Bevestigen na de vervaldatum, maar vóór de job draaide: VR controleert dit zelf bij bevestigen, weigeren en intrekken.
+
+**Geen publiek endpoint.** Event: `RelatieaanvraagWerdVervallen`.
 
 ---
 

@@ -458,6 +458,7 @@ public class Program
         var ipdcOptions = builder.Configuration.GetIpdcOptions();
         var wegwijsOptions = builder.Configuration.GetWegwijsOptions();
         var bewaartermijnOptions = builder.Configuration.GetBewaartermijnOptions();
+        var relatieaanvraagOptions = builder.Configuration.GetRelatieaanvraagOptions();
 
         var appSettings = builder.Configuration.Get<AppSettings>();
 
@@ -483,6 +484,7 @@ public class Program
             )
             .AddSingleton<IVCodeService, SequenceVCodeService>()
             .AddSingleton<IRelatieaanvraagIdService, SequenceRelatieaanvraagIdService>()
+            .AddSingleton(relatieaanvraagOptions)
             .AddSingleton<IAmazonSQS>(sqsClient)
             .AddSingleton<IClock, Clock>()
             .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())

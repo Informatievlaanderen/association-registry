@@ -5,10 +5,12 @@ using Admin.Schema.Bewaartermijn;
 using Admin.Schema.Erkenningen;
 using Admin.Schema.Persoonsgegevens;
 using Admin.Schema.PowerBiExport;
+using Admin.Schema.Setup.Marten;
 using DecentraalBeheer.Vereniging;
 using DubbelBeheer.Schema;
 using JasperFx.Events.Projections;
 using Marten;
+using MartenDb.Relatieaanvragen;
 
 public static class RegisterDocumentTypes
 {
@@ -33,6 +35,10 @@ public static class RegisterDocumentTypes
         opts.Schema.For<BewaartermijnDocument>().UseNumericRevisions(true).UseOptimisticConcurrency(false);
 
         opts.RegisterDocumentType<VerenigingState>();
+
+        // Verval reads the relatieaanvragen and deletes their guards: the same registrations as the other hosts.
+        opts.RegisterRelatieaanvraagDocument();
+        opts.RegisterOpenRelatieaanvraagDocument();
 
         opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
         opts.Projections.Add(new PowerBiExportDubbelDetectieProjection(), ProjectionLifecycle.Async);
