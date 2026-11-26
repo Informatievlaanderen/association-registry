@@ -59,7 +59,9 @@ public class VervalRelatieaanvraagContext
             );
 
         if (alreadyVervallen)
-            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdVervallen(AanvraagId.Value, VervalDatum));
+            relatieaanvraag = relatieaanvraag.Apply(
+                new RelatieaanvraagWerdVervallen(AanvraagId.Value, VervalDatum.AddDays(1))
+            );
 
         _repository = new RelatieaanvraagRepositoryStub(relatieaanvraag);
 

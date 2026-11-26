@@ -51,15 +51,16 @@ public record RelatieaanvraagState : IHasVersion
         Status == RelatieaanvraagStatus.Aangevraagd && Relatieaanvraag.IsTermijnVerstreken(VervalDatum, today);
 
     /// <summary>
-    ///     Only for a relatieaanvraag that <see cref="KanVervallenOp" /> today: check that first. Nothing changes on the
-    ///     verenigingen. The caller saves the event.
+    ///     Only for a relatieaanvraag that <see cref="KanVervallenOp" /> today: check that first. It vervalt today, also
+    ///     when the job runs later than the day after the vervaldatum. Nothing changes on the verenigingen. The caller
+    ///     saves the event.
     /// </summary>
     public RelatieaanvraagWerdVervallen Verval(DateOnly today)
     {
         if (!KanVervallenOp(today))
             throw new RelatieaanvraagKanNietVervallen(AanvraagId, Status, VervalDatum);
 
-        return new RelatieaanvraagWerdVervallen(AanvraagId.Value, VervalDatum);
+        return new RelatieaanvraagWerdVervallen(AanvraagId.Value, today);
     }
 
     public RelatieaanvraagState Apply(RelatieaanvraagWerdIngediend @event) =>

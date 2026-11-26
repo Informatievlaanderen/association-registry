@@ -25,8 +25,8 @@
 // - Intrekken: POST /v1/relatieaanvragen/{aanvraagId}/intrekking met vr-namens = de aanvrager, zonder body.
 //   IngediendeRelatieaanvraag: enkel de aanvrager, en dezelfde controles op de status en de vervaldatum als hierboven.
 //   Verder geen controles. Er ontstaat geen relatie, en het paar is weer vrij voor een nieuwe aanvraag.
-// - Een afgesloten aanvraag heeft een afhandelDatum: de dag van de bevestiging, weigering of intrekking, of bij verval
-//   de dag na de vervaldatum. Leeg zolang de aanvraag open is.
+// - Een afgesloten aanvraag heeft een afhandelDatum: de dag van de bevestiging, weigering, intrekking of verval (de dag
+//   dat de job de aanvraag liet vervallen). Leeg zolang de aanvraag open is.
 // - Verval: een job in de scheduled host, elke nacht om 01:00 UTC, of manueel via
 //   POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin, 202: de job draait na het antwoord). Een
 //   aanvraag vervalt pas de dag na de vervaldatum (vandaag + de vervaltermijn: 90 dagen, per environment instelbaar),

@@ -45,9 +45,8 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
     public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdIngetrokken> @event) =>
         Afgehandeld(document, RelatieaanvraagStatus.Ingetrokken, @event.Data.IntrekkingsDatum, @event);
 
-    /// <summary>A relatieaanvraag is vervallen from the day after its vervaldatum.</summary>
     public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdVervallen> @event) =>
-        Afgehandeld(document, RelatieaanvraagStatus.Vervallen, @event.Data.VervalDatum.AddDays(1), @event);
+        Afgehandeld(document, RelatieaanvraagStatus.Vervallen, @event.Data.VervalDatum, @event);
 
     private static void Afgehandeld(
         RelatieaanvraagDocument document,
