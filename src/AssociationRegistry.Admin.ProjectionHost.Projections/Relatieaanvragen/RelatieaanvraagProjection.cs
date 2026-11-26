@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Relatieaanvragen;
 
 using DecentraalBeheer.Relatieaanvragen;
 using Events;
+using Formats;
 using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten.Events.Aggregation;
@@ -56,7 +57,7 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
     )
     {
         document.Status = status.Value;
-        document.AfhandelDatum = afhandelDatum;
+        document.AfhandelDatum = afhandelDatum.ToString(WellknownFormats.DateOnly);
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 }

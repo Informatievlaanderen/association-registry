@@ -33,5 +33,8 @@ public class Given_RelatieaanvraagWerdIngediend(
     }
 
     [Fact]
+    public void Then_There_Is_No_AfhandelDatum() => fixture.Result!.AfhandelDatum.Should().BeNull();
+
+    [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(1);
 }
