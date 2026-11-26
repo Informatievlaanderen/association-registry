@@ -3,8 +3,6 @@ namespace AssociationRegistry.Test.E2E.When_Trek_Relatieaanvraag_In;
 using System.Net;
 using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Relatieaanvragen.BevestigRelatieaanvraag.RequestModels;
-using Admin.Api.WebApi.Relatieaanvragen.TrekRelatieaanvraagIn.RequestModels;
-using Admin.Api.WebApi.Relatieaanvragen.WeigerRelatieaanvraag.RequestModels;
 using Alba;
 using DecentraalBeheer.Relatieaanvragen.Exceptions;
 using Resources;
@@ -55,8 +53,7 @@ public class Returns_Problems
     {
         await _testContext.ApiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post.Json(new WeigerRelatieaanvraagRequest(), JsonStyle.Mvc)
-                .ToUrl($"/v1/relatieaanvragen/{_testContext.AanvraagId}/weigering");
+            s.Post.Url($"/v1/relatieaanvragen/{_testContext.AanvraagId}/weigering");
             s.WithRequestHeader(WellknownHeaderNames.Namens, Vereniging);
 
             s.StatusCodeShouldBe(HttpStatusCode.BadRequest);
@@ -69,8 +66,7 @@ public class Returns_Problems
     {
         await _testContext.ApiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post.Json(new TrekRelatieaanvraagInRequest(), JsonStyle.Mvc)
-                .ToUrl($"/v1/relatieaanvragen/{_testContext.AanvraagId}/intrekking");
+            s.Post.Url($"/v1/relatieaanvragen/{_testContext.AanvraagId}/intrekking");
 
             s.StatusCodeShouldBe(HttpStatusCode.BadRequest);
             s.ContentShouldContain($"{WellknownHeaderNames.Namens} is verplicht.");
@@ -80,8 +76,7 @@ public class Returns_Problems
     private async Task TrekIn(string aanvraagId, string namens, string expectedMessage) =>
         await _testContext.ApiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post.Json(new TrekRelatieaanvraagInRequest(), JsonStyle.Mvc)
-                .ToUrl($"/v1/relatieaanvragen/{aanvraagId}/intrekking");
+            s.Post.Url($"/v1/relatieaanvragen/{aanvraagId}/intrekking");
             s.WithRequestHeader(WellknownHeaderNames.Namens, namens);
 
             s.StatusCodeShouldBe(HttpStatusCode.BadRequest);

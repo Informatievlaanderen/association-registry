@@ -21,6 +21,7 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AanvraagDatum = "2026-11-19",
             VervalDatum = "2027-02-17",
             Beschrijving = "Aanvraag lidmaatschap bij de koepel",
+            AfhandelDatum = string.Empty,
         };
 
     internal static RelatieaanvraagResponse Bevestigd =>
@@ -35,7 +36,7 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AanvraagDatum = "2026-11-19",
             VervalDatum = "2027-02-17",
             Beschrijving = "Wij zijn de afdeling Bree",
-            Bevestiging = new RelatieaanvraagBevestigingResponse { Datum = "2026-11-23" },
+            AfhandelDatum = "2026-11-23",
         };
 
     internal static RelatieaanvraagResponse Geweigerd =>
@@ -50,11 +51,7 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AanvraagDatum = "2026-11-20",
             VervalDatum = "2027-02-18",
             Beschrijving = "Aanvraag lidmaatschap bij de koepel",
-            Weigering = new RelatieaanvraagWeigeringResponse
-            {
-                Datum = "2026-11-24",
-                Reden = "Wij zijn geen lid van deze koepel.",
-            },
+            AfhandelDatum = "2026-11-24",
         };
 
     internal static RelatieaanvraagResponse Ingetrokken =>
@@ -69,14 +66,10 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AanvraagDatum = "2026-11-21",
             VervalDatum = "2027-02-19",
             Beschrijving = "Wij zijn de afdeling Bree",
-            Intrekking = new RelatieaanvraagIntrekkingResponse
-            {
-                Datum = "2026-11-24",
-                Reden = "De aanvraag werd per vergissing ingediend.",
-            },
+            AfhandelDatum = "2026-11-24",
         };
 
-    /// <summary>No extra object: the date is the vervalDatum.</summary>
+    /// <summary>The afhandelDatum of a vervallen relatieaanvraag is the day after the vervalDatum.</summary>
     internal static RelatieaanvraagResponse Vervallen =>
         new()
         {
@@ -89,6 +82,7 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
             AanvraagDatum = "2026-08-20",
             VervalDatum = "2026-11-18",
             Beschrijving = "Aanvraag lidmaatschap bij de koepel",
+            AfhandelDatum = "2026-11-19",
         };
 }
 

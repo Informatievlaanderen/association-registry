@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.E2E.When_Weiger_Relatieaanvraag;
 using System.Net;
 using Admin.Api.Infrastructure;
 using Admin.Api.WebApi.Relatieaanvragen.BevestigRelatieaanvraag.RequestModels;
-using Admin.Api.WebApi.Relatieaanvragen.WeigerRelatieaanvraag.RequestModels;
 using Alba;
 using DecentraalBeheer.Relatieaanvragen.Exceptions;
 using Resources;
@@ -54,8 +53,7 @@ public class Returns_Problems
     {
         await _testContext.ApiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post.Json(new WeigerRelatieaanvraagRequest(), JsonStyle.Mvc)
-                .ToUrl($"/v1/relatieaanvragen/{_testContext.AanvraagId}/weigering");
+            s.Post.Url($"/v1/relatieaanvragen/{_testContext.AanvraagId}/weigering");
 
             s.StatusCodeShouldBe(HttpStatusCode.BadRequest);
             s.ContentShouldContain($"{WellknownHeaderNames.Namens} is verplicht.");
@@ -65,8 +63,7 @@ public class Returns_Problems
     private async Task Weiger(string aanvraagId, string namens, string expectedMessage) =>
         await _testContext.ApiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post.Json(new WeigerRelatieaanvraagRequest(), JsonStyle.Mvc)
-                .ToUrl($"/v1/relatieaanvragen/{aanvraagId}/weigering");
+            s.Post.Url($"/v1/relatieaanvragen/{aanvraagId}/weigering");
             s.WithRequestHeader(WellknownHeaderNames.Namens, namens);
 
             s.StatusCodeShouldBe(HttpStatusCode.BadRequest);

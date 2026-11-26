@@ -31,17 +31,6 @@ public class Returns_Geweigerde_Relatieaanvraag : End2EndTest<RelatieaanvraagRes
     public void With_Status_Geweigerd() => Response.Status.Should().Be(RelatieaanvraagStatus.Labels.Geweigerd);
 
     [Fact]
-    public void With_The_Weigering_Of_Today_And_The_Reden() =>
-        Response
-            .Weigering.Should()
-            .BeEquivalentTo(
-                new RelatieaanvraagWeigeringResponse
-                {
-                    Datum = DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"),
-                    Reden = WeigerRelatieaanvraagRequestFactory.Reden,
-                }
-            );
-
-    [Fact]
-    public void Without_Bevestiging() => Response.Bevestiging.Should().BeNull();
+    public void With_AfhandelDatum_Today() =>
+        Response.AfhandelDatum.Should().Be(DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"));
 }

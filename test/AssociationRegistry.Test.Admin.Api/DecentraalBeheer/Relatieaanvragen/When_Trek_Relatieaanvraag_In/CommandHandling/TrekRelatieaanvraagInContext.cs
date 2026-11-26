@@ -54,13 +54,11 @@ public class TrekRelatieaanvraagInContext
             relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdBevestigd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyGeweigerd)
-            relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum, "Reden")
-            );
+            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyIngetrokken)
             relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum, "Reden")
+                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum)
             );
 
         if (alreadyVervallen)
@@ -74,9 +72,9 @@ public class TrekRelatieaanvraagInContext
 
     public RelatieaanvraagWerdIngetrokken? Ingetrokken => _repository.Afsluiting as RelatieaanvraagWerdIngetrokken;
 
-    public async Task<RelatieaanvraagCommandResult> TrekIn(VCode ingetrokkenDoor, string reden = "")
+    public async Task<RelatieaanvraagCommandResult> TrekIn(VCode ingetrokkenDoor)
     {
-        var command = new TrekRelatieaanvraagInCommand(AanvraagId, ingetrokkenDoor, reden);
+        var command = new TrekRelatieaanvraagInCommand(AanvraagId, ingetrokkenDoor);
 
         var metadata = new Fixture().CustomizeAdminApi().Create<CommandMetadata>() with { ExpectedVersion = null };
 

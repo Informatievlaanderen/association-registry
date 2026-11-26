@@ -44,17 +44,12 @@ public class RelatieaanvraagResponse
     [DataMember(Name = "beschrijving")]
     public string Beschrijving { get; init; } = null!;
 
-    /// <summary>De bevestiging van de aanvraag. Ontbreekt zolang de aanvraag niet bevestigd is.</summary>
-    [DataMember(Name = "bevestiging", EmitDefaultValue = false)]
-    public RelatieaanvraagBevestigingResponse? Bevestiging { get; init; }
-
-    /// <summary>De weigering van de aanvraag. Ontbreekt zolang de aanvraag niet geweigerd is.</summary>
-    [DataMember(Name = "weigering", EmitDefaultValue = false)]
-    public RelatieaanvraagWeigeringResponse? Weigering { get; init; }
-
-    /// <summary>De intrekking van de aanvraag. Ontbreekt zolang de aanvraag niet ingetrokken is.</summary>
-    [DataMember(Name = "intrekking", EmitDefaultValue = false)]
-    public RelatieaanvraagIntrekkingResponse? Intrekking { get; init; }
+    /// <summary>
+    /// De datum waarop de aanvraag afgehandeld werd: bevestigd, geweigerd of ingetrokken, of voor een vervallen
+    /// aanvraag de dag na de vervalDatum. Leeg zolang de aanvraag open is.
+    /// </summary>
+    [DataMember(Name = "afhandelDatum")]
+    public string AfhandelDatum { get; init; } = null!;
 
     public static RelatieaanvraagResponse From(RelatieaanvraagDocument document) =>
         new()
@@ -68,59 +63,9 @@ public class RelatieaanvraagResponse
             AanvraagDatum = document.AanvraagDatum.FormatAsBelgianDate(),
             VervalDatum = document.VervalDatum.FormatAsBelgianDate(),
             Beschrijving = document.Beschrijving,
-            Bevestiging = document.Bevestiging is { } bevestiging
-                ? new RelatieaanvraagBevestigingResponse { Datum = bevestiging.Datum.FormatAsBelgianDate() }
-                : null,
-            Weigering = document.Weigering is { } weigering
-                ? new RelatieaanvraagWeigeringResponse
-                {
-                    Datum = weigering.Datum.FormatAsBelgianDate(),
-                    Reden = weigering.Reden,
-                }
-                : null,
-            Intrekking = document.Intrekking is { } intrekking
-                ? new RelatieaanvraagIntrekkingResponse
-                {
-                    Datum = intrekking.Datum.FormatAsBelgianDate(),
-                    Reden = intrekking.Reden,
-                }
-                : null,
+            AfhandelDatum =
+                document.AfhandelDatum == default ? string.Empty : document.AfhandelDatum.FormatAsBelgianDate(),
         };
-}
-
-/// <summary>De bevestiging van een relatieaanvraag</summary>
-[DataContract]
-public class RelatieaanvraagBevestigingResponse
-{
-    /// <summary>De datum waarop de aanvraag bevestigd werd</summary>
-    [DataMember(Name = "datum")]
-    public string Datum { get; init; } = null!;
-}
-
-/// <summary>De weigering van een relatieaanvraag</summary>
-[DataContract]
-public class RelatieaanvraagWeigeringResponse
-{
-    /// <summary>De datum waarop de aanvraag geweigerd werd</summary>
-    [DataMember(Name = "datum")]
-    public string Datum { get; init; } = null!;
-
-    /// <summary>De reden van de weigering. Leeg als er geen reden opgegeven werd.</summary>
-    [DataMember(Name = "reden")]
-    public string Reden { get; init; } = null!;
-}
-
-/// <summary>De intrekking van een relatieaanvraag</summary>
-[DataContract]
-public class RelatieaanvraagIntrekkingResponse
-{
-    /// <summary>De datum waarop de aanvraag ingetrokken werd</summary>
-    [DataMember(Name = "datum")]
-    public string Datum { get; init; } = null!;
-
-    /// <summary>De reden van de intrekking. Leeg als er geen reden opgegeven werd.</summary>
-    [DataMember(Name = "reden")]
-    public string Reden { get; init; } = null!;
 }
 
 /// <summary>De relatieaanvragen van een vereniging, als koepel of als vereniging</summary>

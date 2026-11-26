@@ -54,13 +54,11 @@ public class WeigerRelatieaanvraagContext
             relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdBevestigd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyGeweigerd)
-            relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum, "Reden")
-            );
+            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyIngetrokken)
             relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum, "Reden")
+                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum)
             );
 
         if (alreadyVervallen)
@@ -74,9 +72,9 @@ public class WeigerRelatieaanvraagContext
 
     public RelatieaanvraagWerdGeweigerd? Geweigerd => _repository.Afsluiting as RelatieaanvraagWerdGeweigerd;
 
-    public async Task<RelatieaanvraagCommandResult> Weiger(VCode geweigerdDoor, string reden = "")
+    public async Task<RelatieaanvraagCommandResult> Weiger(VCode geweigerdDoor)
     {
-        var command = new WeigerRelatieaanvraagCommand(AanvraagId, geweigerdDoor, reden);
+        var command = new WeigerRelatieaanvraagCommand(AanvraagId, geweigerdDoor);
 
         var metadata = new Fixture().CustomizeAdminApi().Create<CommandMetadata>() with { ExpectedVersion = null };
 

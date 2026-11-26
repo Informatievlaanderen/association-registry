@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
@@ -14,10 +13,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Relatieaanvragen.WeigerRelatieaanvraag;
 using DecentraalBeheer.Relatieaanvragen;
-using Examples;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -42,15 +38,13 @@ public class WeigerRelatieaanvraagController : ApiController
     /// Weiger een ontvangen relatieaanvraag.
     /// </summary>
     /// <remarks>
-    /// De ontvanger van de aanvraag weigert ze, in de `vr-namens` header. Er ontstaat geen relatie.
+    /// De ontvanger van de aanvraag weigert ze, in de `vr-namens` header. Er ontstaat geen relatie. Er is geen body nodig.
     ///
     /// Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="aanvraagId">De id van de relatieaanvraag.</param>
-    /// <param name="request">De reden van de weigering. Optioneel.</param>
-    /// <param name="validator"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="namens">De vCode van de vereniging die de aanvraag ontving.</param>
     /// <param name="ifMatch">De versie van de relatieaanvraag (optioneel).</param>
@@ -60,9 +54,7 @@ public class WeigerRelatieaanvraagController : ApiController
     /// <response code="412">De relatieaanvraag werd intussen gewijzigd.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("{aanvraagId}/weigering")]
-    [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(WeigerRelatieaanvraagRequest), typeof(WeigerRelatieaanvraagRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SequenceResponseHeader()]
@@ -74,8 +66,6 @@ public class WeigerRelatieaanvraagController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Weiger(
         [FromRoute] string aanvraagId,
-        [FromBody] WeigerRelatieaanvraagRequest request,
-        [FromServices] IValidator<WeigerRelatieaanvraagRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = WellknownHeaderNames.Namens)] string? namens = null,
         [FromHeader(Name = WellknownHeaderNames.IfMatch)] string? ifMatch = null,
@@ -84,10 +74,9 @@ public class WeigerRelatieaanvraagController : ApiController
     {
         var geweigerdDoor = VrNamensHeader.Verplicht(namens);
 
-        await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
-
+        // The value object checks the aanvraagId from the route before anything is loaded.
         var envelope = new CommandEnvelope<WeigerRelatieaanvraagCommand>(
-            request.ToCommand(aanvraagId, geweigerdDoor),
+            new WeigerRelatieaanvraagCommand(RelatieaanvraagId.Parse(aanvraagId), geweigerdDoor),
             metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch))
         );
 

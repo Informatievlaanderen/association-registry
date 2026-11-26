@@ -31,7 +31,5 @@ public sealed class IngediendeRelatieaanvraag
     ///     Withdrawing checks no more than <see cref="Create" />: not the koepel, not the rules of the type. Nothing changes
     ///     on the verenigingen. The caller saves the event.
     /// </summary>
-    /// <param name="reden">Optional: empty when none was given.</param>
-    public RelatieaanvraagWerdIngetrokken TrekIn(string reden, DateOnly today) =>
-        new(_relatieaanvraag.AanvraagId.Value, today, reden);
+    public RelatieaanvraagWerdIngetrokken TrekIn(DateOnly today) => new(_relatieaanvraag.AanvraagId.Value, today);
 }

@@ -16,35 +16,11 @@ public class RelatieaanvraagDocument : IMetadata
     public DateOnly VervalDatum { get; set; }
     public string Beschrijving { get; set; } = string.Empty;
 
-    /// <summary>Only when the relatieaanvraag was confirmed.</summary>
-    public RelatieaanvraagBevestiging? Bevestiging { get; set; }
-
-    /// <summary>Only when the relatieaanvraag was refused.</summary>
-    public RelatieaanvraagWeigering? Weigering { get; set; }
-
-    /// <summary>Only when the relatieaanvraag was withdrawn.</summary>
-    public RelatieaanvraagIntrekking? Intrekking { get; set; }
+    /// <summary>
+    ///     When the relatieaanvraag was closed: bevestigd, geweigerd or ingetrokken, or for a vervallen one the day after
+    ///     its vervaldatum. The default value while it is open.
+    /// </summary>
+    public DateOnly AfhandelDatum { get; set; }
 
     public Metadata Metadata { get; set; } = null!;
-}
-
-public class RelatieaanvraagBevestiging
-{
-    public DateOnly Datum { get; set; }
-}
-
-public class RelatieaanvraagWeigering
-{
-    public DateOnly Datum { get; set; }
-
-    /// <summary>Empty when no reden was given.</summary>
-    public string Reden { get; set; } = string.Empty;
-}
-
-public class RelatieaanvraagIntrekking
-{
-    public DateOnly Datum { get; set; }
-
-    /// <summary>Empty when no reden was given.</summary>
-    public string Reden { get; set; } = string.Empty;
 }

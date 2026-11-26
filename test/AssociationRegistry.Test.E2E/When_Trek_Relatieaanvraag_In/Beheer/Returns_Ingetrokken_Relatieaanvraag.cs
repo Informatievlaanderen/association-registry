@@ -31,21 +31,6 @@ public class Returns_Ingetrokken_Relatieaanvraag : End2EndTest<RelatieaanvraagRe
     public void With_Status_Ingetrokken() => Response.Status.Should().Be(RelatieaanvraagStatus.Labels.Ingetrokken);
 
     [Fact]
-    public void With_The_Intrekking_Of_Today_And_The_Reden() =>
-        Response
-            .Intrekking.Should()
-            .BeEquivalentTo(
-                new RelatieaanvraagIntrekkingResponse
-                {
-                    Datum = DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"),
-                    Reden = TrekRelatieaanvraagInRequestFactory.Reden,
-                }
-            );
-
-    [Fact]
-    public void Without_Bevestiging_Or_Weigering()
-    {
-        Response.Bevestiging.Should().BeNull();
-        Response.Weigering.Should().BeNull();
-    }
+    public void With_AfhandelDatum_Today() =>
+        Response.AfhandelDatum.Should().Be(DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"));
 }

@@ -36,39 +36,28 @@ public partial class RelatieaanvraagProjection : SingleStreamProjection<Relatiea
             Metadata = new Metadata(@event.Sequence, @event.Version),
         };
 
-    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdBevestigd> @event)
-    {
-        document.Status = RelatieaanvraagStatus.Bevestigd.Value;
-        document.Bevestiging = new RelatieaanvraagBevestiging { Datum = @event.Data.BevestigingsDatum };
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
-    }
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdBevestigd> @event) =>
+        Afgehandeld(document, RelatieaanvraagStatus.Bevestigd, @event.Data.BevestigingsDatum, @event);
 
-    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdGeweigerd> @event)
-    {
-        document.Status = RelatieaanvraagStatus.Geweigerd.Value;
-        document.Weigering = new RelatieaanvraagWeigering
-        {
-            Datum = @event.Data.WeigeringsDatum,
-            Reden = @event.Data.Reden,
-        };
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
-    }
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdGeweigerd> @event) =>
+        Afgehandeld(document, RelatieaanvraagStatus.Geweigerd, @event.Data.WeigeringsDatum, @event);
 
-    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdIngetrokken> @event)
-    {
-        document.Status = RelatieaanvraagStatus.Ingetrokken.Value;
-        document.Intrekking = new RelatieaanvraagIntrekking
-        {
-            Datum = @event.Data.IntrekkingsDatum,
-            Reden = @event.Data.Reden,
-        };
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
-    }
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdIngetrokken> @event) =>
+        Afgehandeld(document, RelatieaanvraagStatus.Ingetrokken, @event.Data.IntrekkingsDatum, @event);
 
-    /// <summary>Only the status: the date is the vervalDatum, which the document already has.</summary>
-    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdVervallen> @event)
+    /// <summary>A relatieaanvraag is vervallen from the day after its vervaldatum.</summary>
+    public void Apply(RelatieaanvraagDocument document, IEvent<RelatieaanvraagWerdVervallen> @event) =>
+        Afgehandeld(document, RelatieaanvraagStatus.Vervallen, @event.Data.VervalDatum.AddDays(1), @event);
+
+    private static void Afgehandeld(
+        RelatieaanvraagDocument document,
+        RelatieaanvraagStatus status,
+        DateOnly afhandelDatum,
+        JasperFx.Events.IEvent @event
+    )
     {
-        document.Status = RelatieaanvraagStatus.Vervallen.Value;
+        document.Status = status.Value;
+        document.AfhandelDatum = afhandelDatum;
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 }

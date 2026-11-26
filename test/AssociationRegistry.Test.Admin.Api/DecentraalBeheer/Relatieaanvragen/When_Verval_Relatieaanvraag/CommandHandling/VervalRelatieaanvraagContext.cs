@@ -51,13 +51,11 @@ public class VervalRelatieaanvraagContext
             relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdBevestigd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyGeweigerd)
-            relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum, "Reden")
-            );
+            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, AanvraagDatum));
 
         if (alreadyIngetrokken)
             relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum, "Reden")
+                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum)
             );
 
         if (alreadyVervallen)

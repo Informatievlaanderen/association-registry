@@ -38,8 +38,6 @@ const BERICHT = {
 };
 
 const AANSLUITEN = 'Wij willen aansluiten bij de koepel.';
-const REDEN_WEIGERING = 'Uw vereniging valt buiten de werking van onze koepel.';
-const REDEN_INTREKKING = 'Per vergissing ingediend.';
 
 // Datums (yyyy-MM-dd, UTC zoals de API-containers): de aanvraagdatum en de vervaldatum, 90 dagen later, tenzij de
 // environment vervaltermijnInDagen zet (waar de Admin API een andere termijn heeft, bv. 1 op Test).
@@ -75,8 +73,8 @@ function dienIn(id, naam, { koepel = 'K', type = LIDMAATSCHAP, namens = 'A', bes
 
 // POST /v1/relatieaanvragen/{aanvraagId}/bevestiging, /weigering of /intrekking namens een partij
 const handelAf =
-  (afhandeling) =>
-  (id, naam, namens, body = {}, verwacht = { status: 202, locatie: aanvraag(id) }) => ({
+  (afhandeling, standaardBody) =>
+  (id, naam, namens, body = standaardBody, verwacht = { status: 202, locatie: aanvraag(id) }) => ({
     naam,
     actie: 'POST',
     beheerPad: `v1/relatieaanvragen/${aanvraag(id)}/${afhandeling}`,
@@ -84,7 +82,8 @@ const handelAf =
     body,
     verwacht,
   });
-const bevestig = handelAf('bevestiging');
+// bevestigen met een (eventueel lege) body, weigeren en intrekken zonder body
+const bevestig = handelAf('bevestiging', {});
 const weiger = handelAf('weigering');
 const trekIn = handelAf('intrekking');
 
@@ -170,7 +169,7 @@ const afhandelen = [
       bevat: [gebeurtenis('LidmaatschapWerdToegevoegd'), gebeurtenis('VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging')],
       geen: ['Relatieaanvraag'],
     },
-    controles: [bekijkAanvraag('D1', 'Bekijk de aanvraag: Bevestigd', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } })],
+    controles: [bekijkAanvraag('D1', 'Bekijk de aanvraag: Bevestigd', { status: BEVESTIGD, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'D2',
@@ -204,46 +203,38 @@ const afhandelen = [
       },
     },
     historiek: { bevat: [gebeurtenis('VerenigingssubtypeWerdVerfijndNaarSubvereniging')] },
-    controles: [bekijkAanvraag('D2', 'Bekijk de aanvraag: Bevestigd', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } })],
+    controles: [bekijkAanvraag('D2', 'Bekijk de aanvraag: Bevestigd', { status: BEVESTIGD, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'D3',
-    name: 'Koepel weigert de lidmaatschapsaanvraag met een reden -> Geweigerd, geen lidmaatschap',
+    name: 'Koepel weigert de lidmaatschapsaanvraag -> Geweigerd, geen lidmaatschap',
     description:
-      'Story 5. De ontvanger kan een aanvraag weigeren, met een optionele reden. Er ontstaat geen relatie, en koepel en ' +
-      'vereniging kunnen meteen een nieuwe aanvraag indienen.',
+      'Story 5. De ontvanger kan een aanvraag weigeren. Er ontstaat geen relatie, en koepel en vereniging kunnen meteen ' +
+      'een nieuwe aanvraag indienen.',
     a: { naam: 'Harmonie Minas Tirith' },
     verenigingen: EEN_KOEPEL,
     stappen: [
       alsKoepel(),
       dienIn('D3', 'A vraagt lidmaatschap aan bij K', { beschrijving: AANSLUITEN }),
-      weiger('D3', 'K weigert de aanvraag met een reden', 'K', { reden: REDEN_WEIGERING }),
+      weiger('D3', 'K weigert de aanvraag', 'K'),
     ],
     final: { beheerDetail: lidmaatschappen([]) },
-    controles: [
-      bekijkAanvraag('D3', 'Bekijk de aanvraag: Geweigerd met reden', {
-        status: GEWEIGERD,
-        weigering: { datum: '{{vandaag}}', reden: REDEN_WEIGERING },
-      }),
-    ],
+    controles: [bekijkAanvraag('D3', 'Bekijk de aanvraag: Geweigerd', { status: GEWEIGERD, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'D4',
-    name: 'Vereniging trekt haar aanvraag in met een reden -> Ingetrokken, geen lidmaatschap',
-    description: 'Story 23. De aanvrager kan zijn open aanvraag intrekken, met een optionele reden. Er ontstaat geen relatie.',
+    name: 'Vereniging trekt haar aanvraag in -> Ingetrokken, geen lidmaatschap',
+    description: 'Story 23. De aanvrager kan zijn open aanvraag intrekken. Er ontstaat geen relatie.',
     a: { naam: 'Schaakclub Edoras' },
     verenigingen: EEN_KOEPEL,
     stappen: [
       alsKoepel(),
       dienIn('D4', 'A vraagt lidmaatschap aan bij K', { beschrijving: AANSLUITEN }),
-      trekIn('D4', 'A trekt de aanvraag in met een reden', 'A', { reden: REDEN_INTREKKING }),
+      trekIn('D4', 'A trekt de aanvraag in', 'A'),
     ],
     final: { beheerDetail: lidmaatschappen([]) },
     controles: [
-      bekijkAanvraag('D4', 'Bekijk de aanvraag: Ingetrokken met reden', {
-        status: INGETROKKEN,
-        intrekking: { datum: '{{vandaag}}', reden: REDEN_INTREKKING },
-      }),
+      bekijkAanvraag('D4', 'Bekijk de aanvraag: Ingetrokken', { status: INGETROKKEN, afhandelDatum: '{{vandaag}}' }),
     ],
   },
 ];

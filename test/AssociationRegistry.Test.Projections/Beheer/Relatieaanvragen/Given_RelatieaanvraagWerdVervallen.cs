@@ -16,13 +16,12 @@ public class Given_RelatieaanvraagWerdVervallen(
     public void Then_The_VervalDatum_Is_Unchanged() =>
         fixture.Result!.VervalDatum.Should().Be(fixture.Scenario.Ingediend.RelatieaanvraagWerdIngediend.VervalDatum);
 
+    /// <summary>A relatieaanvraag is vervallen from the day after its vervaldatum.</summary>
     [Fact]
-    public void Then_There_Is_No_Bevestiging_Weigering_Or_Intrekking()
-    {
-        fixture.Result!.Bevestiging.Should().BeNull();
-        fixture.Result!.Weigering.Should().BeNull();
-        fixture.Result!.Intrekking.Should().BeNull();
-    }
+    public void Then_The_AfhandelDatum_Is_The_Day_After_The_VervalDatum() =>
+        fixture
+            .Result!.AfhandelDatum.Should()
+            .Be(fixture.Scenario.Ingediend.RelatieaanvraagWerdIngediend.VervalDatum.AddDays(1));
 
     [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(2);

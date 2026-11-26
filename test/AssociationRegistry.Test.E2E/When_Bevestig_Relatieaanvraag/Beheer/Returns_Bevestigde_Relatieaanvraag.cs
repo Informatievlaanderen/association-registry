@@ -29,13 +29,6 @@ public class Returns_Bevestigde_Relatieaanvraag : End2EndTest<RelatieaanvraagRes
     public void With_Status_Bevestigd() => Response.Status.Should().Be("Bevestigd");
 
     [Fact]
-    public void With_The_Bevestiging_Of_Today() =>
-        Response
-            .Bevestiging.Should()
-            .BeEquivalentTo(
-                new RelatieaanvraagBevestigingResponse
-                {
-                    Datum = DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"),
-                }
-            );
+    public void With_AfhandelDatum_Today() =>
+        Response.AfhandelDatum.Should().Be(DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd"));
 }

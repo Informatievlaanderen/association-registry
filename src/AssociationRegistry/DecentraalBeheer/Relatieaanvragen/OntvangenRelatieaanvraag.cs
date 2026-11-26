@@ -54,7 +54,5 @@ public sealed class OntvangenRelatieaanvraag
     ///     Refusing checks no more than <see cref="Create" />: not the koepel, not the rules of the type. Nothing changes
     ///     on the verenigingen. The caller saves the event.
     /// </summary>
-    /// <param name="reden">Optional: empty when none was given.</param>
-    public RelatieaanvraagWerdGeweigerd Weiger(string reden, DateOnly today) =>
-        new(_relatieaanvraag.AanvraagId.Value, today, reden);
+    public RelatieaanvraagWerdGeweigerd Weiger(DateOnly today) => new(_relatieaanvraag.AanvraagId.Value, today);
 }

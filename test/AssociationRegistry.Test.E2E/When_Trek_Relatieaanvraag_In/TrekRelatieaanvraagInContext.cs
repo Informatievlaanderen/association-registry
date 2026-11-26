@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.When_Trek_Relatieaanvraag_In;
 
-using Admin.Api.WebApi.Relatieaanvragen.TrekRelatieaanvraagIn.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.Relatieaanvragen;
+using Scenarios.Requests;
 using Scenarios.Requests.Relatieaanvragen;
 using Xunit;
 
@@ -11,7 +11,7 @@ using Xunit;
 public class TrekRelatieaanvraagInCollection : ICollectionFixture<TrekRelatieaanvraagInContext> { }
 
 /// <summary>The koepel asks the vereniging to become lid, and withdraws its relatieaanvraag.</summary>
-public class TrekRelatieaanvraagInContext : TestContextBase<KoepelEnVerenigingScenario, TrekRelatieaanvraagInRequest>
+public class TrekRelatieaanvraagInContext : TestContextBase<KoepelEnVerenigingScenario, NullRequest>
 {
     public TrekRelatieaanvraagInContext(FullBlownApiSetup apiSetup)
         : base(apiSetup) { }

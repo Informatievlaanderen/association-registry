@@ -32,7 +32,7 @@ public class TrekRelatieaanvraagInCommandHandler
 
         var ingetrokken = IngediendeRelatieaanvraag
             .Create(relatieaanvraag, command.IngetrokkenDoor, today)
-            .TrekIn(command.Reden, today);
+            .TrekIn(today);
 
         var result = await _relatieaanvraagRepository.SaveAfsluiting(
             relatieaanvraag,

@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.When_Weiger_Relatieaanvraag;
 
-using Admin.Api.WebApi.Relatieaanvragen.WeigerRelatieaanvraag.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.Relatieaanvragen;
+using Scenarios.Requests;
 using Scenarios.Requests.Relatieaanvragen;
 using Xunit;
 
@@ -11,7 +11,7 @@ using Xunit;
 public class WeigerRelatieaanvraagCollection : ICollectionFixture<WeigerRelatieaanvraagContext> { }
 
 /// <summary>The koepel asks the vereniging to become lid, and the vereniging refuses.</summary>
-public class WeigerRelatieaanvraagContext : TestContextBase<KoepelEnVerenigingScenario, WeigerRelatieaanvraagRequest>
+public class WeigerRelatieaanvraagContext : TestContextBase<KoepelEnVerenigingScenario, NullRequest>
 {
     public WeigerRelatieaanvraagContext(FullBlownApiSetup apiSetup)
         : base(apiSetup) { }
