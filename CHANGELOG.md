@@ -1,3 +1,17 @@
+# [8.350.0](https://github.com/informatievlaanderen/association-registry/compare/v8.349.0...v8.350.0) (2026-11-26)
+
+
+### Bug Fixes
+
+* or-3805 use afhandeldatum instead of specific state of relatieaanvraag ([140712b](https://github.com/informatievlaanderen/association-registry/commit/140712ba8f0ed716eb749b02861b4aa68de1ad3f))
+* or-3815 change afhandeldatum in projection to nullable string ([1c291e7](https://github.com/informatievlaanderen/association-registry/commit/1c291e72565bbd34e7bd38e9e7cef885539f365a))
+* or-3815 set verval relatie aanvraag datum correct ([3166206](https://github.com/informatievlaanderen/association-registry/commit/316620608d46a0bca2e56bfc995cdf666585814e))
+
+
+### Features
+
+* or-3815 verval relatie aanvraag ([5011c6a](https://github.com/informatievlaanderen/association-registry/commit/5011c6a1ecfa02dc764e95ef0eb20351aa1a590c))
+
 # [8.349.0](https://github.com/informatievlaanderen/association-registry/compare/v8.348.0...v8.349.0) (2026-11-25)
 
 
