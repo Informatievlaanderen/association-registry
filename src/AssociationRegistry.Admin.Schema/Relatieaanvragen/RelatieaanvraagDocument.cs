@@ -17,10 +17,10 @@ public class RelatieaanvraagDocument : IMetadata
     public string Beschrijving { get; set; } = string.Empty;
 
     /// <summary>
-    ///     When the relatieaanvraag was closed: bevestigd, geweigerd or ingetrokken, or for a vervallen one the day after
-    ///     its vervaldatum. The default value while it is open.
+    ///     When the relatieaanvraag was closed (bevestigd, geweigerd, ingetrokken or vervallen), as yyyy-MM-dd. Null
+    ///     while it is open, like the Einddatum of a vereniging: no nullable DateOnly on a document.
     /// </summary>
-    public DateOnly AfhandelDatum { get; set; }
+    public string? AfhandelDatum { get; set; }
 
     public Metadata Metadata { get; set; } = null!;
 }

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Relatieaanvragen;
 
 using DecentraalBeheer.Relatieaanvragen;
+using Formats;
 using Scenario.Relatieaanvragen;
 
 [Collection(nameof(ProjectionContext))]
@@ -14,7 +15,9 @@ public class Given_RelatieaanvraagWerdGeweigerd(
 
     [Fact]
     public void Then_The_AfhandelDatum_Is_The_WeigeringsDatum() =>
-        fixture.Result!.AfhandelDatum.Should().Be(fixture.Scenario.RelatieaanvraagWerdGeweigerd.WeigeringsDatum);
+        fixture
+            .Result!.AfhandelDatum.Should()
+            .Be(fixture.Scenario.RelatieaanvraagWerdGeweigerd.WeigeringsDatum.ToString(WellknownFormats.DateOnly));
 
     [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(2);

@@ -142,7 +142,7 @@ Bevestigen schrijft naar de aanvraag én naar de vereniging, in één transactie
 
 ## 10. Kleinere punten
 
-- **`afhandelDatum`** (stories 3, 13, 23): AGENTS.md verbiedt `DateOnly?` op een `*Document`. Opgelost (2026-11-26): `RelatieaanvraagDocument.AfhandelDatum` is een `DateOnly` met de standaardwaarde zolang de aanvraag open is; de response toont dan een lege string. Bij verval is het de dag dat de job de aanvraag liet vervallen.
+- **`afhandelDatum`** (stories 3, 13, 23): AGENTS.md verbiedt `DateOnly?` op een `*Document`. Opgelost (2026-11-26): `RelatieaanvraagDocument.AfhandelDatum` is een `string?` (`yyyy-MM-dd`), `null` zolang de aanvraag open is, zoals `Einddatum` en `Hernieuwingsdatum` in het detail. Geen `0001-01-01` als standaardwaarde in de database. De response toont een lege string. Bij verval is het de dag dat de job de aanvraag liet vervallen.
 - **Vervaldatum:** is de aanvraag op de vervaldatum zelf nog te bevestigen? (Story 13 vraagt al "einde van de dag".)
 - **Reden bij weigeren of intrekken:** weggevallen (2026-11-26). Weigeren en intrekken hebben geen body meer.
 - **GET zonder `vr-namens`:** elke initiator ziet alle aanvragen van elke vereniging. Beslist als "nog", maar het moet nog op de lijst voor story 10.

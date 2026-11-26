@@ -63,8 +63,7 @@ public class RelatieaanvraagResponse
             AanvraagDatum = document.AanvraagDatum.FormatAsBelgianDate(),
             VervalDatum = document.VervalDatum.FormatAsBelgianDate(),
             Beschrijving = document.Beschrijving,
-            AfhandelDatum =
-                document.AfhandelDatum == default ? string.Empty : document.AfhandelDatum.FormatAsBelgianDate(),
+            AfhandelDatum = document.AfhandelDatum ?? string.Empty,
         };
 }
 

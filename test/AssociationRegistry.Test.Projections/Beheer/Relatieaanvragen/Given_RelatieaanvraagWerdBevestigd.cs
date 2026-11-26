@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Relatieaanvragen;
 
+using Formats;
 using Scenario.Relatieaanvragen;
 
 [Collection(nameof(ProjectionContext))]
@@ -12,7 +13,9 @@ public class Given_RelatieaanvraagWerdBevestigd(
 
     [Fact]
     public void Then_The_AfhandelDatum_Is_The_BevestigingsDatum() =>
-        fixture.Result!.AfhandelDatum.Should().Be(fixture.Scenario.RelatieaanvraagWerdBevestigd.BevestigingsDatum);
+        fixture
+            .Result!.AfhandelDatum.Should()
+            .Be(fixture.Scenario.RelatieaanvraagWerdBevestigd.BevestigingsDatum.ToString(WellknownFormats.DateOnly));
 
     [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(2);

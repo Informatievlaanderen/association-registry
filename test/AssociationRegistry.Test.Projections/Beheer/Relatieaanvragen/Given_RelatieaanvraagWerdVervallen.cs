@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Relatieaanvragen;
 
 using DecentraalBeheer.Relatieaanvragen;
+using Formats;
 using Scenario.Relatieaanvragen;
 
 [Collection(nameof(ProjectionContext))]
@@ -19,7 +20,9 @@ public class Given_RelatieaanvraagWerdVervallen(
     /// <summary>The day it vervallen werd, not the day after its vervaldatum: the job ran later.</summary>
     [Fact]
     public void Then_The_AfhandelDatum_Is_The_Day_It_Vervallen_Werd() =>
-        fixture.Result!.AfhandelDatum.Should().Be(fixture.Scenario.RelatieaanvraagWerdVervallen.VervalDatum);
+        fixture
+            .Result!.AfhandelDatum.Should()
+            .Be(fixture.Scenario.RelatieaanvraagWerdVervallen.VervalDatum.ToString(WellknownFormats.DateOnly));
 
     [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(2);
