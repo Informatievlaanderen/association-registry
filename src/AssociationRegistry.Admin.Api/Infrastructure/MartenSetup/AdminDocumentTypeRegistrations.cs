@@ -51,7 +51,7 @@ public static class AdminDocumentTypeRegistrations
         opts.RegisterDocumentType<VerenigingState>();
 
         opts.RegisterRelatieaanvraagDocument();
-        opts.RegisterDocumentType<OpenRelatieaanvraagDocument>();
+        opts.RegisterOpenRelatieaanvraagDocument();
 
         return opts;
     }

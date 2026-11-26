@@ -8,6 +8,7 @@ using Erkenningen.Verloop;
 using Microsoft.AspNetCore.Builder;
 using PowerBi;
 using Quartz;
+using Relatieaanvragen.Verval;
 
 public static class TriggerScheduleControllersExtensions
 {
@@ -42,6 +43,14 @@ public static class TriggerScheduleControllersExtensions
             handler: async (ISchedulerFactory schedulerFactory) =>
             {
                 await TriggerJob(VerloopErkenningenJob.JobName, schedulerFactory);
+            }
+        );
+
+        app.MapPost(
+            pattern: "v1/trigger/verval-relatieaanvragen",
+            handler: async (ISchedulerFactory schedulerFactory) =>
+            {
+                await TriggerJob(VervalRelatieaanvragenJob.JobName, schedulerFactory);
             }
         );
 

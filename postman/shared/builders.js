@@ -99,9 +99,13 @@ const stop = (id, reden) => `pm.collectionVariables.set('${stopVariabele(id)}', 
 // the naam and the setup values (iban, insz, ...) are only generated on the first attempt.
 // url: path after /v1/verenigingen/ (default {{registreerVereniging}} = 'vzer', set by the root script), e.g.
 // 'feitelijkeverenigingen' for the old endpoint.
+// gegevens.naam: a fixed naam instead of 'Regressie <id> <rol> <uuid>', e.g. a readable one in a demo. Only for a
+// registration without locaties: that one is not checked for dubbels, so every run can register the same naam.
 function registreer(id, rol, gegevens = {}, { setup = '', verwacht, url = '{{registreerVereniging}}' } = {}) {
   const tokenKey = `bevestigingsToken_${id}_${rol}`;
   const naamKey = `naam_${id}_${rol}`;
+  const { naam, ...rest } = gegevens || {};
+  const nieuweNaam = naam === undefined ? `'Regressie ${id} ${rol} ' + pm.variables.replaceIn('{{$randomUUID}}')` : q(naam);
   const succes = !verwacht || verwacht.status === 202;
   const resultaat = succes
     ? `pm.test('${id}: registratie ${rol} geeft 202', () => pm.expect(pm.response.code, pm.response.text()).to.eql(202));
@@ -126,7 +130,7 @@ if (token && pm.collectionVariables.get('${naamKey}')) {
     pm.collectionVariables.unset('${tokenKey}');
     pm.collectionVariables.unset('vCode${rol}'); // never the vereniging of a previous scenario
 ${indent(setup.trimEnd(), 4)}
-    pm.collectionVariables.set('${naamKey}', 'Regressie ${id} ${rol} ' + pm.variables.replaceIn('{{$randomUUID}}'));
+    pm.collectionVariables.set('${naamKey}', ${nieuweNaam});
 }`
       ),
       test(`if (pm.response.code === 409) {
@@ -141,7 +145,7 @@ ${indent(setup.trimEnd(), 4)}
 ${indent(resultaat, 4)}
 }`),
     ],
-    request: { method: 'POST', header: JSON_HEADERS, body: jsonBody({ naam: `{{${naamKey}}}`, ...gegevens }), url: `${BEHEER}/${url}` },
+    request: { method: 'POST', header: JSON_HEADERS, body: jsonBody({ naam: `{{${naamKey}}}`, ...rest }), url: `${BEHEER}/${url}` },
   };
 }
 
@@ -285,6 +289,8 @@ if (!retryIf(pm.response.code === 412 || (pm.response.code === 200 && !gevonden)
 //          headers?, zonderToken?, verwacht?, herhaal?, bewaarId?, bewaarHeader?, initiator?, alleenAls? }
 //          or { naam, lees } (see leesRequest) or { naam?, wachtOp } (see wachtOpRequest)
 //          or { naam?, wachtOpGebeurtenis } (see wachtOpGebeurtenisRequest)
+//          or { controle } (see controleRequest): a check between two steps, e.g. a relatieaanvraag that is still
+//          open before it is bevestigd
 // url: path after /v1/verenigingen/ instead of {vCode}/{pad} (e.g. 'kbo', '{{registreerVereniging}}').
 // beheerPad: path after {{beheer_url}}/ for an endpoint outside /v1/verenigingen (e.g. 'v1/projections/...').
 // api + apiPad: the request goes to another API ('beheer' | 'publiek' | 'acm', base as in controles) at apiPad, e.g.
@@ -299,6 +305,7 @@ function stapRequest(id, stap) {
   if (stap.lees) return leesRequest(id, stap);
   if (stap.wachtOp) return wachtOpRequest(id, stap);
   if (stap.wachtOpGebeurtenis) return wachtOpGebeurtenisRequest(id, stap);
+  if (stap.controle) return controleRequest({ id }, stap.controle);
   const vCode = stap.vCode || `{{vCode${stap.op || 'A'}}}`;
   let checks = verwachtChecks(`${id} ${stap.naam}`, stap.verwacht);
   if (stap.bewaarId)
@@ -692,8 +699,9 @@ const stopScript = (id, registratieNaam) => `if (pm.info.requestName === ${q(reg
 
 // registratieUrl: path of the registration of A after /v1/verenigingen/ (default {{registreerVereniging}} = 'vzer'),
 // e.g. 'feitelijkeverenigingen' for the old endpoint.
-// scenario = { id, name, kbo?, geenRegistratie?, vereist?, setup?, a?, registratie? (verwacht), registratieUrl?, verenigingen?, stappen?,
-//              historiek?, final?: { <endpoint>: spec }, zoeken?: [zoek], controles?: [controle] }
+// scenario = { id, name, description?, kbo?, geenRegistratie?, vereist?, setup?, a?, registratie? (verwacht), registratieUrl?,
+//              verenigingen?, stappen?, historiek?, final?: { <endpoint>: spec }, zoeken?: [zoek], controles?: [controle] }
+// description: the description of the folder (Postman: the Overview of the folder), e.g. what a demo shows.
 // kbo: true (funcs.kboNummer) or the name of an environment variable with KBO numbers to pick from (see registreerKbo).
 // geenRegistratie: no vereniging A (scenarios that only send requests that must be refused).
 // verenigingen: { <rol>: registration body | { kbo: true | '<lijstVariabele>' } }: extra verenigingen (D, X, ...),
@@ -723,7 +731,11 @@ function scenarioFolder(feature, s) {
   (s.zoeken || []).forEach((zoek) => items.push(zoekRequest(s, zoek)));
   (s.controles || []).forEach((controle) => items.push(controleRequest(s, controle)));
   const folder = { name: `${s.id} - ${s.name}`, item: items };
-  if (s.vereist) folder.description = `Draait ${omschrijfVereist(s.vereist)}; op andere environments wordt dit scenario overgeslagen.`;
+  const description = [
+    s.description,
+    s.vereist && `Draait ${omschrijfVereist(s.vereist)}; op andere environments wordt dit scenario overgeslagen.`,
+  ].filter(Boolean);
+  if (description.length) folder.description = description.join('\n\n');
   const folderScript = [
     s.vereist && items.length && vereistScript(s.vereist, s.id, items[0].name),
     registraties > 0 && stopScript(s.id, items[0].name),

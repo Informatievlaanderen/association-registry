@@ -66,4 +66,19 @@ public class ScheduledHostController : ApiController
 
         return Accepted();
     }
+
+    /// <summary>
+    ///     Start het verval van de relatieaanvragen waarvan de vervaldatum voorbij is, zoals de nachtelijke job. De job
+    ///     draait na het antwoord: een vervallen aanvraag krijgt even later de status Vervallen.
+    /// </summary>
+    [HttpPost("scheduledhost/trigger/verval-relatieaanvragen")]
+    public async Task<IActionResult> TriggerVervalRelatieaanvragen(
+        [FromServices] ScheduledHostHttpClient client,
+        CancellationToken cancellationToken
+    )
+    {
+        await client.TriggerVervalRelatieaanvragen(cancellationToken);
+
+        return Accepted();
+    }
 }

@@ -55,10 +55,22 @@ public class Given_A_Relatieaanvraag_That_Cannot_Be_Geweigerd
         ctx.ShouldNotHaveSaved();
     }
 
+    /// <summary>Today is before the vervaldatum: only the status says it is vervallen.</summary>
+    [Fact]
+    public async ValueTask When_Already_Vervallen_Then_It_Throws_RelatieaanvraagIsVervallen()
+    {
+        var ctx = new WeigerRelatieaanvraagContext(aangevraagdDoor: KoepelA, alreadyVervallen: true);
+
+        await Assert.ThrowsAsync<RelatieaanvraagIsVervallen>(async () => await ctx.Weiger(VerenigingC));
+
+        ctx.ShouldNotHaveSaved();
+    }
+
+    /// <summary>The job did not close it yet: the status is still Aangevraagd.</summary>
     [Fact]
     public async ValueTask When_The_Vervaldatum_Is_Over_Then_It_Throws_RelatieaanvraagIsVervallen()
     {
-        var vervalDatum = WeigerRelatieaanvraagContext.AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen);
+        var vervalDatum = WeigerRelatieaanvraagContext.AanvraagDatum.AddDays(90);
 
         var ctx = new WeigerRelatieaanvraagContext(aangevraagdDoor: KoepelA, today: vervalDatum.AddDays(1));
 

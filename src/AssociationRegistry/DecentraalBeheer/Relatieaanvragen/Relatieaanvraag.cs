@@ -12,7 +12,11 @@ using Vereniging;
 /// </summary>
 public abstract class Relatieaanvraag
 {
-    public const int TermijnInDagen = 90;
+    /// <summary>
+    ///     A relatieaanvraag is vervallen the day after its vervaldatum: on the vervaldatum itself it is still open. Uses
+    ///     the vervaldatum that was saved when it was ingediend, so a change of the termijn does not move it.
+    /// </summary>
+    public static bool IsTermijnVerstreken(DateOnly vervalDatum, DateOnly vandaag) => vandaag > vervalDatum;
 
     protected Relatieaanvraag(RelatieaanvraagWerdIngediend ingediend)
     {
@@ -41,6 +45,7 @@ public abstract class Relatieaanvraag
         string beschrijving,
         OpenRelatieaanvragen openRelatieaanvragen,
         IRelatieaanvraagIdService aanvraagIdService,
+        int vervaltermijnInDagen,
         IClock clock
     )
     {
@@ -54,6 +59,7 @@ public abstract class Relatieaanvraag
                 beschrijving,
                 openRelatieaanvragen,
                 aanvraagIdService,
+                vervaltermijnInDagen,
                 clock.Today
             )
             : await Lidmaatschapsaanvraag.Create(
@@ -63,6 +69,7 @@ public abstract class Relatieaanvraag
                 beschrijving,
                 openRelatieaanvragen,
                 aanvraagIdService,
+                vervaltermijnInDagen,
                 clock.Today
             );
     }
@@ -107,6 +114,7 @@ public abstract class Relatieaanvraag
         RelatieType relatieType,
         string beschrijving,
         IRelatieaanvraagIdService aanvraagIdService,
+        int vervaltermijnInDagen,
         DateOnly vandaag
     )
     {
@@ -120,7 +128,7 @@ public abstract class Relatieaanvraag
             relatieType.Value,
             beschrijving,
             vandaag,
-            vandaag.AddDays(TermijnInDagen)
+            vandaag.AddDays(vervaltermijnInDagen)
         );
     }
 }

@@ -485,7 +485,9 @@
   <data name="RelatieaanvraagIsVervallen">
     <value>De relatieaanvraag is vervallen.</value>
   </data>
-  <data name="RelatieaanvraagWerdAlGeweigerd">
+  <data name="RelatieaanvraagKanNietVervallen">
+    <value>Relatieaanvraag {0} met status {1} en vervaldatum {2} kan niet vervallen.</value>
+  </data>  <data name="RelatieaanvraagWerdAlGeweigerd">
     <value>De relatieaanvraag werd al geweigerd.</value>
   </data>
   <data name="NamensIsNietDeAanvrager">

@@ -43,6 +43,7 @@ public class DienRelatieaanvraagInContext
             _aggregateSession.Object,
             _repository,
             _aanvraagIdService,
+            new RelatieaanvraagOptions(),
             new ClockStub(Vandaag)
         );
     }

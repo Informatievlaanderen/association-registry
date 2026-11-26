@@ -75,6 +75,21 @@ public class RelatieaanvraagResponseExamples : IExamplesProvider<Relatieaanvraag
                 Reden = "De aanvraag werd per vergissing ingediend.",
             },
         };
+
+    /// <summary>No extra object: the date is the vervalDatum.</summary>
+    internal static RelatieaanvraagResponse Vervallen =>
+        new()
+        {
+            AanvraagId = "RA0000005",
+            KoepelVCode = "V0001001",
+            VerenigingVCode = "V0001006",
+            AangevraagdDoor = "V0001001",
+            RelatieType = DomainRelatieType.Lidmaatschap.Value,
+            Status = RelatieaanvraagStatus.Vervallen.Value,
+            AanvraagDatum = "2026-08-20",
+            VervalDatum = "2026-11-18",
+            Beschrijving = "Aanvraag lidmaatschap bij de koepel",
+        };
 }
 
 public class RelatieaanvragenResponseExamples : IExamplesProvider<RelatieaanvragenResponse>
@@ -88,6 +103,7 @@ public class RelatieaanvragenResponseExamples : IExamplesProvider<Relatieaanvrag
                 RelatieaanvraagResponseExamples.Bevestigd,
                 RelatieaanvraagResponseExamples.Geweigerd,
                 RelatieaanvraagResponseExamples.Ingetrokken,
+                RelatieaanvraagResponseExamples.Vervallen,
             ],
         };
 }

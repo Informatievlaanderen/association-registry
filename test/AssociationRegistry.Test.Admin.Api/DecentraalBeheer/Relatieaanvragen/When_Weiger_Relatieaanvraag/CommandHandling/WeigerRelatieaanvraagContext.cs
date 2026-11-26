@@ -33,6 +33,7 @@ public class WeigerRelatieaanvraagContext
         bool alreadyBevestigd = false,
         bool alreadyGeweigerd = false,
         bool alreadyIngetrokken = false,
+        bool alreadyVervallen = false,
         DateOnly? today = null
     )
     {
@@ -44,7 +45,7 @@ public class WeigerRelatieaanvraagContext
             (relatieType ?? RelatieType.Lidmaatschap).Value,
             "Aanvraag",
             AanvraagDatum,
-            AanvraagDatum.AddDays(Relatieaanvraag.TermijnInDagen)
+            AanvraagDatum.AddDays(90)
         );
 
         var relatieaanvraag = new RelatieaanvraagState().Apply(ingediend) with { Version = 1 };
@@ -60,6 +61,11 @@ public class WeigerRelatieaanvraagContext
         if (alreadyIngetrokken)
             relatieaanvraag = relatieaanvraag.Apply(
                 new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, AanvraagDatum, "Reden")
+            );
+
+        if (alreadyVervallen)
+            relatieaanvraag = relatieaanvraag.Apply(
+                new RelatieaanvraagWerdVervallen(AanvraagId.Value, ingediend.VervalDatum)
             );
 
         _repository = new RelatieaanvraagRepositoryStub(relatieaanvraag);

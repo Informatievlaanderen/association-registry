@@ -2,7 +2,10 @@ namespace AssociationRegistry.DecentraalBeheer.Relatieaanvragen;
 
 using Exceptions;
 
-/// <summary>Only Aangevraagd counts as open; the other statuses close a relatieaanvraag (later stories).</summary>
+/// <summary>
+///     Only Aangevraagd counts as open; the other statuses close a relatieaanvraag. Vervallen is set by the job of the
+///     scheduled host, the day after the vervaldatum.
+/// </summary>
 public record RelatieaanvraagStatus
 {
     public static readonly RelatieaanvraagStatus Aangevraagd = new(Labels.Aangevraagd);

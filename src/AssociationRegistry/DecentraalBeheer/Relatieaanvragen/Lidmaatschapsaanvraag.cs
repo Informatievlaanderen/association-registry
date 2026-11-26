@@ -19,13 +19,21 @@ public sealed class Lidmaatschapsaanvraag : Relatieaanvraag
         string beschrijving,
         OpenRelatieaanvragen openRelatieaanvragen,
         IRelatieaanvraagIdService aanvraagIdService,
+        int vervaltermijnInDagen,
         DateOnly vandaag
     )
     {
         CheckRules(koepel, vereniging, openRelatieaanvragen, vandaag);
 
         return new Lidmaatschapsaanvraag(
-            await Ingediend(partijen, RelatieType.Lidmaatschap, beschrijving, aanvraagIdService, vandaag)
+            await Ingediend(
+                partijen,
+                RelatieType.Lidmaatschap,
+                beschrijving,
+                aanvraagIdService,
+                vervaltermijnInDagen,
+                vandaag
+            )
         );
     }
 
