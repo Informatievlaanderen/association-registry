@@ -13,4 +13,10 @@ public class Given_VerenigingWerdNietLangerErkend(
     {
         fixture.Result.Historiek.Should().ContainSingle(x => x.EventType == nameof(VerenigingWerdNietLangerErkend));
     }
+
+    [Fact]
+    public void IsErkend_Is_False()
+    {
+        fixture.Result.IsErkend.Should().BeFalse();
+    }
 }
