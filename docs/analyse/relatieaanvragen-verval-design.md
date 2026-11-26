@@ -115,10 +115,9 @@ Een command kan dubbel komen: Wolverine levert minstens één keer, de job kan t
 
 ### 8. Projectie en response
 
-- `RelatieaanvraagProjection` zet de status op `Vervallen`. Verder verandert er niets.
-- Geen nieuw object in de response, zoals `bevestiging` of `weigering`. De datum staat al in `vervalDatum`, en er is geen reden.
+- `RelatieaanvraagProjection` zet de status op `Vervallen` en de `afhandelDatum` op de dag na de vervalDatum: de eerste dag dat de aanvraag vervallen is. Elke afsluiting vult `afhandelDatum` (2026-11-26, in plaats van de objecten `bevestiging`, `weigering` en `intrekking`).
 - `GET …/relatieaanvragen?status=Vervallen` werkt daarmee vanzelf.
-- Geen migratie: het document krijgt geen nieuwe velden.
+- Geen SQL-migratie: het document is JSON. Waar al afgesloten aanvragen in de oude vorm bewaard zijn, moet de projectie opnieuw opgebouwd worden.
 
 ### 9. Status ook in `ThrowIfNotOpen`
 
@@ -159,7 +158,7 @@ De scheduled host doet `AssertDatabaseMatchesConfigurationOnStartup`. Hij moet d
 - Domein: vervalt de dag na de vervaldatum, niet op de vervaldatum zelf, en niet als ze al bevestigd, geweigerd, ingetrokken of vervallen is.
 - `ThrowIfNotOpen` op status `Vervallen`, voor bevestigen, weigeren en intrekken.
 - Handler: bewaart het event en geeft het paar vrij, zodat een nieuwe aanvraag voor hetzelfde paar lukt. Een afgesloten aanvraag of een tweede command doet niets en gooit niet.
-- Projectie: `Given_RelatieaanvraagWerdVervallen` geeft status `Vervallen`, verder ongewijzigd.
+- Projectie: `Given_RelatieaanvraagWerdVervallen` geeft status `Vervallen` en afhandelDatum = de dag na de vervalDatum.
 - Query: enkel `Aangevraagd` met een vervaldatum vóór vandaag, zoals `TeVerlopenErkenningenQueryTests`.
 - Processor: één `SendAsync` per aanvraag.
 - Routing: `CommandEnvelope<VervalRelatieaanvraagCommand>` gaat naar de Postgres-queue, mode `Durable`.

@@ -318,6 +318,7 @@ VR-Sequence: 4711
   Een paar kan nooit tegelijk lid en sub zijn.
 - **Hetzelfde type opnieuw geeft `400`**, geen `200`: een POST geeft nooit `200`. De boodschap noemt de open aanvraag.
 - **`aanvraagDatum` en `vervalDatum` zijn datums** (`DateOnly`). `vervalDatum` = `aanvraagDatum` + de vervaltermijn: 90 dagen, per omgeving instelbaar (`RelatieaanvraagOptions:VervaltermijnInDagen`), bv. korter op Test om verval manueel te testen.
+- **`afhandelDatum`** (2026-11-26): de dag van de bevestiging, weigering of intrekking, of bij verval de dag na de vervaldatum. Leeg zolang de aanvraag open is. Vervangt de objecten `bevestiging`, `weigering` en `intrekking`; een reden bestaat niet meer.
 - **Deze story is enkel het indienen**: een nieuw aggregate met de aanvraag en de controles in de handler. Bevestigen is een andere story met een ander endpoint, die de controles wellicht opnieuw doet. Er is nog geen VLO-trigger.
 - **Prefix `RA`.**
 - **Geen historiek.** De aanvraag verandert niets aan de verenigingen en leeft apart. Ze moet wel opvraagbaar zijn per vCode, als koepel of als vereniging, met een statusfilter. Daarvoor komt een eigen projectie.
@@ -499,16 +500,16 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 > - VR controleert opnieuw de koepel (KBO, `Koepel`) en dezelfde regels als bij indienen, met de andere open aanvragen: de aanvraag zelf telt niet mee.
 > - Bevestiging, relatie en subtypewijziging in één transactie, samen met het vrijgeven van de lock-documenten van de aanvraag.
 > - Lidmaatschap: `van` = bevestigingsdatum, geen `tot`. Subtype **leeg of NB → FV** (0.9).
-> - De aanvraag toont `bevestiging: { datum }`.
+> - De aanvraag toont de `afhandelDatum` (sinds 2026-11-26; daarvoor `bevestiging: { datum }`).
 > - Response: `202`, `Location` en `ETag` van de aanvraag, `VR-Sequence` = de hoogste van aanvraag en vereniging.
 > - Nog niet: de notificatie via VLO (story 14).
 >
 > **Weigeren geïmplementeerd (2026-11-24)**, voor beide ontvangers (ook story 5): `POST /v1/relatieaanvragen/{aanvraagId}/weigering`.
-> - Optionele body `{ reden }`, zonder HTML. Voorlopig optioneel (zie "Ontbreekt nog").
+> - Geen body: de reden is weggevallen (2026-11-26).
 > - Dezelfde controles op de aanvraag als bij bevestigen: enkel de ontvanger, `Aangevraagd` en de vervaldatum niet voorbij. Al geweigerd → "De relatieaanvraag werd al geweigerd."; al bevestigd → "De relatieaanvraag werd al bevestigd."; na de vervaldatum → "De relatieaanvraag is vervallen." Een geweigerde aanvraag bevestigen geeft ook "De relatieaanvraag werd al geweigerd."
 > - Verder niets: weigeren is altijd toegestaan, ook als de koepel intussen niet meer `Koepel` is. De verenigingen worden niet geladen en krijgen geen events.
-> - Event `RelatieaanvraagWerdGeweigerd` (datum, reden), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
-> - De aanvraag toont `weigering: { datum, reden }`, met een lege `reden` als er geen opgegeven werd.
+> - Event `RelatieaanvraagWerdGeweigerd` (datum), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
+> - De aanvraag toont de `afhandelDatum`.
 > - Response: `202`, `Location`, `ETag` en `VR-Sequence` van de aanvraag. `If-Match` is de versie van de aanvraag.
 
 **Al beslist**
@@ -519,7 +520,7 @@ Grotendeels gelijk: hetzelfde endpoint, dezelfde velden, dezelfde payload van he
 **Ontbreekt nog**
 - [ ] Gedrag bij **gelijktijdig** bevestigen en intrekken: het eerste wint, het tweede krijgt `400`/`412`? Nu (2026-11-24): het tweede krijgt `400` "De relatieaanvraag werd al …", of `412` bij een echte race (optimistic concurrency op de stream van de aanvraag). Graag bevestigen.
 - [ ] Wordt bij bevestiging `identificatie`/`beschrijving` van het nieuwe lidmaatschap gevuld, bv. met de aanvraagbeschrijving? Of blijven die leeg?
-- [ ] Optionele reden bij weigeren? Voorlopig optioneel (2026-11-24). Verplicht maken is een regel in de validator.
+- [x] Reden bij weigeren: weggevallen (2026-11-26). Weigeren en intrekken hebben geen body meer.
 
 **Aandachtspunten**
 - Het nieuwe lidmaatschap krijgt `van` = de bevestigingsdatum, **niet leeg**. Een lege `van` betekent "oneindig in het verleden" en overlapt met een vroeger, beëindigd lidmaatschap bij dezelfde koepel (`LidmaatschapIsOverlappend`).
@@ -535,9 +536,6 @@ vr-namens: V0000002
 POST /v1/relatieaanvragen/RA0000001/weigering
 VR-Initiator: OVO000000
 vr-namens: V0000002
-Content-Type: application/json
-
-{ "reden": "Wij zijn geen lid van deze koepel." }
 ```
 
 **Voorstel response**
@@ -600,7 +598,7 @@ vr-namens: V0000002
 ### Story 5 — Beoogde koepel bevestigt of weigert · M · 🟢
 
 **Ontbreekt nog**
-- [ ] Zelfde open punten als story 3 (concurrency, reden bij weigeren).
+- [ ] Zelfde open punten als story 3 (concurrency).
 - [ ] Bij bevestiging met status `NietBepaald`: geeft VR een fout met een duidelijke boodschap ("identificeer je eerst als koepel")? Voorstel: ja. Het loket roept eerst `PATCH /koepelgegevens` aan.
 
 **Voorstel request/response:** hetzelfde als story 3, met `vr-namens: V0000001` (de koepel).
@@ -843,11 +841,11 @@ Voorstel events:
 
 > **Geïmplementeerd (2026-11-24):** `POST /v1/relatieaanvragen/{aanvraagId}/intrekking`, met `vr-namens` = de aanvrager.
 > - `vr-namens` is niet de aanvrager (de ontvanger of een derde) → `400` "Enkel de aanvrager van de relatieaanvraag kan ze intrekken." Zoals bij bevestigen en weigeren, niet `403`.
-> - Optionele body `{ reden }`, zonder HTML. Voorlopig optioneel, zoals bij weigeren.
+> - Geen body: de reden is weggevallen (2026-11-26), zoals bij weigeren.
 > - Dezelfde controles op de status en de vervaldatum als bij bevestigen en weigeren. Al ingetrokken → "De relatieaanvraag werd al ingetrokken." Een ingetrokken aanvraag bevestigen of weigeren geeft dezelfde boodschap.
 > - Verder niets: de verenigingen worden niet geladen en krijgen geen events.
-> - Event `RelatieaanvraagWerdIngetrokken` (datum, reden), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
-> - De aanvraag toont `intrekking: { datum, reden }`, met een lege `reden` als er geen opgegeven werd.
+> - Event `RelatieaanvraagWerdIngetrokken` (datum), in één transactie met het vrijgeven van de lock-documenten: het paar, en bij SUB de vereniging, is meteen vrij voor een nieuwe aanvraag.
+> - De aanvraag toont de `afhandelDatum`.
 > - Response: `202`, `Location`, `ETag` en `VR-Sequence` van de aanvraag. `If-Match` is de versie van de aanvraag.
 
 **Al beslist**

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Relatieaanvragen;
 
-using Admin.Schema.Relatieaanvragen;
 using DecentraalBeheer.Relatieaanvragen;
 using Scenario.Relatieaanvragen;
 
@@ -14,23 +13,8 @@ public class Given_RelatieaanvraagWerdIngetrokken(
         fixture.Result!.Status.Should().Be(RelatieaanvraagStatus.Labels.Ingetrokken);
 
     [Fact]
-    public void Then_The_Intrekking_Has_The_IntrekkingsDatum_And_The_Reden() =>
-        fixture
-            .Result!.Intrekking.Should()
-            .BeEquivalentTo(
-                new RelatieaanvraagIntrekking
-                {
-                    Datum = fixture.Scenario.RelatieaanvraagWerdIngetrokken.IntrekkingsDatum,
-                    Reden = fixture.Scenario.RelatieaanvraagWerdIngetrokken.Reden,
-                }
-            );
-
-    [Fact]
-    public void Then_There_Is_No_Bevestiging_Or_Weigering()
-    {
-        fixture.Result!.Bevestiging.Should().BeNull();
-        fixture.Result!.Weigering.Should().BeNull();
-    }
+    public void Then_The_AfhandelDatum_Is_The_IntrekkingsDatum() =>
+        fixture.Result!.AfhandelDatum.Should().Be(fixture.Scenario.RelatieaanvraagWerdIngetrokken.IntrekkingsDatum);
 
     [Fact]
     public void Then_The_Metadata_Is_Set() => fixture.Result!.Metadata.Version.Should().Be(2);

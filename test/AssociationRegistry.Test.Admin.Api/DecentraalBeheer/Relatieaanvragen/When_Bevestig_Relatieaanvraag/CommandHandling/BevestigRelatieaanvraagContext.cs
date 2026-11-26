@@ -61,12 +61,10 @@ public class BevestigRelatieaanvraagContext
             relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdBevestigd(AanvraagId.Value, Today));
 
         if (alreadyGeweigerd)
-            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, Today, "Reden"));
+            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdGeweigerd(AanvraagId.Value, Today));
 
         if (alreadyIngetrokken)
-            relatieaanvraag = relatieaanvraag.Apply(
-                new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, Today, "Reden")
-            );
+            relatieaanvraag = relatieaanvraag.Apply(new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, Today));
 
         if (alreadyVervallen)
             relatieaanvraag = relatieaanvraag.Apply(

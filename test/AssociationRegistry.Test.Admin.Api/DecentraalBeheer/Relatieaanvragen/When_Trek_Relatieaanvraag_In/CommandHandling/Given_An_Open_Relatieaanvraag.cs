@@ -6,26 +6,20 @@ using FluentAssertions;
 using Xunit;
 using static Verenigingen;
 
-/// <summary>The aanvrager withdraws: only the intrekking is saved, with the reden.</summary>
+/// <summary>The aanvrager withdraws: only the intrekking is saved.</summary>
 public class Given_An_Open_Relatieaanvraag
 {
     private static readonly RelatieaanvraagId AanvraagId = TrekRelatieaanvraagInContext.AanvraagId;
 
     [Fact]
-    public async ValueTask When_The_Koepel_Withdraws_Its_Relatieaanvraag_Then_It_Is_Ingetrokken_With_The_Reden()
+    public async ValueTask When_The_Koepel_Withdraws_Its_Relatieaanvraag_Then_It_Is_Ingetrokken()
     {
         var ctx = new TrekRelatieaanvraagInContext(aangevraagdDoor: KoepelA);
 
-        var result = await ctx.TrekIn(KoepelA, "De aanvraag werd per vergissing ingediend.");
+        var result = await ctx.TrekIn(KoepelA);
 
         ctx.Ingetrokken.Should()
-            .Be(
-                new RelatieaanvraagWerdIngetrokken(
-                    AanvraagId.Value,
-                    TrekRelatieaanvraagInContext.Today,
-                    "De aanvraag werd per vergissing ingediend."
-                )
-            );
+            .Be(new RelatieaanvraagWerdIngetrokken(AanvraagId.Value, TrekRelatieaanvraagInContext.Today));
 
         result.AanvraagId.Should().Be(AanvraagId);
     }
@@ -38,16 +32,6 @@ public class Given_An_Open_Relatieaanvraag
         await ctx.TrekIn(VerenigingC);
 
         ctx.Ingetrokken.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async ValueTask Without_A_Reden_Then_The_Reden_Is_Empty()
-    {
-        var ctx = new TrekRelatieaanvraagInContext(aangevraagdDoor: KoepelA);
-
-        await ctx.TrekIn(KoepelA);
-
-        ctx.Ingetrokken!.Reden.Should().BeEmpty();
     }
 
     [Fact]

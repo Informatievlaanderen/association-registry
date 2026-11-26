@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.CommandMiddleware;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Infrastructure.WebApi.Validation;
 using AssociationRegistry.Admin.Api.WebApi.Verenigingen.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
@@ -14,10 +13,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using CommandHandling.DecentraalBeheer.Acties.Relatieaanvragen.TrekRelatieaanvraagIn;
 using DecentraalBeheer.Relatieaanvragen;
-using Examples;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -42,15 +38,13 @@ public class TrekRelatieaanvraagInController : ApiController
     /// Trek een ingediende relatieaanvraag in.
     /// </summary>
     /// <remarks>
-    /// De aanvrager trekt de aanvraag in, in de `vr-namens` header. Er ontstaat geen relatie.
+    /// De aanvrager trekt de aanvraag in, in de `vr-namens` header. Er ontstaat geen relatie. Er is geen body nodig.
     ///
     /// Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="aanvraagId">De id van de relatieaanvraag.</param>
-    /// <param name="request">De reden van de intrekking. Optioneel.</param>
-    /// <param name="validator"></param>
     /// <param name="metadataProvider"></param>
     /// <param name="namens">De vCode van de vereniging die de aanvraag indiende.</param>
     /// <param name="ifMatch">De versie van de relatieaanvraag (optioneel).</param>
@@ -60,9 +54,7 @@ public class TrekRelatieaanvraagInController : ApiController
     /// <response code="412">De relatieaanvraag werd intussen gewijzigd.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("{aanvraagId}/intrekking")]
-    [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(TrekRelatieaanvraagInRequest), typeof(TrekRelatieaanvraagInRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SequenceResponseHeader()]
@@ -74,8 +66,6 @@ public class TrekRelatieaanvraagInController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> TrekIn(
         [FromRoute] string aanvraagId,
-        [FromBody] TrekRelatieaanvraagInRequest request,
-        [FromServices] IValidator<TrekRelatieaanvraagInRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = WellknownHeaderNames.Namens)] string? namens = null,
         [FromHeader(Name = WellknownHeaderNames.IfMatch)] string? ifMatch = null,
@@ -84,10 +74,9 @@ public class TrekRelatieaanvraagInController : ApiController
     {
         var ingetrokkenDoor = VrNamensHeader.Verplicht(namens);
 
-        await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
-
+        // The value object checks the aanvraagId from the route before anything is loaded.
         var envelope = new CommandEnvelope<TrekRelatieaanvraagInCommand>(
-            request.ToCommand(aanvraagId, ingetrokkenDoor),
+            new TrekRelatieaanvraagInCommand(RelatieaanvraagId.Parse(aanvraagId), ingetrokkenDoor),
             metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch))
         );
 

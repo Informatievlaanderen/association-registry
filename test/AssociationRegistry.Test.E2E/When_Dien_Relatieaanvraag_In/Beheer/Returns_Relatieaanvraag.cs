@@ -44,6 +44,7 @@ public class Returns_Relatieaanvraag : End2EndTest<RelatieaanvraagResponse>
                     AanvraagDatum = vandaag.ToString("yyyy-MM-dd"),
                     VervalDatum = vandaag.AddDays(90).ToString("yyyy-MM-dd"),
                     Beschrijving = _testContext.CommandRequest.Beschrijving!,
+                    AfhandelDatum = string.Empty,
                 }
             );
     }

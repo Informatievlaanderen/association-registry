@@ -19,14 +19,14 @@
 //   OntvangenRelatieaanvraag: enkel de ontvanger, niet al bevestigd, geweigerd of ingetrokken, niet vervallen (90
 //   dagen: niet te testen). Daarna de koepel en de regels van indienen opnieuw, zonder de aanvraag zelf. Lidmaatschap:
 //   vanaf vandaag zonder einddatum, subtype leeg of NB wordt FV. Subvereniging: subtype SUB van de koepel.
-// - Weigeren: POST /v1/relatieaanvragen/{aanvraagId}/weigering met vr-namens = de ontvanger en een optionele reden.
-//   WeigerRelatieaanvraagRequestValidator: geen HTML in de reden. Dezelfde OntvangenRelatieaanvraag, maar verder geen
-//   controles: ook een koepel die niet meer als koepel geïdentificeerd is, kan weigeren. Er ontstaat geen relatie, en
-//   het paar is weer vrij voor een nieuwe aanvraag.
-// - Intrekken: POST /v1/relatieaanvragen/{aanvraagId}/intrekking met vr-namens = de aanvrager en een optionele reden.
-//   TrekRelatieaanvraagInRequestValidator: geen HTML in de reden. IngediendeRelatieaanvraag: enkel de aanvrager, en
-//   dezelfde controles op de status en de vervaldatum als hierboven. Verder geen controles. Er ontstaat geen relatie,
-//   en het paar is weer vrij voor een nieuwe aanvraag.
+// - Weigeren: POST /v1/relatieaanvragen/{aanvraagId}/weigering met vr-namens = de ontvanger, zonder body. Dezelfde
+//   OntvangenRelatieaanvraag, maar verder geen controles: ook een koepel die niet meer als koepel geïdentificeerd is,
+//   kan weigeren. Er ontstaat geen relatie, en het paar is weer vrij voor een nieuwe aanvraag.
+// - Intrekken: POST /v1/relatieaanvragen/{aanvraagId}/intrekking met vr-namens = de aanvrager, zonder body.
+//   IngediendeRelatieaanvraag: enkel de aanvrager, en dezelfde controles op de status en de vervaldatum als hierboven.
+//   Verder geen controles. Er ontstaat geen relatie, en het paar is weer vrij voor een nieuwe aanvraag.
+// - Een afgesloten aanvraag heeft een afhandelDatum: de dag van de bevestiging, weigering of intrekking, of bij verval
+//   de dag na de vervaldatum. Leeg zolang de aanvraag open is.
 // - Verval: een job in de scheduled host, elke nacht om 01:00 UTC, of manueel via
 //   POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin, 202: de job draait na het antwoord). Een
 //   aanvraag vervalt pas de dag na de vervaldatum (vandaag + de vervaltermijn: 90 dagen, per environment instelbaar),
@@ -127,11 +127,11 @@ function dienIn(naam, { koepel = 'K', vereniging = 'A', type = LIDMAATSCHAP, nam
 const ingediend = (id, n, naam, opties) => dienIn(naam, opties, ok(), { bewaarId: aanvraagVar(id, n) });
 
 // POST /v1/relatieaanvragen/{aanvraagId}/bevestiging, /weigering of /intrekking. Default: K handelt aanvraag 1 van het
-// scenario af, met een lege body (geen relatiegegevens, geen reden). aanvraagId: een literal (onbekend of ongeldig).
-// namens: rol of literal, null = zonder vr-namens.
+// scenario af; bevestigen met een lege body (geen relatiegegevens), weigeren en intrekken zonder body. aanvraagId: een
+// literal (onbekend of ongeldig). namens: rol of literal, null = zonder vr-namens.
 const handelAf =
-  (afhandeling) =>
-  (naam, { id, n = 1, aanvraagId, namens = 'K', body = {} } = {}, verwacht = ok(), extra = {}) => ({
+  (afhandeling, standaardBody) =>
+  (naam, { id, n = 1, aanvraagId, namens = 'K', body = standaardBody } = {}, verwacht = ok(), extra = {}) => ({
     naam,
     actie: 'POST',
     beheerPad: `v1/relatieaanvragen/${aanvraagId || aanvraag(id, n)}/${afhandeling}`,
@@ -140,7 +140,7 @@ const handelAf =
     verwacht,
     ...extra,
   });
-const bevestig = handelAf('bevestiging');
+const bevestig = handelAf('bevestiging', {});
 const weiger = handelAf('weigering');
 const trekIn = handelAf('intrekking');
 
@@ -235,6 +235,7 @@ const indienen = [
         aanvraagDatum: '{{vandaag}}',
         vervalDatum: '{{vervaldatum}}',
         beschrijving: 'Lid van de Raad van Elrond',
+        afhandelDatum: '',
       }),
       lijstVan('A', [item('RA1', 1, { koepelVCode: '{{vCodeK}}', relatieType: LIDMAATSCHAP })]),
       lijstVan('K', [item('RA1', 1, { verenigingVCode: '{{vCodeA}}' })], { bevat: true }),
@@ -627,7 +628,7 @@ const bevestigen = [
       geen: ['Relatieaanvraag'],
     },
     controles: [
-      detail('RA80', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } }),
+      detail('RA80', { status: BEVESTIGD, afhandelDatum: '{{vandaag}}' }),
       lijstVan('A', [item('RA80', 1, { status: BEVESTIGD })], { status: BEVESTIGD }),
       lijstVan('A', [], { status: AANGEVRAAGD }),
     ],
@@ -655,7 +656,7 @@ const bevestigen = [
       },
     },
     historiek: { bevat: [gebeurtenis('VerenigingssubtypeWerdVerfijndNaarSubvereniging')], geen: ['Lidmaatschap'] },
-    controles: [detail('RA81', { status: BEVESTIGD, bevestiging: { datum: '{{vandaag}}' } })],
+    controles: [detail('RA81', { status: BEVESTIGD, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'RA82',
@@ -818,37 +819,35 @@ const bevestigenValidatie = [
   },
 ];
 
-const REDEN_WEIGERING = 'Wij blijven onafhankelijk van de Witte Raad.';
-
 const weigeren = [
   {
     id: 'RA100',
-    name: 'Vereniging weigert lidmaatschapsaanvraag van de koepel -> Geweigerd met reden, geen relatie',
+    name: 'Vereniging weigert lidmaatschapsaanvraag van de koepel -> Geweigerd, geen relatie',
     verenigingen: KOEPEL,
     stappen: [
       alsKoepel(),
       ingediend('RA100', 1, 'Dien lidmaatschapsaanvraag in namens K', { namens: 'K' }),
-      weiger('Weiger namens A', { id: 'RA100', namens: 'A', body: { reden: REDEN_WEIGERING } }, { status: 202, locatie: aanvraag('RA100') }),
+      weiger('Weiger namens A', { id: 'RA100', namens: 'A' }, { status: 202, locatie: aanvraag('RA100') }),
     ],
     final: { beheerDetail: { ...lidmaatschappen([]), propsNiet: { verenigingssubtype: { code: 'FV' } } } },
     historiek: { geen: ['Relatieaanvraag', 'Lidmaatschap'] },
     controles: [
-      detail('RA100', { status: GEWEIGERD, weigering: { datum: '{{vandaag}}', reden: REDEN_WEIGERING } }),
+      detail('RA100', { status: GEWEIGERD, afhandelDatum: '{{vandaag}}' }),
       lijstVan('A', [item('RA100', 1, { status: GEWEIGERD })], { status: GEWEIGERD }),
       lijstVan('A', [], { status: AANGEVRAAGD }),
     ],
   },
   {
     id: 'RA101',
-    name: 'Koepel weigert subverenigingsaanvraag zonder reden -> Geweigerd met lege reden, geen subvereniging',
+    name: 'Koepel weigert subverenigingsaanvraag -> Geweigerd, geen subvereniging',
     verenigingen: KOEPEL,
     stappen: [
       alsKoepel(),
       ingediend('RA101', 1, 'Dien subverenigingsaanvraag in namens A', { type: SUBVERENIGING }),
-      weiger('Weiger namens K zonder reden', { id: 'RA101' }),
+      weiger('Weiger namens K', { id: 'RA101' }),
     ],
     final: { beheerDetail: { propsNiet: { verenigingssubtype: { code: 'SUB' } } } },
-    controles: [detail('RA101', { status: GEWEIGERD, weigering: { datum: '{{vandaag}}', reden: '' } })],
+    controles: [detail('RA101', { status: GEWEIGERD, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'RA102',
@@ -965,18 +964,6 @@ const weigerenValidatie = [
     ],
   },
   {
-    id: 'RA113',
-    name: 'HTML in de reden -> 400',
-    geenRegistratie: true,
-    stappen: [
-      weiger(
-        'Weiger met HTML in de reden',
-        { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE, body: { reden: '<b>Mordor</b>' } },
-        validatie('reden', BERICHT.html)
-      ),
-    ],
-  },
-  {
     id: 'RA114',
     name: 'Zonder token -> 401, aanvraag blijft open',
     verenigingen: KOEPEL,
@@ -989,37 +976,35 @@ const weigerenValidatie = [
   },
 ];
 
-const REDEN_INTREKKING = 'Per vergissing ingediend door Pippin.';
-
 const intrekken = [
   {
     id: 'RA120',
-    name: 'Koepel trekt lidmaatschapsaanvraag in -> Ingetrokken met reden, geen relatie',
+    name: 'Koepel trekt lidmaatschapsaanvraag in -> Ingetrokken, geen relatie',
     verenigingen: KOEPEL,
     stappen: [
       alsKoepel(),
       ingediend('RA120', 1, 'Dien lidmaatschapsaanvraag in namens K', { namens: 'K' }),
-      trekIn('Trek in namens K', { id: 'RA120', body: { reden: REDEN_INTREKKING } }, { status: 202, locatie: aanvraag('RA120') }),
+      trekIn('Trek in namens K', { id: 'RA120' }, { status: 202, locatie: aanvraag('RA120') }),
     ],
     final: { beheerDetail: { ...lidmaatschappen([]), propsNiet: { verenigingssubtype: { code: 'FV' } } } },
     historiek: { geen: ['Relatieaanvraag', 'Lidmaatschap'] },
     controles: [
-      detail('RA120', { status: INGETROKKEN, intrekking: { datum: '{{vandaag}}', reden: REDEN_INTREKKING } }),
+      detail('RA120', { status: INGETROKKEN, afhandelDatum: '{{vandaag}}' }),
       lijstVan('A', [item('RA120', 1, { status: INGETROKKEN })], { status: INGETROKKEN }),
       lijstVan('A', [], { status: AANGEVRAAGD }),
     ],
   },
   {
     id: 'RA121',
-    name: 'Vereniging trekt subverenigingsaanvraag in zonder reden -> Ingetrokken met lege reden, geen subvereniging',
+    name: 'Vereniging trekt subverenigingsaanvraag in -> Ingetrokken, geen subvereniging',
     verenigingen: KOEPEL,
     stappen: [
       alsKoepel(),
       ingediend('RA121', 1, 'Dien subverenigingsaanvraag in namens A', { type: SUBVERENIGING }),
-      trekIn('Trek in namens A zonder reden', { id: 'RA121', namens: 'A' }),
+      trekIn('Trek in namens A', { id: 'RA121', namens: 'A' }),
     ],
     final: { beheerDetail: { propsNiet: { verenigingssubtype: { code: 'SUB' } } } },
-    controles: [detail('RA121', { status: INGETROKKEN, intrekking: { datum: '{{vandaag}}', reden: '' } })],
+    controles: [detail('RA121', { status: INGETROKKEN, afhandelDatum: '{{vandaag}}' })],
   },
   {
     id: 'RA122',
@@ -1137,18 +1122,6 @@ const intrekkenValidatie = [
     ],
   },
   {
-    id: 'RA133',
-    name: 'HTML in de reden -> 400',
-    geenRegistratie: true,
-    stappen: [
-      trekIn(
-        'Trek in met HTML in de reden',
-        { aanvraagId: ONBEKENDE_AANVRAAG, namens: ONBEKENDE_VCODE, body: { reden: '<b>Isengard</b>' } },
-        validatie('reden', BERICHT.html)
-      ),
-    ],
-  },
-  {
     id: 'RA134',
     name: 'Zonder token -> 401, aanvraag blijft open',
     verenigingen: KOEPEL,
@@ -1192,10 +1165,11 @@ module.exports = {
     'en GET /v1/verenigingen/{vCode}/relatieaanvragen. Een aanvraag wijzigt niets aan de verenigingen. Bevestigen via ' +
     'POST /v1/relatieaanvragen/{aanvraagId}/bevestiging door de ontvanger: dan ontstaat het lidmaatschap of de ' +
     'subvereniging op de vereniging. Weigeren via POST /v1/relatieaanvragen/{aanvraagId}/weigering door de ontvanger, ' +
-    'met een optionele reden: er ontstaat geen relatie. Intrekken via POST /v1/relatieaanvragen/{aanvraagId}/intrekking ' +
-    'door de aanvrager, met een optionele reden: er ontstaat geen relatie. Verval: een job in de scheduled host sluit ' +
-    'elke nacht de aanvragen af waarvan de vervaldatum voorbij is; manueel via ' +
-    'POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin).',
+    'zonder body: er ontstaat geen relatie. Intrekken via POST /v1/relatieaanvragen/{aanvraagId}/intrekking door de ' +
+    'aanvrager, zonder body: er ontstaat geen relatie. Verval: een job in de scheduled host sluit elke nacht de ' +
+    'aanvragen af waarvan de vervaldatum voorbij is; manueel via ' +
+    'POST /v1/admin/scheduledhost/trigger/verval-relatieaanvragen (superadmin). Een afgesloten aanvraag heeft een ' +
+    'afhandelDatum.',
   setup: SETUP_DATUMS,
   groepen: [
     { name: 'Indienen', scenarios: indienen },

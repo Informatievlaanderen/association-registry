@@ -25,12 +25,6 @@ public class Then_Examples
         "Verenigingen.Einddatum",
         "Verenigingen.Verenigingssubtype",
         "MogelijkeDuplicateVerenigingen.Verenigingssubtype",
-        "Relatieaanvragen.Bevestiging",
-        "Relatieaanvragen.Weigering",
-        "Relatieaanvragen.Intrekking",
-        // the example of one relatieaanvraag is a bevestigde
-        "Weigering",
-        "Intrekking",
     };
 
     public Then_Examples(EventsInDbScenariosFixture fixture)
